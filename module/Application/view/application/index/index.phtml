@@ -1,26 +1,66 @@
-<div class="hero-unit">
-    <h1><?php echo sprintf($this->translate('Welcome to %sZend Framework 2%s'), '<span class="zf-green">', '</span>') ?></h1>
-    <p><?php echo sprintf($this->translate('Congratulations! You have successfully installed the %sZF2 Skeleton Application%s. You are currently running Zend Framework version %s. This skeleton can serve as a simple starting point for you to begin building your application on ZF2.'), '<a href="https://github.com/zendframework/ZendSkeletonApplication" target="_blank">', '</a>', \Zend\Version\Version::VERSION) ?></p>
-    <p><a class="btn btn-success btn-large" href="https://github.com/zendframework/zf2" target="_blank"><?php echo $this->translate('Fork Zend Framework 2 on GitHub') ?> &raquo;</a></p>
-</div>
-
-<div class="row">
-
-    <div class="span4">
-        <h2><?php echo $this->translate('Follow Development') ?></h2>
-        <p><?php echo sprintf($this->translate('Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!'), '<a href="http://framework.zend.com/wiki/display/ZFDEV2/Home">', '</a>', '<a href="http://framework.zend.com/zf2/blog">', '</a>', '<a href="https://github.com/zendframework/zf2/issues">', '</a>') ?></p>
-        <p><a class="btn btn-success" href="http://framework.zend.com/zf2" target="_blank"><?php echo $this->translate('ZF2 Development Portal') ?> &raquo;</a></p>
+<?php $this->headTitle('Your Simple One Stop for Best Upcoming Conferences') ?>
+<div class="wrap">
+      <div class="full-width">
+        <div class="intro-message">
+        <div class="border-bottom">
+          <h2>Your reference for the <strong>best events</strong> in the IT industry<br />We make sure you don't miss them.</h2>
+          </div>
+        </div>
+        <div id="feature" class="columns clearfix">
+          <h2>Why should I hub.in?</h2>
+          <div class="first rounded-background">
+            <figure><img src="images/attendees_icon.png" /></figure>
+            <h3>Attendees</h3>
+            <p>Find upcoming events easily Syndicate or receive a digest of stuff you're interested in Find out what riends of yours also come to conferences, so to ravel together.</p>
+            <div class="button"><a href="/events" class="bigbutton">Ok, take me to the conferences!</a></div>
+          </div>
+          <div class="rounded-background">
+            <figure><img src="images/speaker_icon.png" /></figure>
+            <h3>Speaker</h3>
+            <p>Quickly find out about Call For Papers Syndicate or receive a monthly digest with Call For Paper.</p>
+            <div class="button"><a href="#" class="bigbutton">Nice words, I want to speak now!</a></div>
+          </div>
+          <div class="rounded-background">
+            <figure><img src="images/organizers_icon.png" /></figure>
+            <h3>Organizers</h3>
+            <p>Let best speakers and many attendees now about your conference Track how much expectation it causes Have your conference pop up on joind.in</p>
+            <div class="button"><a href="#" class="bigbutton">Ok, I&rsquo;m in. Show me how.</a></div>
+          </div>
+        </div>
+        <!-- END: columns -->
+        
+        <section id="content" class="fl">
+         <div class="conferences clearfix">
+            <h2>Right now you should be on your way to:</h2>
+          <?php 
+          /* We can use a partial from another module here! */
+          echo $this->partial('partials/events.phtml', array('events' => $this->events)); 
+          ?>
+         <div class="more"><a href="/events" class="bigbutton">Find Out More Great Events...</a></div>
+		</div>
+		<!-- END: conferences --> 
+          
+        </section>
+        <!-- END: content -->
+        
+        <aside id="sidebar" class="fr">
+          <div class="rounded-box-title box">
+            <div class="box-inner clearfix">
+            <form id="country-form" action="/events" method="get" class="sidebar-form">
+                <div class="layout-slider">
+			    </div>
+                <p><label for="location-1">Location: </label>
+                <select name="country" id="country">
+                	<option value="ita">Italy</option>
+                </select>
+                </p>
+                
+                <p><a href="#" onclick="document.getElementById('country-form').submit();" class="bigbutton">Refine</a></p>
+            </form>
+            </div>
+          </div><!-- END: box -->
+        </aside>
+        <!-- END: sidebar -->
+        
+      </div>
     </div>
-
-    <div class="span4">
-        <h2><?php echo $this->translate('Discover Modules') ?></h2>
-        <p><?php echo sprintf($this->translate('The community is working on developing a community site to serve as a repository and gallery for ZF2 modules. The project is available %son GitHub%s. The site is currently live and currently contains a list of some of the modules already available for ZF2.'), '<a href="https://github.com/zendframework/modules.zendframework.com">', '</a>') ?></p>
-        <p><a class="btn btn-success" href="http://modules.zendframework.com/" target="_blank"><?php echo $this->translate('Explore ZF2 Modules') ?> &raquo;</a></p>
-   </div>
-
-   <div class="span4">
-       <h2><?php echo $this->translate('Help &amp; Support') ?></h2>
-       <p><?php echo sprintf($this->translate('If you need any help or support while developing with ZF2, you may reach us via IRC: %s#zftalk on Freenode%s. We\'d love to hear any questions or feedback you may have regarding the beta releases. Alternatively, you may subscribe and post questions to the %smailing lists%s.'), '<a href="irc://irc.freenode.net/zftalk">', '</a>', '<a href="http://framework.zend.com/wiki/display/ZFDEV/Mailing+Lists">', '</a>') ?></p>
-       <p><a class="btn btn-success" href="http://webchat.freenode.net?channels=zftalk" target="_blank"><?php echo $this->translate('Ping us on IRC') ?> &raquo;</a></p>
-   </div>
-</div>

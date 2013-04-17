@@ -1,0 +1,64 @@
+<?php 
+$this->headTitle($event->getTitle());
+
+?>
+<div class="wrap">
+      <div class="full-width">
+        <div class="title-page">
+        <div class="border-bottom">
+          <hgroup class="clearfix">
+          <h2><strong><?php echo $this->event->getTitle(); ?></strong></h2>
+          </hgroup>
+          </div>
+        </div>
+     
+        <section id="content" class="fl">
+        <div class="event-details">
+          <div class="event-logo"><figure><img src="images/event_logo_1.jpg" alt="Logo" ></figure></div>
+          <div class="e-details">
+              <div class="meta">
+                  <span class="date"><?php echo $event->getDatefrom()->format("d/m/Y"); ?> - <?php echo $event->getDateto()->format("d/m/Y"); ?></span>
+                  <span class="location"><?php echo $event->getCity(); ?>, <?php echo $event->getCountryName(); ?></span>
+                  <span class="cost"><?php echo $this->cost($event->getAveragedayfee()); ?></span>
+              </div>
+			  <div>
+                  <h3>Abstract</h3>
+                  <p><?php echo $this->event->getAbstract(); ?></p>
+                  <div class="other-info">
+                  	<p>
+                    <strong>Confrence Website:</strong>
+                    <a href="<?php echo $event->getMainsitelink(); ?>"><?php echo $event->getMainsitelink(); ?></a>
+                    </p>
+                  </div>
+                  
+              </div>          
+          </div><!-- END: event-details-->
+          <div class="clearfix"></div>
+     
+         </div>
+        </section>
+        <!-- END: content -->
+        
+        <aside id="sidebar" class="fr">
+        
+        <div class="rounded-box-title box">
+            <div class="box-inner clearfix">
+            <form id="country-form" action="/events" method="get" class="sidebar-form">
+                <div class="layout-slider">
+			    </div>
+                <p><label for="location-1">Location: </label>
+                <select name="country" id="country">
+                	<option value="ita">Italy</option>
+                </select>
+                </p>
+                
+                <p><a href="#" onclick="document.getElementById('country-form').submit();" class="bigbutton">Refine</a></p>
+            </form>
+            </div>
+          </div><!-- END: box -->
+         
+        </aside>
+        <!-- END: sidebar -->
+        
+      </div>
+    </div>

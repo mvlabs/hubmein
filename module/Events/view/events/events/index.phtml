@@ -1,0 +1,74 @@
+<?php 
+$this->headTitle('Event list');
+$this->headLink()->appendStylesheet('/js/jslider/jslider.css')
+                 ->appendStylesheet('/js/jslider/jslider.blue.css')
+                 ->appendStylesheet('/js/jslider/jslider.ie6.css', array('conditional' => 'lt IE 6'))
+                 ->appendStylesheet('/js/jslider/jslider.blue.ie6.css', array('conditional' => 'lt IE 6'));
+
+$this->headScript()->appendFile('/js/jslider/jquery.dependClass.js')
+                   ->appendFile('/js/jslider/jquery.slider-min.js');
+?>
+<div class="wrap">
+      <div class="full-width">
+        <div class="title-page">
+        <div class="border-bottom">
+          <hgroup class="clearfix">
+          <h2><strong>Best Conferences</strong></h2>
+          <h3>Below you can find the list of conferences for the selected period.We're sure it's now going to be easy for you to identify those not to be missed!</h3>
+          </hgroup>
+          </div>
+        </div>
+        
+        
+        <section id="content" class="fl">
+          <div class="conferences clearfix">
+           <div class="events-head clearfix">
+           	<h4><strong>Conference List</strong></h4>
+            <div class="order-by">
+            </div>
+           </div>
+          	<?php 
+          		echo $this->partial('partials/events.phtml', array('events' => $this->events)); 
+          	?>
+          
+          </div>
+          <!-- END: conferences --> 
+          
+       
+         
+        </section>
+        <!-- END: content -->
+        
+        <aside id="sidebar" class="fr">
+          <div class="rounded-box-title box">
+            <div class="box-inner clearfix">
+            <form id="country-form" action="/events" method="get" class="sidebar-form">
+                <div class="layout-slider">
+			    </div>
+                <p><label for="location-1">Location: </label>
+                <select name="country" id="country">
+                	<option value="ita">Italy</option>
+                </select>
+                </p>
+                
+                <p><a href="#" onclick="document.getElementById('country-form').submit();" class="bigbutton">Refine</a></p>
+            </form>
+            </div>
+          </div><!-- END: box -->
+      
+            <div class="rounded-box-title box">
+            <div class="title">
+              <h3>Not Here?</h3>
+            </div>
+            <div class="box-inner">
+            <p>Tell us about your event. We'll publish it on this website (after a quick review)</p>
+            <p class="more-wrap"><a href="/contact" class="more">Get In Touch</a></p>
+            </div>
+          </div><!-- END: box -->
+          
+     
+        </aside>
+        <!-- END: sidebar -->
+        
+      </div>
+    </div>
