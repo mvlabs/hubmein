@@ -10,7 +10,7 @@ class PromoteFilter extends InputFilter {
     public function __construct() {   	
 		
 		$this->add(array(
-            'name'       => 'conference_name',
+            'name'       => 'title',
             'required'   => true,
             'filters' => array(
                 array('name' => 'StringTrim'),
@@ -24,7 +24,7 @@ class PromoteFilter extends InputFilter {
         ));
 		
 		$this->add(array(
-		    'name'       => 'conference_website',
+		    'name'       => 'mainsitelink',
 		    'required'   => true,
 		    'filters' => array(
 		        array('name' => 'StringTrim'),

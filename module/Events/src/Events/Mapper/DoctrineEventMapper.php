@@ -40,7 +40,7 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
      * @param string $countryId
      * @return integer Max number of events to return
      */
-    public function getList($m_country = null, $i_limit = null)
+    public function getEventList($m_country = null, $i_limit = null)
     {
         
         $this->initDoctrine();
@@ -76,7 +76,7 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
         
     }
     
-    public function getCountries() {
+    public function getCountryList() {
     	
         $this->initDoctrine();
         
@@ -93,6 +93,13 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
         
     }
     
+    public function saveEvent(\Events\Entity\Event $I_event) {
+
+        $this->initDoctrine();
+        
+        $this->I_entityManager->persist($I_event);
+        $this->I_entityManager->flush();
+    }
     
     /**
      * getEntityManager

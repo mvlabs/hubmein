@@ -2,6 +2,7 @@
 
 namespace Events\Service;
 
+use Events\Entity\Event;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -42,7 +43,7 @@ class EventService {
      * @return array List of Event
      */
     public function getList($m_country = null) {
-        return $this->I_mapper->getList($m_country);
+        return $this->I_mapper->getEventList($m_country);
     }
     
     public function getListArray() {
@@ -56,8 +57,17 @@ class EventService {
     } 
         
     public function getCountries() {
-    	return $this->I_mapper->getCountries();
+    	return $this->I_mapper->getCountryList();
     }
     
+    public function insertEventFromArray(array $am_formData) {
+    
+        $I_event = Event::createFromArray($am_formData);
+    
+        $this->I_mapper->saveEvent($I_event);
+    
+        return $I_event;
+        
+    }
 
 }

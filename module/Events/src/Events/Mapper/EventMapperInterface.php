@@ -5,8 +5,10 @@ interface EventMapperInterface {
     
     public function getEvent($i_id);
     
-    public function getList($m_country = null, $i_limit = null);
+    public function getEventList($m_country = null, $i_limit = null);
     
-    public function getCountries();
+    public function getCountryList();
+    
+    public function saveEvent(\Events\Entity\Event $I_event);
     
 } 

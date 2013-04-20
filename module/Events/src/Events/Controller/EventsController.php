@@ -11,8 +11,6 @@ class EventsController extends AbstractActionController
 {
     private $I_promoteForm;
     private $I_eventService;
-    //private $I_message;
-    //private $I_transport;
     
     public function __construct(\Events\Service\EventService $I_eventService, \Zend\Form\Form $I_promoteForm) {
         $this->I_eventService = $I_eventService;
@@ -47,12 +45,14 @@ class EventsController extends AbstractActionController
     
         $I_form = $this->I_promoteForm;
     
-        $as_feedback = array();
         if ($this->request->isPost()) {
             $as_post = $this->request->getPost()->toArray();
             
             $I_form->setData($as_post);
+            
             if(!$I_form->isValid()) {
+                
+                print_r($I_form->getMessages());
                                 
                 $I_model = new ViewModel(array(
                     'error' => true,
@@ -62,7 +62,7 @@ class EventsController extends AbstractActionController
                 return $I_model;
             } 
             
-            $this->sendEmail($as_post);
+            $this->I_eventService->insertEventFromArray($as_post);
             
             return $this->redirect()->toRoute('events/thanks');
           

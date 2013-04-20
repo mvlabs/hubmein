@@ -13,9 +13,9 @@ class Promote extends Form {
         parent::__construct('contact');
         
         $this->add(array(
-            'name' => 'conference_name',
+            'name' => 'title',
             'attributes' => array(
-            	'id'    => 'conference_name',
+            	'id'    => 'title',
                 'type'  => 'text',
             ),
             'options' => array(
@@ -24,9 +24,9 @@ class Promote extends Form {
         ));
 
         $this->add(array(
-            'name' => 'conference_website',
+            'name' => 'mainsitelink',
             'attributes' => array(
-                'id'    => 'conference_website',
+                'id'    => 'mainsitelink',
                 'type'  => 'text',
             ),
             'options' => array(
@@ -46,9 +46,9 @@ class Promote extends Form {
         ));
         
 		$this->add(array(
-            'name'  => 'about',
+            'name'  => 'abstract',
             'attributes' => array(
-            	'id'    => 'about',
+            	'id'    => 'abstract',
                 'type'  => 'textarea',
                 'cols'  => '40',
                 'rows'  => '8',

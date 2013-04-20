@@ -104,22 +104,19 @@ class Event {
      * })
      */
     private $country;
-	    
-
-    public static function create($am_eventData) {
-    	$I_event = new \Events\Entity\Event();
-    	$I_event->setId(self::$i_instanced++);
-    	foreach ($am_eventData as $s_param => $m_value) {
-    		$I_event->$s_param = $m_value;
-    	}
-    	return $I_event;
+	
+    
+    public static function createFromArray($data) {
+        $event = new Event();
+        $event->fillWith($data);
+    
+        return $event;
     }
     
     private function setId($i_id) {
     	$this->id = $i_id;
     }
     
-
     /**
      * Get id
      *
@@ -330,26 +327,6 @@ class Event {
         return $this->mainSiteLink;
     }
 
-    /**
-     * Set contactemail
-     *
-     * @param string $contactemail
-     */
-    public function setContactemail($contactemail)
-    {
-        $this->contactemail = $contactemail;
-    }
-
-    /**
-     * Get contactemail
-     *
-     * @return string 
-     */
-    public function getContactemail()
-    {
-        return $this->contactemail;
-    }
-	
 	/**
      * Set slug
      *
@@ -411,18 +388,23 @@ class Event {
         return $this->isVisible;
     }
 	
+    public function fillWith($data){
+        $this->id = (isset($data['id'])) ? $data['id'] : null;
+        $this->title = (isset($data['title'])) ? $data['title'] : null;
+        $this->abstract = (isset($data['abstract'])) ? $data['abstract'] : null;
+        $this->datefrom = (isset($data['datefrom'])) ? $data['datefrom'] : null;
+        $this->dateto = (isset($data['dateto'])) ? $data['dateto'] : null;
+        $this->city = (isset($data['city'])) ? $data['city'] : null;
+        $this->venue = (isset($data['venue'])) ? $data['venue'] : null;
+        $this->averagedayfee = (isset($data['averagedayfee'])) ? $data['averagedayfee'] : null;
+        $this->mainsitelink = (isset($data['mainsitelink'])) ? $data['mainsitelink'] : null;
+        $this->slug = (isset($data['slug'])) ? $data['slug'] : null;
+        $this->isvisible = (isset($data['isvisible'])) ? $data['isvisible'] : null;
+    }
     
-    public function toArray() {
-        
-        $as_data = array();
-        $as_data['id'] = $this->id;
-        $as_data['title'] = $this->title;
-        $as_data['abstract'] = $this->abstract;
-        $as_data['date_from'] = $this->dateFrom;
-        $as_data['date_to'] = $this->dateTo;
-        
-        return $as_data;
-        
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
     }
     
 }
