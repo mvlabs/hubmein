@@ -53,7 +53,7 @@ class EventService {
     public function getLocalEvents() {
     	$m_country = 'italy';	// Suppose we fetch this from somewhere
     	$i_limit = 4;			
-    	return $this->I_mapper->getList($m_country, 4);
+    	return $this->I_mapper->getEventList($m_country, 4);
     } 
         
     public function getCountries() {
