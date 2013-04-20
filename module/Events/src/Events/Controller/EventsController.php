@@ -10,17 +10,20 @@ use Zend\Mail\Message as Message;
 class EventsController extends AbstractActionController
 {
     private $I_promoteForm;
-    private $I_message;
-    private $I_transport;
+    private $I_eventService;
+    //private $I_message;
+    //private $I_transport;
+    
+    public function __construct(\Events\Service\EventService $I_eventService, \Zend\Form\Form $I_promoteForm) {
+        $this->I_eventService = $I_eventService;
+        $this->I_promoteForm = $I_promoteForm;
+    }
     
     public function indexAction()
     {
     	$m_country = $this->getRequest()->getQuery('country', null);
     	
-    	$I_eventService = $this->getServiceLocator()->get('Events\Service\EventService');
-    	return new ViewModel(array('events' => $I_eventService->getList($m_country), 
-    			                   'countries' => $I_eventService->getCountries())
-    			            );
+    	return new ViewModel(array('events' => $this->I_eventService->getList($m_country)));
     }
     
     public function eventAction() {
@@ -31,9 +34,7 @@ class EventsController extends AbstractActionController
     		throw new \UnexpectedValueException($m_id . ' is not a valid Event ID (integers only are accepted)');
     	}
     	
-    	$I_eventService = $this->getServiceLocator()->get('Events\Service\EventService');
-    	return new ViewModel(array('event' => $I_eventService->getEvent($m_id), 
-    			                  'countries' => $I_eventService->getCountries()));
+    	return new ViewModel(array('event' => $this->I_eventService->getEvent($m_id)));
     }
 
     public function promoteAction() {
@@ -72,7 +73,7 @@ class EventsController extends AbstractActionController
         return new ViewModel();
     }
     
-    public function setForm(\Events\Form\Promote $I_promoteForm) {
+    /*public function setForm(\Events\Form\Promote $I_promoteForm) {
         $this->I_promoteForm = $I_promoteForm;
     }
     
@@ -98,5 +99,6 @@ class EventsController extends AbstractActionController
         
         $this->I_transport->send($this->I_message);
         
-    }
-    }
+    }*/
+    
+}

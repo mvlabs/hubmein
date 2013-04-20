@@ -1,31 +1,28 @@
 <div class="wrap">
-      <div class="full-width">
-        <div class="title-page">
-        <div class="border-bottom">
-          <hgroup class="clearfix centered-block">
-          <h2 class="centered"><strong>Promote Your Event</strong></h2>
-          <h3 class="centered">Let all <strong>HubMe.In</strong> users worldwide know about your event.
-Just fill the blanks below. We'll send this data to joind.in for you too!</h3>
-          </hgroup>
-          </div>
-        </div>
-     
-        <section id="content" class="fl">
-        	<form action="<?php echo $this->url('events/process')?>" method="post" id="promote-form">
-        	    
-        	    <div><label for="conference_name">Conference name:</label><?php echo $this->formRow($this->form->get('conference_name')); ?></div>
-        	    
-        	    <div><label for="conference_website">Conference website:</label><?php echo $this->formRow($this->form->get('conference_website')); ?></div>
-        	    
-        	    <div><label for="email">Email:</label><?php echo $this->formRow($this->form->get('email')); ?></div>
-        	    
-        	    <div><label for="about">About:</label><?php echo $this->formTextarea($this->form->get('about')); ?></div>
-        	            	
-                <div><label>&nbsp;</label><?php echo $this->formInput($this->form->get('submit'))?>  </div>
-                
-            </form>
-        </section>
-        <!-- END: content -->
+  <div class="full-width">
+    <div class="title-page">
+    <div class="border-bottom">
+      <hgroup class="clearfix centered-block">
+      <h2 class="centered"><strong>Promote Your Event</strong></h2>
+      <h3 class="centered">Let all <strong>HubMe.In</strong> users worldwide know about your event. 
+      Just fill the blanks below.</h3>
+      </hgroup>
+      </div>
+    </div>
+ 
+    <section id="content" class="fl">
+    	<form action="<?php echo $this->url('events/process')?>" method="post" id="promote-form">
+    	<?php 
+    	
+    	$elements = $this->form->getElements();
+    	foreach($elements as $element) { 
+            echo '<div>' . $this->formRow($element) . '</div>' . "\n";
+        } 
+        
+        ?>
+    	</form>
+    </section>
+    <!-- END: content -->
     
     <aside id="sidebar" class="fr">
       <div class="rounded-box-title box">

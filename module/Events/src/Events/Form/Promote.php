@@ -16,26 +16,32 @@ class Promote extends Form {
             'name' => 'conference_name',
             'attributes' => array(
             	'id'    => 'conference_name',
-                'label' => 'conference_name',
                 'type'  => 'text',
             ),
+            'options' => array(
+                'label' => 'Conference name',
+            ),
         ));
-        
+
         $this->add(array(
             'name' => 'conference_website',
             'attributes' => array(
                 'id'    => 'conference_website',
-                'label' => 'conference_website',
                 'type'  => 'text',
             ),
+            'options' => array(
+                'label' => 'Conference website',
+            ),
         ));
-		
+        
         $this->add(array(
-            'name'  => 'email',
+            'name' => 'email',
             'attributes' => array(
                 'id'    => 'email',
-                'label' => 'Email',
                 'type'  => 'text',
+            ),
+            'options' => array(
+                'label' => 'Email',
             ),
         ));
         
@@ -43,11 +49,13 @@ class Promote extends Form {
             'name'  => 'about',
             'attributes' => array(
             	'id'    => 'about',
-                'label' => 'about',
                 'type'  => 'textarea',
                 'cols'  => '40',
                 'rows'  => '8',
             ),
+		    'options' => array(
+		        'label' => 'About',
+		    )
         ));
 		
         $this->add(array(

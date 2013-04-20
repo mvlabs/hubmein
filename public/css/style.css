@@ -120,8 +120,8 @@ em, .#sidebar .more-wrap .more, .tags li .number{ font-family:"OpenSansSemiboldI
 #conferences .title-page h2, #conferences .title-page h3, #about .title-page h2, #about .title-page h3, #account .title-page h2, #account .title-page h3{ margin-bottom:0; }
 #conferences .title-page h2{ float:left; width:34.4%; background:url(../images/v_dotted_2.gif) repeat-y right 0; }
 #conferences .title-page h3{ float:right; width:63.3%; }
-#about .title-page h2{ float:left; width:16.6%;margin-left:20px;  background:url(../images/v_dotted_2.gif) repeat-y right 0;}
-#about .title-page h3{ width:78.1%; float:right; }
+#about .title-page h2{ float:left; width:35%;margin-left:20px;  background:url(../images/v_dotted_2.gif) repeat-y right 0;}
+#about .title-page h3{ width:60%; float:right; }
 
 #account .title-page h2{  float:left; width:20.6%; margin:0 20px;  background:url(../images/v_dotted_2.gif) repeat-y right 0; }
 

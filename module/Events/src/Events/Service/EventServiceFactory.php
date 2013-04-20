@@ -10,8 +10,8 @@ class EventServiceFactory implements FactoryInterface {
 
 	public function createService(ServiceLocatorInterface $I_serviceLocator) {
 		
-	    $I_dep = $I_serviceLocator->get('Events\Mapper\EventMapper');
-		return new EventService($I_dep);
+	    $I_mapper = $I_serviceLocator->get('Events\Mapper\EventMapper');
+		return new EventService($I_mapper);
 		
 	}
 

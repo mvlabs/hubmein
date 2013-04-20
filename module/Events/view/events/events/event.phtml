@@ -1,6 +1,5 @@
 <?php 
 $this->headTitle($event->getTitle());
-
 ?>
 <div class="wrap">
       <div class="full-width">
@@ -14,7 +13,7 @@ $this->headTitle($event->getTitle());
      
         <section id="content" class="fl">
         <div class="event-details">
-          <div class="event-logo"><figure><img src="images/event_logo_1.jpg" alt="Logo" ></figure></div>
+          <div class="event-logo"><figure><img src="/images/default_icon.jpg" alt="Logo" ></figure></div>
           <div class="e-details">
               <div class="meta">
                   <span class="date"><?php echo $event->getDatefrom()->format("d/m/Y"); ?> - <?php echo $event->getDateto()->format("d/m/Y"); ?></span>
@@ -31,7 +30,7 @@ $this->headTitle($event->getTitle());
                     </p>
                   </div>
                   
-              </div>          
+              </div>
           </div><!-- END: event-details-->
           <div class="clearfix"></div>
      
@@ -47,9 +46,7 @@ $this->headTitle($event->getTitle());
                 <div class="layout-slider">
 			    </div>
                 <p><label for="location-1">Location: </label>
-                <select name="country" id="country">
-                	<option value="ita">Italy</option>
-                </select>
+                <?php echo $this->countries()?>
                 </p>
                 
                 <p><a href="#" onclick="document.getElementById('country-form').submit();" class="bigbutton">Refine</a></p>

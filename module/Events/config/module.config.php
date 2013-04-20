@@ -64,17 +64,6 @@ return array(
                 )
             ),
             
-            'api' => array(
-                'type'    => 'Segment',
-                'options' => array(
-                    'route'    => '/api[/:id]',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Events\Controller',
-                        'controller'    => 'api',
-                    ),
-                ),
-            ),
-            
         ),
     ),
     

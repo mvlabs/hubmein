@@ -46,9 +46,7 @@ $this->headScript()->appendFile('/js/jslider/jquery.dependClass.js')
                 <div class="layout-slider">
 			    </div>
                 <p><label for="location-1">Location: </label>
-                <select name="country" id="country">
-                	<option value="ita">Italy</option>
-                </select>
+                <?php echo $this->countries()?>
                 </p>
                 
                 <p><a href="#" onclick="document.getElementById('country-form').submit();" class="bigbutton">Refine</a></p>

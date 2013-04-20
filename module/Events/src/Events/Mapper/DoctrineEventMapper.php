@@ -80,7 +80,7 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
     	
         $this->initDoctrine();
         
-        //@todo manage method params params
+        //@todo manage method params
         
         $aI_countries = $this->I_countryRepository->findAll();
         

@@ -43,23 +43,7 @@ class Module implements ViewHelperProviderInterface
         
         return array(
             'factories' => array(
-                'Events\Controller\Events' => function ($sm) {
-                    
-                    $I_eventsController = new \Events\Controller\EventsController();
-                    
-                    $I_form = new \Events\Form\Promote();
-                    $I_formFilter = new \Events\Form\PromoteFilter();
-                    $I_form->setInputFilter($I_formFilter);
-                    $I_eventsController->setForm($I_form);
-                    
-                    //reuse from phly contact
-                    $I_eventsController->setMailTransport($sm->getServiceLocator()->get('PhlyContactMailTransport'));
-                    
-                    //reuse from phly contact
-                    $I_eventsController->setMessage($sm->getServiceLocator()->get('PhlyContactMailMessage'));
-                    
-                    return $I_eventsController;
-                }
+                'Events\Controller\Events' => 'Events\Controller\EventsControllerFactory',
             ),
         );
         
@@ -68,7 +52,12 @@ class Module implements ViewHelperProviderInterface
     public function getViewHelperConfig()
     {
     	return array(
-    			'invokables' => array( 'cost' => 'Events\View\Helper\DisplayCost' ),
+			'invokables' => array( 
+			    'cost' => 'Events\View\Helper\DisplayCost',
+			),
+    	    'factories' => array(
+    	        'countries' => 'Events\View\Helper\DisplayCountrySelectFieldFactory',
+    	    ),
     	);
     }
     

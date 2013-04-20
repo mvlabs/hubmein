@@ -48,15 +48,13 @@ class EventService {
     public function getListArray() {
         return $this->I_mapper->getListArray();
     }
-    
-    
-    public function getLocal() {
+        
+    public function getLocalEvents() {
     	$m_country = 'italy';	// Suppose we fetch this from somewhere
     	$i_limit = 4;			
     	return $this->I_mapper->getList($m_country, 4);
     } 
-    
-    
+        
     public function getCountries() {
     	return $this->I_mapper->getCountries();
     }
