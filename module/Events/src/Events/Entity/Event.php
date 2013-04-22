@@ -70,7 +70,7 @@ class Event {
     /**
      * @var string $averagedayfee
      *
-     * @ORM\Column(name="averagedayfee", type="integer", nullable=false)
+     * @ORM\Column(name="averagedayfee", type="integer", nullable=true)
      */
     private $averageDayFee;
 
@@ -87,13 +87,7 @@ class Event {
      * @ORM\Column(name="slug", type="string", length=255, nullable=false)
      */
     private $slug;
-	
-    /**
-     * @var boolean $isvisible
-     *
-     * @ORM\Column(name="isvisible", type="boolean", nullable=true)
-     */
-    private $isVisible;
+
     
     /**
      * @var Events\Entity\Country
@@ -366,27 +360,7 @@ class Event {
     public function getCountryName() {
     	return $this->country->getName();
     }
-    
-	
-	/**
-     * Set isVisible
-     *
-     * @param boolean $isVisible
-     */
-    public function setIsVisible($isVisible)
-    {
-        $this->isVisible = $isVisible;
-    }
 
-    /**
-     * Get isVisible
-     *
-     * @return boolean 
-     */
-    public function getIsVisible()
-    {
-        return $this->isVisible;
-    }
 	
     public function fillWith($data){
         $this->id = (isset($data['id'])) ? $data['id'] : null;
@@ -395,11 +369,11 @@ class Event {
         $this->datefrom = (isset($data['datefrom'])) ? $data['datefrom'] : null;
         $this->dateto = (isset($data['dateto'])) ? $data['dateto'] : null;
         $this->city = (isset($data['city'])) ? $data['city'] : null;
+        $this->country = (isset($data['country'])) ? $data['country'] : null;
         $this->venue = (isset($data['venue'])) ? $data['venue'] : null;
         $this->averagedayfee = (isset($data['averagedayfee'])) ? $data['averagedayfee'] : null;
         $this->mainsitelink = (isset($data['mainsitelink'])) ? $data['mainsitelink'] : null;
         $this->slug = (isset($data['slug'])) ? $data['slug'] : null;
-        $this->isvisible = (isset($data['isvisible'])) ? $data['isvisible'] : null;
     }
     
     public function getArrayCopy()

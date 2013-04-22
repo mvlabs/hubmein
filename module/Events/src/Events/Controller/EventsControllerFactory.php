@@ -11,10 +11,10 @@ class EventsControllerFactory implements FactoryInterface {
 	public function createService(ServiceLocatorInterface $I_serviceLocator) {
 		
 	    // create dependencies
-	    $I_form = new \Events\Form\Promote();
-	    $I_formFilter = new \Events\Form\PromoteFilter();
+	    $I_form = $I_serviceLocator->getServiceLocator()->get('\Events\Form\Promote');
+	    $I_formFilter = $I_serviceLocator->getServiceLocator()->get('\Events\Form\PromoteFilter');
 	    $I_form->setInputFilter($I_formFilter);
-	    	    	    
+	    
 	    $I_eventService = $I_serviceLocator->getServiceLocator()->get('Events\Service\EventService');
 	    
 	    //reuse from phly contact

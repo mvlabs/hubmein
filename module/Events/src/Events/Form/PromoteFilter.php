@@ -37,26 +37,5 @@ class PromoteFilter extends InputFilter {
 		    ),
 		));
 			
-    	$this->add(array(
-            'name'       => 'email',
-            'required'   => true,
-            'filters' => array(
-                array('name' => 'StringTrim'),
-                array('name' => 'StripTags'),
-            ),
-            'validators' => array(
-            	array(
-	                'name' => 'not_empty',
-	            ),
-                array(
-                    'name'    => 'EmailAddress',
-                    'options' => array(
-                        'allow'  => HostnameValidator::ALLOW_DNS,
-                        'domain' => true
-                    ),                    
-                ),
-            ),
-        ));
-
     }
 }

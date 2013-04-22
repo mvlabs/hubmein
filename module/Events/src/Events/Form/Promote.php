@@ -8,9 +8,9 @@ use Zend\Form\Form,
 
 class Promote extends Form {
     	
-    public function __construct($name = null) {
+    public function __construct(array $countryList = null, $name = 'contact') {
         
-        parent::__construct('contact');
+        parent::__construct($name);
         
         $this->add(array(
             'name' => 'title',
@@ -22,30 +22,21 @@ class Promote extends Form {
                 'label' => 'Conference name',
             ),
         ));
-
-        $this->add(array(
-            'name' => 'mainsitelink',
-            'attributes' => array(
-                'id'    => 'mainsitelink',
-                'type'  => 'text',
-            ),
-            'options' => array(
-                'label' => 'Conference website',
-            ),
-        ));
         
+/*
         $this->add(array(
-            'name' => 'email',
-            'attributes' => array(
-                'id'    => 'email',
-                'type'  => 'text',
-            ),
-            'options' => array(
-                'label' => 'Email',
-            ),
+        		'name' => 'country',
+        		'attributes' => array(
+        				'id'    => 'country',
+        				'type'  => 'select',
+        		),
+        		'options' => array(
+        				'label' => 'Country',
+        		),
         ));
+*/
         
-		$this->add(array(
+       	$this->add(array(
             'name'  => 'abstract',
             'attributes' => array(
             	'id'    => 'abstract',
@@ -57,7 +48,91 @@ class Promote extends Form {
 		        'label' => 'About',
 		    )
         ));
-		
+        
+       	$this->add(array(
+       			'name' => 'datefrom',
+       			'attributes' => array(
+       					'id'    => 'datefrom',
+       					'type'  => 'text',
+       			),
+       			'options' => array(
+       					'label' => 'From',
+       			),
+       	));
+       	
+       	$this->add(array(
+       			'name' => 'dateto',
+       			'attributes' => array(
+       					'id'    => 'dateto',
+       					'type'  => 'text',
+       			),
+       			'options' => array(
+       					'label' => 'To',
+       			),
+       	));
+       	
+        
+        $this->add(array(
+        		'name' => 'venue',
+        		'attributes' => array(
+        				'id'    => 'venue',
+        				'type'  => 'text',
+        		),
+        		'options' => array(
+        				'label' => 'Venue',
+        		),
+        ));
+        
+        $this->add(array(
+        		'name' => 'city',
+        		'attributes' => array(
+        				'id'    => 'city',
+        				'type'  => 'text',
+        		),
+        		'options' => array(
+        				'label' => 'City',
+        		),
+        ));
+        
+        $this->add(array(
+        		'name' => 'country',
+        		'attributes' => array(
+        				'id'    => 'city',
+        				'type'  => 'select',
+        		),
+        		'type' => 'Zend\Form\Element\Select',
+        		'options' => array(
+        				'label' => 'Country',
+        				'empty_option' => 'Please choose...',
+        				'value_options' => $countryList
+        				),
+        		)
+        );
+        
+        $this->add(array(
+            'name' => 'mainsitelink',
+            'attributes' => array(
+                'id'    => 'mainsitelink',
+                'type'  => 'text',
+            ),
+            'options' => array(
+                'label' => 'Website',
+            ),
+        ));
+        
+
+        $this->add(array(
+        		'name' => 'averagedayfee',
+        		'attributes' => array(
+        				'id'    => 'averagedayfee',
+        				'type'  => 'text',
+        		),
+        		'options' => array(
+        				'label' => 'Avg Daily Fee',
+        		),
+        ));
+        
+
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
@@ -66,6 +141,7 @@ class Promote extends Form {
                 'value' => 'Submit',
                 'class' => 'bigbutton'
             ),
+        	'options' => array('label' => '.')
         ));
 	}	  
 }
