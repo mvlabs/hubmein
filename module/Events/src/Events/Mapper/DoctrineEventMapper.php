@@ -11,7 +11,7 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
     private $I_entityManager;
     private $I_eventRepository;
     private $I_countryRepository;
-    
+ 
 	
      /**
      * Get Event
@@ -21,9 +21,8 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
      */
     public function getEvent($i_id)
     {
-        
-        $this->initDoctrine();
-        
+    	
+    	$this->initDoctrine();
         $I_event = $this->I_eventRepository->find($i_id);
         
         if (null == $I_event) {
@@ -54,23 +53,16 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
      * @param string $countryId
      * @return integer Max number of events to return
      */
-    public function getEventList($m_country = null, $i_limit = null)
+    public function getEventList($i_country = null, $i_limit = null)
     {
         
-        $this->initDoctrine();
+    	$this->initDoctrine();
 
-        //@todo manage limit param
-        
-        if ($m_country == null) {
+        if (null == $i_country) {
             return $this->I_eventRepository->findAll();
-        } else {
-            
-            $I_country = $this->I_countryRepository->findOneBySlug($m_country);
-            return $this->I_eventRepository->findByCountry($I_country->getId());
-            
-            // or use repositories to reduce number of queries...
-            
         }
+        
+        return $this->I_eventRepository->findByCountry($i_country);
         
     }
     
@@ -155,6 +147,7 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
     {
         return $this->I_servicelocator;
     }
+    
     
     private function initDoctrine() {
         $this->getEntityManager();

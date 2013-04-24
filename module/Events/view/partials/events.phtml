@@ -1,3 +1,16 @@
+<?php 
+if (count($this->events) == 0) {
+?>
+<div class="event clearfix">
+	<div class="event-info">
+		<h3>No events happening in selected country soon.</h3>
+		<p>Please use select control on right to pick a different one.</p>
+</div>
+
+<?php
+}
+?>
+
 <?php foreach ($this->events as $event) { ?>
 <div class="event clearfix">
 	<figure class="event-logo"><a href="#"><img src="/images/default_icon.jpg" /></a></figure>

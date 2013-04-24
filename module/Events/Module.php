@@ -50,6 +50,17 @@ class Module implements ViewHelperProviderInterface
         
     } 
     
+    
+    public function getControllerPluginConfig()
+    {
+    	return array(
+    		'invokables' => array(
+    					'getAndCheckNumericParam' => 'Events\Controller\Plugin\GetAndCheckNumericParam',
+    		)
+    	);
+    }
+    
+    
     public function getViewHelperConfig()
     {
     	return array(
@@ -57,7 +68,7 @@ class Module implements ViewHelperProviderInterface
 			    'cost' => 'Events\View\Helper\DisplayCost',
 			),
     	    'factories' => array(
-    	        'countries' => 'Events\View\Helper\DisplayCountrySelectFieldFactory',
+    	        'rightSideBar' => 'Events\View\Helper\RightSideBarFactory',
     	    ),
     	);
     }

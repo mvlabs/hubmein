@@ -19,20 +19,13 @@ class EventsController extends AbstractActionController
     
     public function indexAction()
     {
-    	$m_country = $this->getRequest()->getQuery('country', null);
-    	
-    	return new ViewModel(array('events' => $this->I_eventService->getList($m_country)));
+    	$i_country = $this->getAndCheckNumericParam('country');
+    	return new ViewModel(array('events' => $this->I_eventService->getList($i_country)));
     }
     
     public function eventAction() {
-    	
-    	$m_id = $this->params()->fromQuery('id'); 
-    	
-    	if (!is_numeric($m_id)) {
-    		throw new \UnexpectedValueException($m_id . ' is not a valid Event ID (integers only are accepted)');
-    	}
-    	
-    	return new ViewModel(array('event' => $this->I_eventService->getEvent($m_id)));
+    	$i_id = $this->getAndCheckNumericParam('id');
+    	return new ViewModel(array('event' => $this->I_eventService->getEvent($i_id)));
     }
 
     public function promoteAction() {
@@ -72,33 +65,5 @@ class EventsController extends AbstractActionController
     public function thankyouAction() {
         return new ViewModel();
     }
-    
-    /*public function setForm(\Events\Form\Promote $I_promoteForm) {
-        $this->I_promoteForm = $I_promoteForm;
-    }
-    
-    public function setMessage(Message $I_message) {
-        $this->I_message = $I_message;
-    }
-    
-    public function setMailTransport(Transport\TransportInterface $I_transport) {
-        $this->I_transport = $I_transport;
-    }
-    
-    private function sendEmail(array $as_data) {
-        
-        //preparing the message
-        $s_from    = $as_data['email'];
-        $s_subject = '[Hubmein] New conference submitted';
-        $s_body    = 'The conference ' . $as_data['conference_name'] . ' has been submitted to Hubmein!';
-        
-        $this->I_message->addFrom($s_from)
-                        ->addReplyTo($s_from)
-                        ->setSubject($s_subject)
-                        ->setBody($s_body);
-        
-        $this->I_transport->send($this->I_message);
-        
-    }*/
     
 }
