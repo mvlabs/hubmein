@@ -24,6 +24,36 @@ class PromoteFilter extends InputFilter {
         ));
 		
 		$this->add(array(
+		    'name'       => 'datefrom',
+		    'required'   => true,
+		    'filters' => array(
+		        array('name' => 'StringTrim'),
+		        array('name' => 'StripTags'),
+		    ),
+		    'validators' => array(
+		        array(
+		            'name' => 'not_empty',
+		        ),
+		        new \Zend\Validator\Date(array('format' => 'd/m/Y'))
+		    ),
+		));
+		
+		$this->add(array(
+		    'name'       => 'dateto',
+		    'required'   => true,
+		    'filters' => array(
+		        array('name' => 'StringTrim'),
+		        array('name' => 'StripTags'),
+		    ),
+		    'validators' => array(
+		        array(
+		            'name' => 'not_empty',
+		        ),
+		        new \Zend\Validator\Date(array('format' => 'd/m/Y'))
+		    ),
+		));
+		
+		$this->add(array(
 		    'name'       => 'mainsitelink',
 		    'required'   => true,
 		    'filters' => array(

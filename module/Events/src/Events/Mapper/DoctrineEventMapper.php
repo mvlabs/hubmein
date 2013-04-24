@@ -32,6 +32,20 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
         
     	return $I_event;
     }
+    
+    public function getCountry($i_id)
+    {
+    
+        $this->initDoctrine();
+    
+        $I_country = $this->I_countryRepository->find($i_id);
+    
+        if (null == $I_country) {
+            throw new \DomainException('No country with such ID here.');
+        }
+    
+        return $I_country;
+    }
 
     
     /**
@@ -86,7 +100,7 @@ class DoctrineEventMapper implements EventMapperInterface, ServiceLocatorAwareIn
         
         $as_result = array();
         foreach ($aI_countries as $I_country) {
-            $as_result[$I_country->getSlug()] = $I_country->getName();
+            $as_result[$I_country->getId()] = $I_country->getName();
         }
         
         return $as_result;

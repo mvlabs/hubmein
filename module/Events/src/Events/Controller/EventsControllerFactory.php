@@ -11,17 +11,13 @@ class EventsControllerFactory implements FactoryInterface {
 	public function createService(ServiceLocatorInterface $I_serviceLocator) {
 		
 	    // create dependencies
-	    $I_form = $I_serviceLocator->getServiceLocator()->get('\Events\Form\Promote');
-	    $I_formFilter = $I_serviceLocator->getServiceLocator()->get('\Events\Form\PromoteFilter');
-	    $I_form->setInputFilter($I_formFilter);
-	    
 	    $I_eventService = $I_serviceLocator->getServiceLocator()->get('Events\Service\EventService');
 	    
-	    //reuse from phly contact
-	    /*$I_eventsController->setMailTransport($sm->getServiceLocator()->get('PhlyContactMailTransport'));
+	    $as_countries = $I_eventService->getCountries();
+	    $I_form = new \Events\Form\Promote($as_countries);
 	    
-	    //reuse from phly contact
-	    $I_eventsController->setMessage($sm->getServiceLocator()->get('PhlyContactMailMessage'));*/
+	    $I_formFilter = new \Events\Form\PromoteFilter();
+	    $I_form->setInputFilter($I_formFilter);
 	    
 	    return new \Events\Controller\EventsController($I_eventService, $I_form);
 		

@@ -23,19 +23,6 @@ class Promote extends Form {
             ),
         ));
         
-/*
-        $this->add(array(
-        		'name' => 'country',
-        		'attributes' => array(
-        				'id'    => 'country',
-        				'type'  => 'select',
-        		),
-        		'options' => array(
-        				'label' => 'Country',
-        		),
-        ));
-*/
-        
        	$this->add(array(
             'name'  => 'abstract',
             'attributes' => array(

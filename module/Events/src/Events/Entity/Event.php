@@ -82,14 +82,6 @@ class Event {
     private $mainSiteLink;
 
     /**
-     * @var string $slug
-     *
-     * @ORM\Column(name="slug", type="string", length=255, nullable=false)
-     */
-    private $slug;
-
-    
-    /**
      * @var Events\Entity\Country
      *
      * @ORM\ManyToOne(targetEntity="Events\Entity\Country", cascade={"persist", "remove"})
@@ -321,26 +313,6 @@ class Event {
         return $this->mainSiteLink;
     }
 
-	/**
-     * Set slug
-     *
-     * @param string $slug
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string 
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-	    
     
     /**
      * Get country slug
@@ -366,13 +338,13 @@ class Event {
         $this->id = (isset($data['id'])) ? $data['id'] : null;
         $this->title = (isset($data['title'])) ? $data['title'] : null;
         $this->abstract = (isset($data['abstract'])) ? $data['abstract'] : null;
-        $this->datefrom = (isset($data['datefrom'])) ? $data['datefrom'] : null;
-        $this->dateto = (isset($data['dateto'])) ? $data['dateto'] : null;
+        $this->dateFrom = (isset($data['datefrom'])) ? \DateTime::createFromFormat('d/m/Y', $data['datefrom']) : null;
+        $this->dateTo = (isset($data['dateto'])) ? \DateTime::createFromFormat('d/m/Y', $data['dateto']) : null;
         $this->city = (isset($data['city'])) ? $data['city'] : null;
         $this->country = (isset($data['country'])) ? $data['country'] : null;
         $this->venue = (isset($data['venue'])) ? $data['venue'] : null;
-        $this->averagedayfee = (isset($data['averagedayfee'])) ? $data['averagedayfee'] : null;
-        $this->mainsitelink = (isset($data['mainsitelink'])) ? $data['mainsitelink'] : null;
+        $this->averageDayFee = (is_numeric($data['averagedayfee'])) ? $data['averagedayfee'] : null;
+        $this->mainSiteLink = (isset($data['mainsitelink'])) ? $data['mainsitelink'] : null;
         $this->slug = (isset($data['slug'])) ? $data['slug'] : null;
     }
     

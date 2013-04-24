@@ -32,11 +32,9 @@ class Module implements ViewHelperProviderInterface
     	return array(
     			'invokables' => array(
     				'Events\Mapper\EventMapper' => 'Events\Mapper\DoctrineEventMapper',
-    				'Events\Form\PromoteFilter' => 'Events\Form\PromoteFilter',
     			),
     			'factories' => array(
   					'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
-    				'Events\Form\Promote' => 'Events\Form\PromoteFactory',
     			),
     			
     	);
