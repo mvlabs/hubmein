@@ -3,25 +3,22 @@
     <div class="footer-content">
     
       <div class="copyright-link first">
-        <div>&copy;2013 <a href="#" class="site">Hubme.in</a>. All Rights Reserved </div>
+        <div>&copy;2013 <a href="<?php echo $this->url('home'); ?>" class="site">Hubme.in</a>. All Rights Reserved </div>
         <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Give Us Feedback</a></li>
-          <li><a href="#">FAQ</a></li>
+          <li><a href="<?php echo $this->url('about'); ?>">About</a></li>
         </ul>
       </div>
       
       <div class="social">
         <ul class="">
-          <li class="twitter"><a href="#">Follow Us</a></li>
-          <li class="facebook"><a href="#">Like Us</a></li>
+          <li class="twitter"><a href="https://twitter.com/hubmein">Follow Us</a></li>
+          <li class="facebook"><a href="https://www.facebook.com/hubme.in">Like Us</a></li>
         </ul>
       </div>
       <div class="footer-link">
         <ul>
-          <li><a href="#">Attend</a></li>
-          <li><a href="#">Speak</a></li>
-          <li><a href="#">Promote</a></li>
+          <li><a href="<?php echo $this->url('events'); ?>">Attend</a></li>
+          <li><a href="<?php echo $this->url('events/promote'); ?>">Promote</a></li>
         </ul>
       </div>
       

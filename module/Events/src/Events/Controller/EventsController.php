@@ -69,7 +69,7 @@ class EventsController extends AbstractActionController
         }
     }
     
-    public function thanksAction() {
+    public function thankyouAction() {
         return new ViewModel();
     }
     

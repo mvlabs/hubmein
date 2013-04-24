@@ -46,7 +46,7 @@ return array(
                             'defaults' => array(
                                 '__NAMESPACE__' => 'Events\Controller',
                                 'controller'    => 'Events',
-                                'action'        => 'thanks',
+                                'action'        => 'thankyou',
                             ),
                         )
                     ),

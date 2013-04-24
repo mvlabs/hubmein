@@ -27,16 +27,13 @@ echo $this->headScript()->prependFile('/js/jquery-1.4.2.js')
   <div class="header-top">
     <div class="wrap">
       <ul class="top-menu">
-        <li><a href="#" title="About Hubme.in">About</a></li>
-        <li><a href="#" title="Frequently Ask Question">FAQ</a></li>
-        <li><a href="#" title="Account">Account</a></li>
-        <li><a href="#" title="Login">Login</a></li>
+        <li><a href="<?php echo $this->url('about'); ?>" title="About Hubme.in">About</a></li>
       </ul>
     </div>
   </div>
   <header id="header" class="clearfix">
     <div class="wrap">
-      <h1 id="logo"><a href="/"></a></h1>
+      <h1 id="logo"><a href="<?php echo $this->url('home'); ?>"></a></h1>
       <?php echo $this->partial('partials/mainmenu.phtml'); ?>
     </div>
   </header>
