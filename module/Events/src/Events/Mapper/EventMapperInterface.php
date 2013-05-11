@@ -5,6 +5,8 @@ interface EventMapperInterface {
     
     public function getEvent($i_id);
     
+    public function getCountry($i_id);
+    
     public function getEventList($m_country = null, $i_limit = null);
     
     public function getCountryList();

@@ -30,11 +30,9 @@ class Module implements ViewHelperProviderInterface
     // Service Manager Configuration
     public function getServiceConfig() {
     	return array(
-    			'invokables' => array(
-    				'Events\Mapper\EventMapper' => 'Events\Mapper\DoctrineEventMapper',
-    			),
     			'factories' => array(
   					'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
+    			    'Events\Mapper\EventMapper' => 'Events\Mapper\DoctrineEventMapperFactory',
     			),
     			
     	);
