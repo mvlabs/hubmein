@@ -6,6 +6,7 @@ return array(
         // 3rd part modules
         'DoctrineModule',
         'DoctrineORMModule',
+        'ZendDeveloperTools',
         
         // our app modules
         'Events',
