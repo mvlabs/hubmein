@@ -5,11 +5,15 @@ namespace Events\Service;
 use Events\Entity\Event;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
 
 
-class EventService {
+class EventService implements EventManagerAwareInterface {
 
 	private $I_sm = null;
+	private $events;
 	
 	/*
 	 * @var \Events\Mapper\EventMapper Event Mapper
@@ -66,9 +70,32 @@ class EventService {
         $I_event = Event::createFromArray($am_formData);
             
         $this->I_mapper->saveEvent($I_event);
+        
+        //trigger 'event_saved' event
+        $this->getEventManager()->trigger('event_saved', $this, array(
+            'title' => $I_event->getTitle()
+        ));
     
         return $I_event;
         
+    }
+    
+    public function setEventManager(EventManagerInterface $events)
+    {
+        $events->setIdentifiers(array(
+            __CLASS__,
+            get_called_class(),
+        ));
+        $this->events = $events;
+        return $this;
+    }
+
+    public function getEventManager()
+    {
+        if (null === $this->events) {
+            $this->setEventManager(new EventManager());
+        }
+        return $this->events;
     }
 
 }

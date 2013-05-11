@@ -17,9 +17,17 @@ class Module
     public function onBootstrap(MvcEvent $e)
     {
         $e->getApplication()->getServiceManager()->get('translator');
-        $eventManager        = $e->getApplication()->getEventManager();
+        $I_application       = $e->getApplication();
+        $I_eventManager        = $I_application->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
+        $moduleRouteListener->attach($I_eventManager);
+        
+        // attach mail service to events
+        $I_sharedEventManager = $I_eventManager->getSharedManager();
+        $I_sm = $I_application->getServiceManager();
+        $I_mailService = $I_sm->get('Application\Service\MailService');
+        $I_sharedEventManager->attach('Events\Service\EventService', 'event_saved', array($I_mailService, 'logEventSaved'));
+        
     }
 
     public function getConfig()
