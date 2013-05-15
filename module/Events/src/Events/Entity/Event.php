@@ -2,82 +2,54 @@
 
 namespace Events\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Events\Entity\Event
- *
- * @ORM\Table(name="event")
- * @ORM\Entity(repositoryClass="Events\Entity\Repository\EventRepository")
  *
  */
 class Event {
 
-	private static $i_instanced = 1;
-	
 	/**
 	 * @var integer $id
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="SEQUENCE")
-	 * @ORM\SequenceGenerator(sequenceName="event_id_seq", allocationSize=1, initialValue=1)
 	 */
     private $id;
 
     /**
      * @var string $title
-     *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
      */
     private $title;
 
     /**
      * @var string $abstract
-     *
-     * @ORM\Column(name="abstract", type="string", length=255, nullable=false)
      */
     private $abstract;
 
     /**
      * @var \DateTime $datefrom
-     *
-     * @ORM\Column(name="datefrom", type="datetime", nullable=false)
      */
     private $datefrom;
 
     /**
      * @var \DateTime $dateto
-     *
-     * @ORM\Column(name="dateto", type="datetime", nullable=false)
      */
     private $dateto;
 	
     /**
      * @var string $city
-     *
-     * @ORM\Column(name="city", type="string", length=255, nullable=false)
      */
     private $city;
 
     /**
      * @var string $venue
-     *
-     * @ORM\Column(name="venue", type="string", length=255, nullable=false)
      */
     private $venue;
 
     /**
      * @var string $averagedayfee
-     *
-     * @ORM\Column(name="averagedayfee", type="integer", nullable=true)
      */
     private $averagedayfee;
 
     /**
      * @var string $mainsitelink
-     *
-     * @ORM\Column(name="mainsitelink", type="string", length=255, nullable=false)
      */
     private $mainsitelink;
     
@@ -170,7 +142,7 @@ class Event {
      */
     public function getDateFrom()
     {
-        return $this->datefrom;
+        return substr($this->datefrom, 0, 10);
     }
 
     /**
@@ -184,33 +156,13 @@ class Event {
     }
 
     /**
-     * Get earlyBirdUntil
-     *
-     * @return date 
-     */
-    public function getEarlyBirdUntil()
-    {
-        return $this->earlyBirdUntil;
-    }
-	
-	/**
-     * Set earlyBirdUntil
-     *
-     * @param date $earlyBirdUntil
-     */
-    public function setEarlyBirdUntil($earlyBirdUntil)
-    {
-        $this->earlyBirdUntil = $earlyBirdUntil;
-    }
-
-    /**
      * Get dateto
      *
      * @return date 
      */
     public function getDateTo()
     {
-        return $this->dateto;
+        return substr($this->dateto, 0, 10);
     }
 	
     /**
