@@ -34,7 +34,7 @@ class PromoteFilter extends InputFilter {
 		        array(
 		            'name' => 'not_empty',
 		        ),
-		        new \Zend\Validator\Date(array('format' => 'd/m/Y'))
+		        new \Zend\Validator\Date(array('format' => 'Y/m/d'))
 		    ),
 		));
 		
@@ -49,7 +49,7 @@ class PromoteFilter extends InputFilter {
 		        array(
 		            'name' => 'not_empty',
 		        ),
-		        new \Zend\Validator\Date(array('format' => 'd/m/Y'))
+		        new \Zend\Validator\Date(array('format' => 'Y/m/d'))
 		    ),
 		));
 		

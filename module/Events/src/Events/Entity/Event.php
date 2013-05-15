@@ -44,14 +44,14 @@ class Event {
      *
      * @ORM\Column(name="datefrom", type="datetime", nullable=false)
      */
-    private $dateFrom;
+    private $datefrom;
 
     /**
      * @var \DateTime $dateto
      *
      * @ORM\Column(name="dateto", type="datetime", nullable=false)
      */
-    private $dateTo;
+    private $dateto;
 	
     /**
      * @var string $city
@@ -72,25 +72,21 @@ class Event {
      *
      * @ORM\Column(name="averagedayfee", type="integer", nullable=true)
      */
-    private $averageDayFee;
+    private $averagedayfee;
 
     /**
      * @var string $mainsitelink
      *
      * @ORM\Column(name="mainsitelink", type="string", length=255, nullable=false)
      */
-    private $mainSiteLink;
-
+    private $mainsitelink;
+    
     /**
-     * @var Events\Entity\Country
-     *
-     * @ORM\ManyToOne(targetEntity="Events\Entity\Country", cascade={"persist", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="country_id", referencedColumnName="id")
-     * })
+     * @var integer $country_id
      */
-    private $country;
+    private $country_id;
 	
+    
     public function exchangeArray($data)
     {
         $this->fillWith($data);
@@ -164,7 +160,7 @@ class Event {
      */
     public function setDatefrom($dateFrom)
     {
-        $this->dateFrom = $dateFrom;
+        $this->datefrom = $dateFrom;
     }
 
     /**
@@ -174,7 +170,7 @@ class Event {
      */
     public function getDateFrom()
     {
-        return $this->dateFrom;
+        return $this->datefrom;
     }
 
     /**
@@ -184,7 +180,7 @@ class Event {
      */
     public function setDateto($dateTo)
     {
-        $this->dateTo = $dateTo;
+        $this->dateto = $dateTo;
     }
 
     /**
@@ -214,7 +210,7 @@ class Event {
      */
     public function getDateTo()
     {
-        return $this->dateTo;
+        return $this->dateto;
     }
 	
     /**
@@ -284,7 +280,7 @@ class Event {
      */
     public function setAveragedayfee($averagedayfee)
     {
-        $this->averageDayFee = $averagedayfee;
+        $this->averagedayfee = $averagedayfee;
     }
 
     /**
@@ -294,7 +290,7 @@ class Event {
      */
     public function getAveragedayfee()
     {
-        return $this->averageDayFee;
+        return $this->averagedayfee;
     }
 
     /**
@@ -304,7 +300,7 @@ class Event {
      */
     public function setMainsitelink($mainsitelink)
     {
-        $this->mainSiteLink = $mainsitelink;
+        $this->mainsitelink = $mainsitelink;
     }
 
     /**
@@ -314,7 +310,7 @@ class Event {
      */
     public function getMainsitelink()
     {
-        return $this->mainSiteLink;
+        return $this->mainsitelink;
     }
 
     
@@ -325,7 +321,7 @@ class Event {
      */
     public function getCountryslug()
     {
-    	return $this->country->getSlug();
+        return 'n.a.';
     }
         
     /*
@@ -333,23 +329,25 @@ class Event {
      * 
      * @return string 
      */
-    public function getCountryName() {
-    	return $this->country->getName();
+    public function getCountryName() 
+    {
+        return 'n.a.';
     }
 
 	
     public function fillWith($data){
+        
         $this->id = (isset($data['id'])) ? $data['id'] : null;
         $this->title = (isset($data['title'])) ? $data['title'] : null;
         $this->abstract = (isset($data['abstract'])) ? $data['abstract'] : null;
-        $this->dateFrom = (isset($data['datefrom'])) ? \DateTime::createFromFormat('d/m/Y', $data['datefrom']) : null;
-        $this->dateTo = (isset($data['dateto'])) ? \DateTime::createFromFormat('d/m/Y', $data['dateto']) : null;
+        $this->country_id = (isset($data['country'])) ? $data['country'] : null;
+        $this->datefrom = (isset($data['datefrom'])) ? $data['datefrom'] : null;
+        $this->dateto = (isset($data['dateto'])) ? $data['dateto'] : null;
         $this->city = (isset($data['city'])) ? $data['city'] : null;
-        $this->country = (isset($data['country'])) ? $data['country'] : null;
         $this->venue = (isset($data['venue'])) ? $data['venue'] : null;
-        $this->averageDayFee = (is_numeric($data['averagedayfee'])) ? $data['averagedayfee'] : null;
-        $this->mainSiteLink = (isset($data['mainsitelink'])) ? $data['mainsitelink'] : null;
-        $this->slug = (isset($data['slug'])) ? $data['slug'] : null;
+        $this->averagedayfee = (is_numeric($data['averagedayfee'])) ? $data['averagedayfee'] : null;
+        $this->mainsitelink = (isset($data['mainsitelink'])) ? $data['mainsitelink'] : null;
+                
     }
     
     public function getArrayCopy()

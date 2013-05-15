@@ -87,7 +87,7 @@ class ZendDbEventMapper implements EventMapperInterface {
         $rowset = $this->countryTable->select();
         $result = array();
         foreach ($rowset as $row) {
-            $result[$row['id']] = $row['name'];
+            $result[$row->getId()] = $row->getName();
         }
         return $result;
     }
@@ -100,8 +100,10 @@ class ZendDbEventMapper implements EventMapperInterface {
     public function saveEvent(Event $I_event)
     {
         $data = $I_event->getArrayCopy();
+        
         $id   = (int) $data['id'];
         if ($id === 0) {
+            unset($data['id']);        // to let postgres generate it using sequences
             $this->eventTable->insert($data);
         } else {
             if ($this->getEvent($id)) {

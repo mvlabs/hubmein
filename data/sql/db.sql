@@ -1,85 +1,122 @@
--- MySQL dump 10.13  Distrib 5.5.31, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: zf2hubmein
--- ------------------------------------------------------
--- Server version	5.5.31-0ubuntu0.12.04.1
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `country`
+-- PostgreSQL database dump
 --
 
-DROP TABLE IF EXISTS `country`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `country` (
-  `id` int(11) NOT NULL,
-  `code` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
 
 --
--- Dumping data for table `country`
+-- Name: country; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-LOCK TABLES `country` WRITE;
-/*!40000 ALTER TABLE `country` DISABLE KEYS */;
-/*!40000 ALTER TABLE `country` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE country (
+    id integer NOT NULL,
+    code character varying(2) NOT NULL,
+    name character varying(100) NOT NULL,
+    slug character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.country OWNER TO postgres;
 
 --
--- Table structure for table `event`
+-- Name: country_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-DROP TABLE IF EXISTS `event`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event` (
-  `id` int(11) NOT NULL,
-  `country_id` int(11) DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `abstract` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `datefrom` datetime NOT NULL,
-  `dateto` datetime NOT NULL,
-  `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `venue` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `averagedayfee` int(11) DEFAULT NULL,
-  `mainsitelink` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_3BAE0AA7F92F3E70` (`country_id`),
-  CONSTRAINT `FK_3BAE0AA7F92F3E70` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE SEQUENCE country_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.country_id_seq OWNER TO postgres;
 
 --
--- Dumping data for table `event`
+-- Name: event_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-LOCK TABLES `event` WRITE;
-/*!40000 ALTER TABLE `event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `event` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+CREATE SEQUENCE event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-05-15 10:46:38
+ALTER TABLE public.event_id_seq OWNER TO postgres;
+
+--
+-- Name: event; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE event (
+    id integer DEFAULT nextval('event_id_seq'::regclass) NOT NULL,
+    country_id integer,
+    title character varying(255) NOT NULL,
+    abstract character varying(255) NOT NULL,
+    datefrom timestamp(0) without time zone NOT NULL,
+    dateto timestamp(0) without time zone NOT NULL,
+    city character varying(255) NOT NULL,
+    venue character varying(255) NOT NULL,
+    averagedayfee integer,
+    mainsitelink character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.event OWNER TO postgres;
+
+--
+-- Name: country_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY country
+    ADD CONSTRAINT country_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: event_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY event
+    ADD CONSTRAINT event_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: idx_3bae0aa7f92f3e70; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_3bae0aa7f92f3e70 ON event USING btree (country_id);
+
+
+--
+-- Name: fk_3bae0aa7f92f3e70; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY event
+    ADD CONSTRAINT fk_3bae0aa7f92f3e70 FOREIGN KEY (country_id) REFERENCES country(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--

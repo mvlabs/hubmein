@@ -14,7 +14,7 @@
 return array(
     'db' => array(
         'driver' => 'Pdo',
-        'dsn' => 'mysql:dbname=zf2hubmein;hostname=localhost',
+        'dsn' => 'pgsql:dbname=;host=',
         'username' => '',
         'password' => '',
         'driver_options' => array(
