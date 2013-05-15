@@ -9,53 +9,51 @@ use Zend\Mail\Message as Message;
 
 class EventsController extends AbstractActionController
 {
-    private $I_promoteForm;
-    private $I_eventService;
+    private $promoteForm;
+    private $eventService;
     
-    public function __construct(\Events\Service\EventService $I_eventService, \Zend\Form\Form $I_promoteForm) {
-        $this->I_eventService = $I_eventService;
-        $this->I_promoteForm = $I_promoteForm;
+    public function __construct(\Events\Service\EventService $eventService, \Zend\Form\Form $promoteForm) {
+        $this->eventService = $eventService;
+        $this->promoteForm = $promoteForm;
     }
     
     public function indexAction()
     {
-    	$i_country = $this->getAndCheckNumericParam('country');
-    	return new ViewModel(array('events' => $this->I_eventService->getList($i_country)));
+    	$country = $this->getAndCheckNumericParam('country');
+    	return new ViewModel(array('events' => $this->eventService->getList($country)));
     }
     
     public function eventAction() {
-    	$i_id = $this->getAndCheckNumericParam('id');
-    	return new ViewModel(array('event' => $this->I_eventService->getEvent($i_id)));
+    	$id = $this->getAndCheckNumericParam('id');
+    	return new ViewModel(array('event' => $this->eventService->getEvent($id)));
     }
 
     public function promoteAction() {
         return array(
-            'form' => $this->I_promoteForm,
+            'form' => $this->promoteForm,
         );
     }
     
     public function processAction(){
     
-        $I_form = $this->I_promoteForm;
+        $form = $this->promoteForm;
     
         if ($this->request->isPost()) {
-            $as_post = $this->request->getPost()->toArray();
+            $post = $this->request->getPost()->toArray();
             
-            $I_form->setData($as_post);
+            $form->setData($post);
             
-            if(!$I_form->isValid()) {
+            if(!$form->isValid()) {
                 
-                print_r($I_form->getMessages());
-                                
-                $I_model = new ViewModel(array(
+                $model = new ViewModel(array(
                     'error' => true,
-                    'form'  => $I_form,
+                    'form'  => $form,
                 ));
-                $I_model->setTemplate('events/events/promote');
-                return $I_model;
+                $model->setTemplate('events/events/promote');
+                return $model;
             } 
             
-            $this->I_eventService->insertEventFromArray($as_post);
+            $this->eventService->insertEventFromArray($post);
             
             return $this->redirect()->toRoute('events/thanks');
           

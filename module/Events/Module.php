@@ -54,7 +54,7 @@ class Module implements ViewHelperProviderInterface
     {
     	return array(
     		'invokables' => array(
-    					'getAndCheckNumericParam' => 'Events\Controller\Plugin\GetAndCheckNumericParam',
+    		    'getAndCheckNumericParam' => 'Events\Controller\Plugin\GetAndCheckNumericParam',
     		)
     	);
     }

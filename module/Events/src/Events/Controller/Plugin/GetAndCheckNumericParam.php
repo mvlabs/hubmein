@@ -6,16 +6,16 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 class GetAndCheckNumericParam extends AbstractPlugin {
 
-	public function __invoke($s_paramName) {
+	public function __invoke($paramName) {
 
-		$I_controller = $this->getController();
-		$m_value = $I_controller->getRequest()->getQuery($s_paramName, null);
+		$controller = $this->getController();
+		$value = $controller->getRequest()->getQuery($paramName, null);
 		
-		if (NULL !== $m_value && !is_numeric($m_value)) {
-			throw new \UnexpectedValueException('Value of ' . $s_paramName . '("'. $m_value . '") is invalid. Numeric values only are accepted');
+		if (NULL !== $value && !is_numeric($value)) {
+			throw new \UnexpectedValueException('Value of ' . $paramName . '("'. $value . '") is invalid. Numeric values only are accepted');
 		}
 		
-		return $m_value;
+		return $value;
 		
 	}
 

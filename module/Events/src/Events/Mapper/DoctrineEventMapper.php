@@ -8,15 +8,15 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class DoctrineEventMapper implements EventMapperInterface {
 
-    private $I_entityManager;
-    private $I_eventRepository;
-    private $I_countryRepository;
+    private $entityManager;
+    private $eventRepository;
+    private $countryRepository;
  
-    public function __construct(\Doctrine\ORM\EntityManager $I_entityManager) 
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager) 
     {
-        $this->I_entityManager = $I_entityManager;
-        $this->I_eventRepository = $this->I_entityManager->getRepository('Events\Entity\Event');
-	    $this->I_countryRepository = $this->I_entityManager->getRepository('Events\Entity\Country');
+        $this->entityManager = $entityManager;
+        $this->eventRepository = $this->entityManager->getRepository('Events\Entity\Event');
+	    $this->countryRepository = $this->entityManager->getRepository('Events\Entity\Country');
     }
 	
      /**
@@ -25,16 +25,16 @@ class DoctrineEventMapper implements EventMapperInterface {
      * @param int Event Id
      * @return \Events\Entity\Event 
      */
-    public function getEvent($i_id)
+    public function getEvent($id)
     {
     	
-        $I_event = $this->I_eventRepository->find($i_id);
+        $event = $this->eventRepository->find($id);
         
-        if (null == $I_event) {
+        if (null == $event) {
         	throw new \DomainException('No event with such ID here.');
         }
         
-    	return $I_event;
+    	return $event;
     }
     
     /**
@@ -44,16 +44,16 @@ class DoctrineEventMapper implements EventMapperInterface {
      * @throws \DomainException
      * @return \Events\Entity\Country 
      */
-    public function getCountry($i_id)
+    public function getCountry($id)
     {
     
-        $I_country = $this->I_countryRepository->find($i_id);
+        $country = $this->countryRepository->find($id);
     
-        if (null == $I_country) {
+        if (null == $country) {
             throw new \DomainException('No country with such ID here.');
         }
     
-        return $I_country;
+        return $country;
     }
 
     
@@ -63,14 +63,14 @@ class DoctrineEventMapper implements EventMapperInterface {
      * @param string $countryId
      * @return integer Max number of events to return
      */
-    public function getEventList($i_country = null, $i_limit = null)
+    public function getEventList($country = null, $limit = null)
     {
         
-        if (null == $i_country) {
-            return $this->I_eventRepository->findAll();
+        if (null == $country) {
+            return $this->eventRepository->findAll();
         }
         
-        return $this->I_eventRepository->findByCountry($i_country);
+        return $this->eventRepository->findByCountry($country);
         
     }
     
@@ -82,14 +82,14 @@ class DoctrineEventMapper implements EventMapperInterface {
     public function getCountryList() 
     {
     	
-        $aI_countries = $this->I_countryRepository->findAll();
+        $countries = $this->countryRepository->findAll();
         
-        $as_result = array();
-        foreach ($aI_countries as $I_country) {
-            $as_result[$I_country->getId()] = $I_country->getName();
+        $result = array();
+        foreach ($countries as $country) {
+            $result[$country->getId()] = $country->getName();
         }
         
-        return $as_result;
+        return $result;
         
     }
     
@@ -98,11 +98,11 @@ class DoctrineEventMapper implements EventMapperInterface {
      * 
      * @param \Events\Entity\Event Event to save
      */
-    public function saveEvent(\Events\Entity\Event $I_event) 
+    public function saveEvent(\Events\Entity\Event $event) 
     {
 
-        $this->I_entityManager->persist($I_event);
-        $this->I_entityManager->flush();
+        $this->entityManager->persist($event);
+        $this->entityManager->flush();
         
     }
     

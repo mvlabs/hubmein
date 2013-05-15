@@ -3,14 +3,14 @@ namespace Events\Mapper;
 
 interface EventMapperInterface {
     
-    public function getEvent($i_id);
+    public function getEvent($id);
     
-    public function getCountry($i_id);
+    public function getCountry($id);
     
-    public function getEventList($m_country = null, $i_limit = null);
+    public function getEventList($country = null, $limit = null);
     
     public function getCountryList();
     
-    public function saveEvent(\Events\Entity\Event $I_event);
+    public function saveEvent(\Events\Entity\Event $event);
     
 } 

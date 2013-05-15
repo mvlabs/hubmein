@@ -34,12 +34,12 @@ class ZendDbEventMapper implements EventMapperInterface {
      * @throws DomainException
      * @return Event 
      */
-    public function getEvent($i_id)
+    public function getEvent($id)
     {
-        $rowset = $this->eventTable->select(array('id' => (int) $i_id));
+        $rowset = $this->eventTable->select(array('id' => (int) $id));
         $row    = $rowset->current();
         if (!$row) {
-            throw new \DomainException("Could not find row $i_id");
+            throw new \DomainException("Could not find row $id");
         }
         return $row;
     }
@@ -52,12 +52,12 @@ class ZendDbEventMapper implements EventMapperInterface {
      * @throws \DomainExeption
      * @return Country
      */
-    public function getCountry($i_id)
+    public function getCountry($id)
     {
-        $rowset = $this->countryTable->select(array('id' => (int) $i_id));
+        $rowset = $this->countryTable->select(array('id' => (int) $id));
         $row    = $rowset->current();
         if (!$row) {
-            throw new \DomainException("Could not find row $i_id");
+            throw new \DomainException("Could not find row $id");
         }
         return $row;
     }
@@ -69,12 +69,12 @@ class ZendDbEventMapper implements EventMapperInterface {
      * @param int $i_limit
      * @return array
      */
-    public function getEventList($i_country = null, $i_limit = null)
+    public function getEventList($country = null, $limit = null)
     {
-        if (null === $i_country) {
+        if (null === $country) {
             return $this->eventTable->select();
         }
-        return $this->eventTable->select(array('country_id' => (int) $i_country));
+        return $this->eventTable->select(array('country_id' => (int) $country));
     }
 
     /**
@@ -97,9 +97,9 @@ class ZendDbEventMapper implements EventMapperInterface {
      *
      * @param Event Event to save
      */
-    public function saveEvent(Event $I_event)
+    public function saveEvent(Event $event)
     {
-        $data = $I_event->getArrayCopy();
+        $data = $event->getArrayCopy();
         
         $id   = (int) $data['id'];
         if ($id === 0) {

@@ -7,13 +7,13 @@ use Zend\Http\Request;
 
 class RightSideBar extends AbstractHelper {
 
-    private $as_countries;
+    private $countries;
     
-    private $i_currentCountry;
+    private $currentCountry;
     
-    public function __construct(Array $as_countries = null, $i_currentCountry) {
-        $this->as_countries = $as_countries;
-        $this->currentCountry = $i_currentCountry;
+    public function __construct(Array $countries = null, $currentCountry) {
+        $this->countries = $countries;
+        $this->currentCountry = $currentCountry;
         
     }
     
@@ -27,8 +27,8 @@ class RightSideBar extends AbstractHelper {
 		</div>
 		<p><label for="location-1">Location: </label>
 		<select name="country" id="country">';
-		foreach ($this->as_countries as $i_id => $name) {
-			$html .= '<option value="' . $i_id . '"'.($this->currentCountry == $i_id?' selected="selected"':'').'>' . $name . '</option>';
+		foreach ($this->countries as $id => $name) {
+			$html .= '<option value="' . $id . '"'.($this->currentCountry == $id?' selected="selected"':'').'>' . $name . '</option>';
 		}
 		$html .= '</select></p>
 		<p><a href="#" onclick="document.getElementById(\'country-form\').submit();" class="bigbutton">Refine</a></p>

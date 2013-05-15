@@ -8,10 +8,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class EventServiceFactory implements FactoryInterface {
 
-	public function createService(ServiceLocatorInterface $I_serviceLocator) {
+	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
-	    $I_mapper = $I_serviceLocator->get('Events\Mapper\EventMapper');
-		return new EventService($I_mapper);
+	    $mapper = $serviceLocator->get('Events\Mapper\EventMapper');
+		return new EventService($mapper);
 		
 	}
 

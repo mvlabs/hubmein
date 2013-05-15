@@ -11,9 +11,9 @@ use Events\Entity\Country;
 
 class ZendDbEventMapperFactory implements FactoryInterface {
 
-	public function createService(ServiceLocatorInterface $I_serviceLocator) {
+	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
-        $dbAdapter = $I_serviceLocator->get('Zend\Db\Adapter\Adapter');
+        $dbAdapter = $serviceLocator->get('Zend\Db\Adapter\Adapter');
 
         $resultSetPrototype = new ResultSet();
         $resultSetPrototype->setArrayObjectPrototype(new Event());

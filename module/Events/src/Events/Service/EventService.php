@@ -12,13 +12,12 @@ use Zend\EventManager\EventManagerAwareInterface;
 
 class EventService implements EventManagerAwareInterface {
 
-	private $I_sm = null;
 	private $events;
 	
 	/*
 	 * @var \Events\Mapper\EventMapper Event Mapper
 	 */
-	private $I_mapper = null;
+	private $mapper = null;
 	
 	
 	/*
@@ -26,8 +25,8 @@ class EventService implements EventManagerAwareInterface {
 	 * 
 	 * @param \Events\Mapper\EventMapper Event Mapper
 	 */
-	public function __construct(\Events\Mapper\EventMapperInterface $I_mapper) {
-		$this->I_mapper = $I_mapper;
+	public function __construct(\Events\Mapper\EventMapperInterface $mapper) {
+		$this->mapper = $mapper;
 	}
 	
      /**
@@ -36,8 +35,8 @@ class EventService implements EventManagerAwareInterface {
      * @param int Event Id
      * @return \Events\Entity\Event 
      */
-    public function getEvent($i_id) {
-        return $this->I_mapper->getEvent($i_id);
+    public function getEvent($id) {
+        return $this->mapper->getEvent($id);
     }
 
     /**
@@ -46,36 +45,36 @@ class EventService implements EventManagerAwareInterface {
      * @param mixed $countryId
      * @return array List of Event
      */
-    public function getList($m_country = null) {
-        return $this->I_mapper->getEventList($m_country);
+    public function getList($country = null) {
+        return $this->mapper->getEventList($country);
     }
     
     public function getListArray() {
-        return $this->I_mapper->getListArray();
+        return $this->mapper->getListArray();
     }
         
     public function getLocalEvents() {
-    	$m_country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
-    	$i_limit = 4;			
-    	return $this->I_mapper->getEventList($m_country, 4);
+    	$country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
+    	$limit = 4;			
+    	return $this->mapper->getEventList($country, $limit);
     } 
         
     public function getCountries() {
-    	return $this->I_mapper->getCountryList();
+    	return $this->mapper->getCountryList();
     }
     
-    public function insertEventFromArray(array $am_formData) {
+    public function insertEventFromArray(array $formData) {
         
-        $I_event = Event::createFromArray($am_formData);
+        $event = Event::createFromArray($formData);
             
-        $this->I_mapper->saveEvent($I_event);
+        $this->mapper->saveEvent($event);
         
         //trigger 'event_saved' event
         $this->getEventManager()->trigger('event_saved', $this, array(
-            'title' => $I_event->getTitle()
+                                          'title' => $event->getTitle()
         ));
     
-        return $I_event;
+        return $event;
         
     }
     
