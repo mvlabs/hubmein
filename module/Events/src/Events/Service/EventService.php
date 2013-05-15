@@ -114,7 +114,7 @@ class EventService implements EventManagerAwareInterface {
             __CLASS__,
             get_called_class(),
         ));
-        $this->events = $events;
+        $this->eventManager = $events;
         return $this;
     }
 
@@ -125,10 +125,10 @@ class EventService implements EventManagerAwareInterface {
      */
     public function getEventManager()
     {
-        if (null === $this->events) {
+        if (null === $this->eventManager) {
             $this->setEventManager(new EventManager());
         }
-        return $this->events;
+        return $this->eventManager;
     }
 
 }
