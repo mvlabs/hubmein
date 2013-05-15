@@ -43,7 +43,18 @@ class Country
      */
     private $slug;
 
-
+    public function exchangeArray($data)
+    {
+        $this->fillWith($data);
+    } 
+    
+    public function fillWith($data)
+    {
+        $this->id   = (isset($data['id'])) ? $data['id'] : null;
+        $this->code = (isset($data['code'])) ? $data['code'] : null;
+        $this->name = (isset($data['name'])) ? $data['name'] : null;
+        $this->slug = (isset($data['slug'])) ? $data['slug'] : null;
+    }
 
     /**
      * Get id
