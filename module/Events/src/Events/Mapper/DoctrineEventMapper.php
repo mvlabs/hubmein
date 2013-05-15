@@ -20,7 +20,7 @@ class DoctrineEventMapper implements EventMapperInterface {
     }
 	
      /**
-     * Get an Event
+     * Gets an Event
      *
      * @param int Event Id
      * @return \Events\Entity\Event 
@@ -38,7 +38,7 @@ class DoctrineEventMapper implements EventMapperInterface {
     }
     
     /**
-     * Get a country
+     * Gets a specific country
      * 
      * @param int Country id
      * @throws \DomainException
@@ -58,7 +58,7 @@ class DoctrineEventMapper implements EventMapperInterface {
 
     
     /**
-     * Get list of events
+     * Gets list of events
      *
      * @param string $countryId
      * @return integer Max number of events to return
@@ -75,7 +75,7 @@ class DoctrineEventMapper implements EventMapperInterface {
     }
     
     /*
-     * Get list of countries
+     * Gets a list of countries
      * 
      * @return array
      */
@@ -94,7 +94,7 @@ class DoctrineEventMapper implements EventMapperInterface {
     }
     
     /**
-     * Save an avent
+     * Saves an avent
      * 
      * @param \Events\Entity\Event Event to save
      */

@@ -9,10 +9,20 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 
-
+/**
+ * Handles interaction with events (IE conferences)
+ * 
+ * @author Stefano Valle
+ *
+ */
 class EventService implements EventManagerAwareInterface {
-
-	private $events;
+    
+    /**
+     * Event Manager (Zend Framework 2 component - NOT related to conferences!)
+     * 
+     * @var \Zend\EventManager\EventManagerInterface
+     */
+	private $eventManager;
 	
 	/*
 	 * @var \Events\Mapper\EventMapper Event Mapper
@@ -30,7 +40,7 @@ class EventService implements EventManagerAwareInterface {
 	}
 	
      /**
-     * Get Event
+     * Gets a specific Event
      *
      * @param int Event Id
      * @return \Events\Entity\Event 
@@ -40,7 +50,7 @@ class EventService implements EventManagerAwareInterface {
     }
 
     /**
-     * Get Event List
+     * Gets Event List
      *
      * @param mixed $countryId
      * @return array List of Event
@@ -49,20 +59,35 @@ class EventService implements EventManagerAwareInterface {
         return $this->mapper->getEventList($country);
     }
     
+    /**
+     * Gets the list of events in the form of array
+     */
     public function getListArray() {
         return $this->mapper->getListArray();
     }
-        
+
+    /**
+     * Fetches events (IE conferences) related to a specific country
+     */
     public function getLocalEvents() {
     	$country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
     	$limit = 4;			
     	return $this->mapper->getEventList($country, $limit);
     } 
-        
+      
+    /**
+     * Fetches list of countries within the system
+     */
     public function getCountries() {
     	return $this->mapper->getCountryList();
     }
     
+    /**
+     * Inserts an event from array data
+     * 
+     * @param array $formData
+     * @return \Events\Entity\Event
+     */
     public function insertEventFromArray(array $formData) {
         
         $event = Event::createFromArray($formData);
@@ -78,6 +103,11 @@ class EventService implements EventManagerAwareInterface {
         
     }
     
+    /**
+     * Injects Event Manager (ZF2 component) into this class
+     * 
+     * @see \Zend\EventManager\EventManagerAwareInterface::setEventManager()
+     */
     public function setEventManager(EventManagerInterface $events)
     {
         $events->setIdentifiers(array(
@@ -88,6 +118,11 @@ class EventService implements EventManagerAwareInterface {
         return $this;
     }
 
+    /**
+     * Fetches Event Manager (ZF2 component) from this class
+     * 
+     * @see \Zend\EventManager\EventsCapableInterface::getEventManager()
+     */
     public function getEventManager()
     {
         if (null === $this->events) {
