@@ -2,63 +2,95 @@
 
 namespace Events\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Events\Entity\Event
+ *
+ * @ORM\Table(name="event")
+ * @ORM\Entity(repositoryClass="Events\Entity\Repository\EventRepository")
  *
  */
 class Event {
 
+	private static $i_instanced = 1;
+	
 	/**
 	 * @var integer $id
+	 *
+	 * @ORM\Column(name="id", type="integer", nullable=false)
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="SEQUENCE")
+	 * @ORM\SequenceGenerator(sequenceName="event_id_seq", allocationSize=1, initialValue=1)
 	 */
     private $id;
 
     /**
      * @var string $title
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
      */
     private $title;
 
     /**
      * @var string $abstract
+     *
+     * @ORM\Column(name="abstract", type="string", length=255, nullable=false)
      */
     private $abstract;
 
     /**
      * @var \DateTime $datefrom
+     *
+     * @ORM\Column(name="datefrom", type="datetime", nullable=false)
      */
     private $datefrom;
 
     /**
      * @var \DateTime $dateto
+     *
+     * @ORM\Column(name="dateto", type="datetime", nullable=false)
      */
     private $dateto;
 	
     /**
      * @var string $city
+     *
+     * @ORM\Column(name="city", type="string", length=255, nullable=false)
      */
     private $city;
 
     /**
      * @var string $venue
+     *
+     * @ORM\Column(name="venue", type="string", length=255, nullable=false)
      */
     private $venue;
 
     /**
      * @var string $averagedayfee
+     *
+     * @ORM\Column(name="averagedayfee", type="integer", nullable=true)
      */
     private $averagedayfee;
 
     /**
      * @var string $mainsitelink
+     *
+     * @ORM\Column(name="mainsitelink", type="string", length=255, nullable=false)
      */
     private $mainsitelink;
-    
+
     /**
-     * @var integer $country_id
+     * @var Events\Entity\Country
+     *
+     * @ORM\ManyToOne(targetEntity="Events\Entity\Country", cascade={"persist", "remove"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="country_id", referencedColumnName="id")
+     * })
      */
-    private $country_id;
-	
-    
+    private $country;
+        
     public function exchangeArray($data)
     {
         $this->fillWith($data);
@@ -142,7 +174,7 @@ class Event {
      */
     public function getDateFrom()
     {
-        return substr($this->datefrom, 0, 10);
+        return $this->datefrom;
     }
 
     /**
@@ -162,7 +194,7 @@ class Event {
      */
     public function getDateTo()
     {
-        return substr($this->dateto, 0, 10);
+        return $this->dateto;
     }
 	
     /**
@@ -273,7 +305,12 @@ class Event {
      */
     public function getCountryslug()
     {
-        return 'n.a.';
+        if (!($this->country instanceof Country)) {
+            return '';
+        } 
+
+        return $this->country->getSlug();
+                    
     }
         
     /*
@@ -283,7 +320,11 @@ class Event {
      */
     public function getCountryName() 
     {
-        return 'n.a.';
+        if (!($this->country instanceof Country)) {
+            return 'n.a.';
+        }
+        
+        return $this->country->getName();
     }
 
 	
@@ -292,10 +333,10 @@ class Event {
         $this->id = (isset($data['id'])) ? $data['id'] : null;
         $this->title = (isset($data['title'])) ? $data['title'] : null;
         $this->abstract = (isset($data['abstract'])) ? $data['abstract'] : null;
-        $this->country_id = (isset($data['country'])) ? $data['country'] : null;
-        $this->datefrom = (isset($data['datefrom'])) ? $data['datefrom'] : null;
-        $this->dateto = (isset($data['dateto'])) ? $data['dateto'] : null;
+        $this->datefrom = (isset($data['datefrom'])) ? \DateTime::createFromFormat('Y-m-d', substr($data['datefrom'], 0, 10)) : null;
+        $this->dateto = (isset($data['dateto'])) ? \DateTime::createFromFormat('Y-m-d', substr($data['dateto'],0,10)) : null;
         $this->city = (isset($data['city'])) ? $data['city'] : null;
+        $this->country = (isset($data['country'])) ? $data['country'] : null;
         $this->venue = (isset($data['venue'])) ? $data['venue'] : null;
         $this->averagedayfee = (is_numeric($data['averagedayfee'])) ? $data['averagedayfee'] : null;
         $this->mainsitelink = (isset($data['mainsitelink'])) ? $data['mainsitelink'] : null;

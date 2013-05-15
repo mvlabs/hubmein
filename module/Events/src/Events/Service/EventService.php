@@ -11,13 +11,13 @@ use Zend\EventManager\EventManagerAwareInterface;
 
 /**
  * Handles interaction with events (IE conferences)
- * 
+ *
  * @author Stefano Valle
  *
  */
 class EventService implements EventManagerAwareInterface {
-    
-    /**
+
+	/**
      * Event Manager (Zend Framework 2 component - NOT related to conferences!)
      * 
      * @var \Zend\EventManager\EventManagerInterface
@@ -27,7 +27,7 @@ class EventService implements EventManagerAwareInterface {
 	/*
 	 * @var \Events\Mapper\EventMapper Event Mapper
 	 */
-	private $mapper = null;
+	private $I_mapper = null;
 	
 	
 	/*
@@ -35,8 +35,8 @@ class EventService implements EventManagerAwareInterface {
 	 * 
 	 * @param \Events\Mapper\EventMapper Event Mapper
 	 */
-	public function __construct(\Events\Mapper\EventMapperInterface $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(\Events\Mapper\EventMapperInterface $I_mapper) {
+		$this->I_mapper = $I_mapper;
 	}
 	
      /**
@@ -45,67 +45,68 @@ class EventService implements EventManagerAwareInterface {
      * @param int Event Id
      * @return \Events\Entity\Event 
      */
-    public function getEvent($id) {
-        return $this->mapper->getEvent($id);
+    public function getEvent($i_id) {
+        return $this->I_mapper->getEvent($i_id);
     }
 
     /**
-     * Gets Event List
+     * Get Event List
      *
      * @param mixed $countryId
      * @return array List of Event
      */
-    public function getList($country = null) {
-        return $this->mapper->getEventList($country);
+    public function getList($m_country = null) {
+        return $this->I_mapper->getEventList($m_country);
     }
     
     /**
      * Gets the list of events in the form of array
      */
     public function getListArray() {
-        return $this->mapper->getListArray();
+        return $this->I_mapper->getListArray();
     }
-
+        
     /**
      * Fetches events (IE conferences) related to a specific country
      */
     public function getLocalEvents() {
-    	$country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
-    	$limit = 4;			
-    	return $this->mapper->getEventList($country, $limit);
+    	$m_country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
+    	$i_limit = 4;			
+    	return $this->I_mapper->getEventList($m_country, 4);
     } 
-      
+        
     /**
      * Fetches list of countries within the system
      */
     public function getCountries() {
-    	return $this->mapper->getCountryList();
+    	return $this->I_mapper->getCountryList();
     }
     
     /**
      * Inserts an event from array data
-     * 
+     *
      * @param array $formData
      * @return \Events\Entity\Event
      */
-    public function insertEventFromArray(array $formData) {
-        
-        $event = Event::createFromArray($formData);
+    public function insertEventFromArray(array $am_formData) {
+                            
+        $am_formData['country'] = $this->I_mapper->getCountry($am_formData['country']);
+        $I_event = Event::createFromArray($am_formData);
             
-        $this->mapper->saveEvent($event);
+        $this->I_mapper->saveEvent($I_event);
         
         //trigger 'event_saved' event
         $this->getEventManager()->trigger('event_saved', $this, array(
-                                          'title' => $event->getTitle()
+            'title' => $I_event->getTitle()
         ));
     
-        return $event;
+        return $I_event;
         
     }
     
     /**
      * Injects Event Manager (ZF2 component) into this class
-     * 
+     *
      * @see \Zend\EventManager\EventManagerAwareInterface::setEventManager()
      */
     public function setEventManager(EventManagerInterface $events)
@@ -120,7 +121,7 @@ class EventService implements EventManagerAwareInterface {
 
     /**
      * Fetches Event Manager (ZF2 component) from this class
-     * 
+     *
      * @see \Zend\EventManager\EventsCapableInterface::getEventManager()
      */
     public function getEventManager()

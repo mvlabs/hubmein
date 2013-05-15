@@ -32,8 +32,8 @@ class Module implements ViewHelperProviderInterface
     	return array(
     			'factories' => array(
   					'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
-                    //'Events\Mapper\EventMapper' => 'Events\Mapper\DoctrineEventMapperFactory',
-                    'Events\Mapper\EventMapper' => 'Events\Mapper\ZendDbEventMapperFactory'
+                    'Events\Mapper\EventMapper' => 'Events\Mapper\DoctrineEventMapperFactory',
+                    //'Events\Mapper\EventMapper' => 'Events\Mapper\ZendDbEventMapperFactory'
     			),
     			
     	);

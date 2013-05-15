@@ -16,7 +16,7 @@ if (count($this->events) == 0) {
 	<figure class="event-logo"><a href="#"><img src="/images/default_icon.jpg" /></a></figure>
 	<div class="event-info">
 		<h3><a href="/event?id=<?php echo $event->getId(); ?>"><?php echo $event->getTitle(); ?></a></h3>
-		<div class="meta"><?php echo $event->getDatefrom(); ?> - <?php echo $event->getDateto(); ?> 
+		<div class="meta"><?php echo $event->getDatefrom()->format("d/m/Y"); ?> - <?php echo $event->getDateto()->format("d/m/Y"); ?> 
 		<strong>(<?php echo $event->getCity(); ?>, <?php echo $event->getCountryName(); ?> )</strong></div>
 		<div class="cost"><?php echo $this->cost($event->getAveragedayfee()); ?>
 		</div>
