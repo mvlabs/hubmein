@@ -91,6 +91,10 @@ class Event {
      */
     private $country;
 	
+    public function exchangeArray($data)
+    {
+        $this->fillWith($data);
+    } 
     
     public static function createFromArray($data) {
         $event = new Event();
