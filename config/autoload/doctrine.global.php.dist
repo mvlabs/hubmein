@@ -7,7 +7,7 @@ return array(
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOPgSql\Driver',
                 'params' => array(
                     'host'     => '',
-                    'port'     => '5432',
+                    'port'     => '',
                     'user'     => '',
                     'password' => '',
                     'dbname'   => '',
