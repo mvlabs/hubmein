@@ -42,6 +42,16 @@ class Country
      * @ORM\Column(name="slug", type="string", length=100, nullable=false)
      */
     private $slug;
+    
+    /**
+     * @var Events\Entity\Region
+     *
+     * @ORM\ManyToOne(targetEntity="Events\Entity\Region", cascade={"persist", "remove"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="region_id", referencedColumnName="id")
+     * })
+     */
+    private $region;
 
     public function exchangeArray($data)
     {
@@ -133,6 +143,40 @@ class Country
     public function getSlug()
     {
         return $this->slug;
+    }
+    
+    /**
+     * Set region
+     *
+     * @param Events\Entity\Region $region
+     */
+    public function setRegion(\Events\Entity\Region $region)
+    {
+        $this->region = $region;
+    }
+    
+    /**
+     * Get region
+     *
+     * @return Events\Entity\Region
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /*
+     * End of entity fields getters / setters
+    */
+    
+    /*
+     * Get region name
+    *
+    * @return string
+    */
+    public function getRegionName()
+    {
+        return $this->region->getName();
     }
     
 }

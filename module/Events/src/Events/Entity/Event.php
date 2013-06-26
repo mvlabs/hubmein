@@ -13,8 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Event {
 
-	private static $i_instanced = 1;
-	
 	/**
 	 * @var integer $id
 	 *
@@ -297,6 +295,9 @@ class Event {
         return $this->mainsitelink;
     }
 
+    /*
+     * End of entity fields getters / setters
+     */
     
     /**
      * Get country slug
@@ -325,6 +326,20 @@ class Event {
         }
         
         return $this->country->getName();
+    }
+    
+    /*
+     * Get region name
+     *
+     * @return string
+     */
+    public function getRegionName()
+    {
+        if (!($this->country instanceof Country)) {
+            return '';
+        }
+    
+        return $this->country->getRegionName();
     }
 
 	
