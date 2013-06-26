@@ -1,15 +1,3 @@
---
--- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO country VALUES (1, 'it', 'Italy', 'italy');
-INSERT INTO country VALUES (2, 'gb', 'United Kingdom', 'united-kingdom');
-
---
--- Name: country_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('country_id_seq', 1, false);
 
 --
 -- Data for Name: event; Type: TABLE DATA; Schema: public; Owner: postgres
