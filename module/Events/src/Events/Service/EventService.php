@@ -55,8 +55,8 @@ class EventService implements EventManagerAwareInterface {
      * @param mixed $countryId
      * @return array List of Event
      */
-    public function getList($m_country = null) {
-        return $this->I_mapper->getEventList($m_country);
+    public function getList(\Events\DataFilter\Filter $filter = null) {
+        return $this->I_mapper->getEventList($filter);
     }
     
     /**
