@@ -111,4 +111,46 @@ class EventsController extends AbstractActionController
         return new ViewModel();
     }
     
+    /**
+     * Search events action
+     * 
+     * Retrieves events list according to the filters the user have defined 
+     * 
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function searchAction() {
+        
+        $events = $this->searchEvents();
+        
+        $viewModel = new ViewModel(array('events' => $events));
+        $viewModel->setTemplate('events/events/index');
+        return $viewModel;
+        
+    }
+    
+    
+    /*
+     * Private methods
+     */
+    
+    private function searchEvents() {
+
+        // get params from url and prepare EventFilter class
+        $filter = $this->createFilterFromUrlParams($this->params()->fromRoute() + $this->params()->fromQuery());
+        
+        // @todo pass class to event service
+        return $this->eventService->getList($filter);
+        
+    }
+    
+    private function createFilterFromUrlParams(array $params) {
+        
+        $filter = new \Events\DataFilter\EventFilter();
+        $filter->setRegion($params['region']);
+        //@todo call other class setters
+
+        return $filter;
+        
+    }
+    
 }

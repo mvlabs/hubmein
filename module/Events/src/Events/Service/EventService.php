@@ -96,7 +96,7 @@ class EventService implements EventManagerAwareInterface {
         
         //trigger 'event_saved' event
         $this->getEventManager()->trigger('event_saved', $this, array(
-                                          'title' => $event->getTitle()
+            'title' => $event->getTitle()
         ));
     
         return $event;

@@ -17,6 +17,18 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'regionfilter' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/:region',
+                            'constraints' => array(
+                                'region'         => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'action' => 'search',
+                            ),
+                        ),
+                    ),
                     'promote' => array(
                         'type'    => 'Literal',
                         'options' => array(
