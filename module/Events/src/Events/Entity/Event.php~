@@ -122,11 +122,11 @@ class Event {
     private $contactemail;
     
     /**
-     * @var string $twitteraccount
+     * @var string $conferencetwitteraccount
      *
-     * @ORM\Column(name="twitteraccount", type="string", length=50, nullable=true)
+     * @ORM\Column(name="conferenceTwitterAccount", type="string", length=50, nullable=true)
      */
-    private $twitteraccount;
+    private $conferencetwitteraccount;
     
     /**
      * @var date $publicationDate
@@ -806,28 +806,5 @@ class Event {
     public function getCountry()
     {
         return $this->country;
-    }
-
-    /**
-     * Set website
-     *
-     * @param string $website
-     * @return Event
-     */
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-    
-        return $this;
-    }
-
-    /**
-     * Get website
-     *
-     * @return string 
-     */
-    public function getWebsite()
-    {
-        return $this->website;
     }
 }

@@ -83,24 +83,24 @@ class EventService implements EventManagerAwareInterface {
     }
     
     /**
-     * Inserts an event from array data
+     * Inserts or updates an event from array data
      *
      * @param array $formData
      * @return \Events\Entity\Event
      */
-    public function insertEventFromArray(array $am_formData) {
+    public function upsertEventFromArray(\Events\Entity\Event $event) {
                             
-        $am_formData['country'] = $this->I_mapper->getCountry($am_formData['country']);
+        /*$am_formData['country'] = $this->I_mapper->getCountry($am_formData['country']);
         $I_event = Event::createFromArray($am_formData);
-            
-        $this->I_mapper->saveEvent($I_event);
+          */  
+        $this->I_mapper->saveEvent($event);
         
         //trigger 'event_saved' event
         $this->getEventManager()->trigger('event_saved', $this, array(
-            'title' => $I_event->getTitle()
+                                          'title' => $event->getTitle()
         ));
     
-        return $I_event;
+        return $event;
         
     }
     

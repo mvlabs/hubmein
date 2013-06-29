@@ -30,7 +30,7 @@ class Module
         $I_sharedEventManager->attach('Events\Service\EventService', 'event_saved', array($I_mailService, 'logEventSaved'));
         
         // Common Error Handling Code
-        $I_eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function($e) {
+        /*$I_eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function($e) {
         
             // Do nothing if no error in the event
             $error = $e->getError();
@@ -52,7 +52,7 @@ class Module
                     exit;
             }
              
-        });
+        });*/
         
     }
 

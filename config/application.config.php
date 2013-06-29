@@ -7,6 +7,7 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'ZendDeveloperTools',
+        'ZfcAdmin',
         
         // our app modules
         'Events',

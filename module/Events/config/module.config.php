@@ -64,6 +64,39 @@ return array(
                 )
             ),
             
+            'zfcadmin' => array(
+                'child_routes' => array(
+                    
+                    'events' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/events',
+                            'defaults' => array(
+                                'controller' => 'Events\Controller\AdminEvents',
+                                'action'     => 'index',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            
+                            // Event CRUD route
+                            'crud' => array(
+                                'type' => 'Zend\Mvc\Router\Http\Segment',
+                                'options' => array(
+                                    'route'    => '/:action[/:id]',
+                                    'constraints' => array(
+                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'id'         => '[0-9]*',
+                                    ),
+                                ),
+                            ),
+                            
+                        ),
+                    ),
+                    
+                ),
+            ),
+            
         ),
     ),
     
@@ -87,4 +120,15 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+    
+    // Admin panel navigation
+    'navigation' => array(
+        'admin' => array(
+            'events' => array(
+                'label' => 'Events',
+                'route' => 'zfcadmin/events',
+            ),
+        ),
+    ),
+    
 );
