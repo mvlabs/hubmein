@@ -11,8 +11,10 @@ class GetAndCheckNumericParam extends AbstractPlugin {
 		$controller = $this->getController();
 		$value = $controller->getRequest()->getQuery($paramName, null);
 		
-		if (NULL !== $value && !is_numeric($value)) {
-			throw new \UnexpectedValueException('Value of ' . $paramName . '("'. $value . '") is invalid. Numeric values only are accepted');
+		if ( NULL !== $value && !is_numeric($value) ) {
+			
+                    throw new \UnexpectedValueException('Value of ' . $paramName . '("'. $value . '") is invalid. Numeric values only are accepted');
+                    
 		}
 		
 		return $value;

@@ -2,29 +2,31 @@
 
 namespace Events\Mapper;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager,
+    Zend\ServiceManager\ServiceLocatorAwareInterface,
+    Zend\ServiceManager\ServiceLocatorInterface;
+
+use Events\DataFilter\EventFilter;
 
 class DoctrineEventMapper implements EventMapperInterface {
 
     private $entityManager;
     private $eventRepository;
-    private $countryRepository;
+    
  
     public function __construct(\Doctrine\ORM\EntityManager $entityManager) 
     {
         $this->entityManager = $entityManager;
         $this->eventRepository = $this->entityManager->getRepository('Events\Entity\Event');
-	    $this->countryRepository = $this->entityManager->getRepository('Events\Entity\Country');
+	
     }
 	
-     /**
-     * Gets an Event
-     *
-     * @param int Event Id
-     * @return \Events\Entity\Event 
-     */
+   /**
+    * Gets an Event
+    *
+    * @param int Event Id
+    * @return \Events\Entity\Event 
+    */
     public function getEvent($id)
     {
     	
@@ -37,63 +39,40 @@ class DoctrineEventMapper implements EventMapperInterface {
     	return $event;
     }
     
+        
+   /**
+    * Gets list of filtered evetns
+    *
+    * @param string $countryId
+    * @return integer Max number of events to return
+    */
+    public function getFilteredList( EventFilter $EventFilter, $limit = null )
+    {
+        
+        return $this->eventRepository->getFilteredList($EventFilter);
+                
+    }
+    
     /**
-     * Gets a specific country
+     * Count a list given an EventFilter
+     */
+    public function countFilteredItems( EventFilter $EventFilter ){
+      
+        return $this->eventRepository->countFilteredItems($EventFilter);
+        
+    }
+    
+    /**
      * 
-     * @param int Country id
-     * @throws \DomainException
-     * @return \Events\Entity\Country 
      */
-    public function getCountry($id)
-    {
-    
-        $country = $this->countryRepository->find($id);
-    
-        if (null == $country) {
-            throw new \DomainException('No country with such ID here.');
-        }
-    
-        return $country;
-    }
-    
-    /**
-     * Gets list of events
-     *
-     * @param string $countryId
-     * @return integer Max number of events to return
-     */
-    public function getEventList($country = null, $limit = null)
-    {
-        
-        if (null == $country) {
-            return $this->eventRepository->findAll();
-        }
-        
-        return $this->eventRepository->findByCountry($country);
-        
-    }
-    
-    /*
-     * Gets a list of countries
-     * 
-     * @return array
-     */
-    public function getCountryListAsArray() 
-    {
-    	
-        $countries = $this->countryRepository->findAll();
-        
-        $result = array();
-        foreach ($countries as $country) {
-            $result[$country->getId()] = $country->getName();
-        }
-        
-        return $result;
+    public function getFullList(){
+              
+        return $this->eventRepository->findAll();
         
     }
     
     /**
-     * Saves an avent
+     * Saves an event
      * 
      * @param \Events\Entity\Event Event to save
      */

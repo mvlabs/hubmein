@@ -2,9 +2,12 @@
 
 namespace Events\Controller;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\FactoryInterface,
+    Zend\ServiceManager\ServiceLocatorInterface;
 
+use Events\Form\PromoteFilter,
+    Events\Form\Promote,
+    Events\Controller\EventsController;
 
 class EventsControllerFactory implements FactoryInterface {
 
@@ -17,16 +20,16 @@ class EventsControllerFactory implements FactoryInterface {
 		
 	    // dependency is fetched from Service Manager
 	    $eventService = $serviceLocator->getServiceLocator()->get('Events\Service\EventService');
-	    
+	    $regionService = $serviceLocator->getServiceLocator()->get('Events\Service\RegionService');
 	    // Object graph is constructed
-	    $countries = $eventService->getCountries();
-	    $form = new \Events\Form\Promote($countries);
+	    $countries = $regionService->getFullList();
+	    $form = new Promote($countries);
 	    
-	    $formFilter = new \Events\Form\PromoteFilter();
+	    $formFilter = new PromoteFilter();
 	    $form->setInputFilter($formFilter);
 	    
 	    // Controller is constructed, dependencies are injected (IoC in action)
-	    $controller = new \Events\Controller\EventsController($eventService, $form); 
+	    $controller = new EventsController($eventService, $regionService,$form); 
 	    
 	    return $controller; 
 		

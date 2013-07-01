@@ -2,8 +2,14 @@
 
 namespace Events\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Zend\Mvc\Controller\AbstractActionController,
+    Zend\View\Model\ViewModel,
+    Zend\Form\Form;
+
+use Events\Service\EventService,
+    Events\DataFilter\EventFilter,
+    Events\Service\RegionService;
+
 use Zend\Mail\Transport;
 use Zend\Mail\Message as Message;
 
@@ -24,6 +30,11 @@ class EventsController extends AbstractActionController
      */
     private $eventService;
     
+    /**
+     *
+     * @var \Events\Service\RegionService 
+     */
+    private $regionService;
     
     /**
      * Class constructor
@@ -31,9 +42,12 @@ class EventsController extends AbstractActionController
      * @param \Events\Service\EventService $eventService
      * @param \Zend\Form\Form $promoteForm
      */
-    public function __construct(\Events\Service\EventService $eventService, \Zend\Form\Form $promoteForm) {
+    public function __construct( EventService $eventService,RegionService $regionService, Form $promoteForm ) {
+       
+        $this->regionService = $regionService;
         $this->eventService = $eventService;
         $this->promoteForm = $promoteForm;
+        
     }
     
     /**
@@ -43,8 +57,16 @@ class EventsController extends AbstractActionController
      */
     public function indexAction()
     {
-    	$country = $this->getAndCheckNumericParam('country');
-    	return new ViewModel(array('events' => $this->eventService->getList($country)));
+        
+    	//$region = $this->getAndCheckNumericParam('region');
+    	
+        return new ViewModel(array(
+            
+            'events' => $this->eventService->getFullList(null),
+            'regions'=>$this->regionService->getFullList(),
+            
+        ));
+        
     }
     
     /**
@@ -53,8 +75,14 @@ class EventsController extends AbstractActionController
      * @return \Zend\View\Model\ViewModel
      */
     public function eventAction() {
+     
     	$id = $this->getAndCheckNumericParam('id');
-    	return new ViewModel(array('event' => $this->eventService->getEvent($id)));
+    	
+        return new ViewModel(array(
+                                 'event' => $this->eventService->getEvent($id)
+                            )
+        );
+        
     }
 
     /**
@@ -63,9 +91,11 @@ class EventsController extends AbstractActionController
      * @return multitype:\Zend\Form\Form
      */
     public function promoteAction() {
+        
         return array(
             'form' => $this->promoteForm,
         );
+        
     }
     
     /**
@@ -108,8 +138,11 @@ class EventsController extends AbstractActionController
      * @return \Zend\View\Model\ViewModel
      */
     public function thankyouAction() {
+        
         return new ViewModel();
+        
     }
+    
     
     /**
      * Search events action
@@ -119,11 +152,12 @@ class EventsController extends AbstractActionController
      * @return \Zend\View\Model\ViewModel
      */
     public function searchAction() {
-        
+       
         $events = $this->searchEvents();
-        
+                
         $viewModel = new ViewModel(array('events' => $events));
         $viewModel->setTemplate('events/events/index');
+        
         return $viewModel;
         
     }
@@ -133,24 +167,45 @@ class EventsController extends AbstractActionController
      * Private methods
      */
     
-    private function searchEvents() {
+   
+     private function searchEvents() {
 
         // get params from url and prepare EventFilter class
-        $filter = $this->createFilterFromUrlParams($this->params()->fromRoute() + $this->params()->fromQuery());
+        $filter = $this->createFilterFromUrlParams($this->mergeRequest());
         
         // @todo pass class to event service
-        return $this->eventService->getList($filter);
+        return $this->eventService->countFilteredItems($filter);
+        
+    }
+   
+    
+    /**
+     * Merge region parameter from route with search request parameters
+     * @return array $requestParams
+     */
+    private function mergeRequest() {
+        
+        $requestParams = $this->params()->fromQuery();
+        $requestParamFromRoute = $this->params()->fromRoute();
+        $requestParams['region'] = $requestParamFromRoute['region']; 
+                
+        return $requestParams;
+        
+    }
+     
+    
+    /**
+     * Build an EventFilter object from a given array
+     * @param array $filteredRequest
+     * @return \Events\DataFilter\EventFilter
+     */
+    private function createFilterFromUrlParams( array $filteredRequest ) {
+            
+        $EventFilter = EventFilter::createObjFromArray( $filteredRequest );
+             
+        return $EventFilter;
         
     }
     
-    private function createFilterFromUrlParams(array $params) {
-        
-        $filter = new \Events\DataFilter\EventFilter();
-        $filter->setRegion($params['region']);
-        //@todo call other class setters
-
-        return $filter;
-        
-    }
     
 }
