@@ -2,7 +2,10 @@
 
 namespace Events\Service;
 
-use Events\Entity\Event;
+use Events\Entity\Event,
+    Events\DataFilter\EventFilter,
+    Events\Mapper\EventMapperInterface;
+
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\EventManager\EventManagerInterface;
@@ -17,27 +20,29 @@ use Zend\EventManager\EventManagerAwareInterface;
  */
 class EventService implements EventManagerAwareInterface {
 
-	/**
+    /**
      * Event Manager (Zend Framework 2 component - NOT related to conferences!)
      * 
      * @var \Zend\EventManager\EventManagerInterface
      */
-	private $eventManager;
-	
-	/*
-	 * @var \Events\Mapper\EventMapper Event Mapper
-	 */
-	private $I_mapper = null;
-	
-	
-	/*
-	 * Constructs service 
-	 * 
-	 * @param \Events\Mapper\EventMapper Event Mapper
-	 */
-	public function __construct(\Events\Mapper\EventMapperInterface $I_mapper) {
-		$this->I_mapper = $I_mapper;
-	}
+    private $eventManager;
+
+    /*
+     * @var \Events\Mapper\EventMapper Event Mapper
+     */
+    private $eventMapper = null;
+
+
+    /*
+     * Constructs service 
+     * 
+     * @param \Events\Mapper\EventMapper Event Mapper
+     */
+    public function __construct( EventMapperInterface $I_mapper ) {
+
+        $this->eventMapper = $I_mapper;
+
+    }
 	
      /**
      * Gets a specific Event
@@ -45,41 +50,62 @@ class EventService implements EventManagerAwareInterface {
      * @param int Event Id
      * @return \Events\Entity\Event 
      */
-    public function getEvent($i_id) {
-        return $this->I_mapper->getEvent($i_id);
+    public function getEvent( $i_id ) {
+       
+        return $this->eventMapper->getEvent( $i_id );
+        
     }
 
     /**
-     * Get Event List
+     * Get Event List given an EventFilter object
      *
      * @param mixed $countryId
      * @return array List of Event
      */
-    public function getList(\Events\DataFilter\Filter $filter = null) {
-        return $this->I_mapper->getEventList($filter);
+    public function getListByFilter( EventFilter $EventFilter = null ) {
+               
+        return $this->eventMapper->getFilteredList($EventFilter);
+        
+    }
+    
+    /**
+     * Count Event list given an EventFilter object
+     */
+    public function countFilteredItems( EventFilter $EventFilter ){
+        
+        return $this->eventMapper->countFilteredItems($EventFilter);
+        
     }
     
     /**
      * Gets the list of events in the form of array
      */
     public function getListArray() {
-        return $this->I_mapper->getListArray();
+        
+        return $this->eventMapper->getListArray();
+        
     }
         
     /**
      * Fetches events (IE conferences) related to a specific country
      */
     public function getLocalEvents() {
-    	$m_country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
-    	$i_limit = 4;			
-    	return $this->I_mapper->getEventList($m_country, 4);
-    } 
         
+    	$m_country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
+    	$i_limit = 4;	
+        
+       
+    	//return $this->eventMapper->getEventList($m_country, 4);
+        
+    } 
+    
     /**
-     * Fetches list of countries within the system
+     * 
      */
-    public function getCountries() {
-    	return $this->I_mapper->getCountryList();
+    public function getFullList(){
+        
+        return $this->eventMapper->getFullList();
+        
     }
     
     /**
@@ -90,14 +116,17 @@ class EventService implements EventManagerAwareInterface {
      */
     public function insertEventFromArray(array $am_formData) {
                             
-        $am_formData['country'] = $this->I_mapper->getCountry($am_formData['country']);
+        $am_formData['country'] = $this->eventMapper->getCountry($am_formData['country']);
         $I_event = Event::createFromArray($am_formData);
             
-        $this->I_mapper->saveEvent($I_event);
+        $this->eventMapper->saveEvent($I_event);
+        
         
         //trigger 'event_saved' event
         $this->getEventManager()->trigger('event_saved', $this, array(
+            
             'title' => $I_event->getTitle()
+                
         ));
     
         return $I_event;

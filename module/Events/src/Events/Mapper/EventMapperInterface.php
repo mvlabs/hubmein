@@ -1,16 +1,14 @@
 <?php
 namespace Events\Mapper;
 
+use Events\DataFilter\EventFilter;
+
 interface EventMapperInterface {
     
     public function getEvent($id);
     
-    public function getCountry($id);
-    
-    public function getEventList($country = null, $limit = null);
-    
-    public function getCountryList();
-    
+    public function getFilteredList(EventFilter $eventFilter, $limit = null);
+       
     public function saveEvent(\Events\Entity\Event $event);
     
 } 

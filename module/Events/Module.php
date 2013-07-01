@@ -31,9 +31,11 @@ class Module implements ViewHelperProviderInterface
     public function getServiceConfig() {
     	return array(
     			'factories' => array(
-  					'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
-                    'Events\Mapper\EventMapper' => 'Events\Mapper\DoctrineEventMapperFactory',
-                    //'Events\Mapper\EventMapper' => 'Events\Mapper\ZendDbEventMapperFactory'
+                                'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
+                                'Events\Service\RegionService'=>'Events\Service\RegionServiceFactory',
+                                'Events\Mapper\DoctrineEventMapper' => 'Events\Mapper\DoctrineEventMapperFactory',
+                                'Events\Mapper\DoctrineRegionMapper'=> 'Events\Mapper\DoctrineRegionMapperFactory',
+                                //'Events\Mapper\EventMapper' => 'Events\Mapper\ZendDbEventMapperFactory'
     			),
     			
     	);
