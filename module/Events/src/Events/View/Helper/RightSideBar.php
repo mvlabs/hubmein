@@ -31,23 +31,25 @@ class RightSideBar extends AbstractHelper {
             $html = '<aside id="sidebar" class="fr">';
             $html .=  '<div class="rounded-box-title box">';
             $html .=      '<div class="box-inner clearfix">';
-            $html .=         '<form id="country-form" action="'.$url.'" method="get" class="sidebar-form">';
+            $html .=         '<form id="search-form" name="search" action="'.$url.'" method="get" class="sidebar-form">';
             $html .=          '<div class="layout-slider">';
             $html .=             '</div>';
             $html .=                '<p>';
             $html .=                '<label for="location-1">Location: </label>';
             $html .=                '<select name="region" id="region">';
-            $html .=                    '<option value="" >All regions</option>';
-                                        foreach ( $this->regions as $id => $name ) {
-
-                                                $html .= '<option value="' . $id . '"'.( $this->currentRegion == $id?' selected="selected"':'' ).'>' . $name . '</option>';
+            $html .=                    '<option value="all" >All regions</option>';
+                                        foreach ( $this->regions as $name ) {
+                                                
+                                                $urlName = trim(strtolower(trim($name)));
+                                                                                                
+                                                $html .= '<option value="' . str_replace(" ","-",$urlName) . '"'.( $this->currentRegion == $name ?' selected="selected"':'' ).'>' . $name . '</option>';
 
                                         }
              $html .=                '</select>';
              $html .=                '</p>';
              $html .=                '<p>';
              $html .=                '<select name="period">';
-             $html .=                    '<option value="" >All periods</option>';
+             $html .=                    '<option value="all" >All periods</option>';
                                       
                                            for( $monthRange = 0;$monthRange < self::MAX_MONTH_NUMBER;$monthRange++ ) {
                                               
@@ -63,7 +65,7 @@ class RightSideBar extends AbstractHelper {
                                            }     
              $html .=                '</select>
                                       </p>
-                                      <p><a href="#" onclick="document.getElementById(\'country-form\').submit();" class="bigbutton">Refine</a></p>
+                                      <p><input type="submit" class="bigbutton" value="Refine"></p>
                                 </form>
                           </div>
                      </div><!-- END: box -->
