@@ -63,6 +63,7 @@ class EventRepository extends EntityRepository {
             foreach($filterDatas as $key => $value){
                 
                 switch( $key ) {
+                    
                     case "region":
                         
                         $queries[] = $key .".name LIKE '".$value."'";
