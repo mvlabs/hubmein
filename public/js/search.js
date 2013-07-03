@@ -6,6 +6,7 @@
     var moduleName = "/events";
     var topicsElement = ".chzn-select.topics";
    
+   
    form.attr('action','');
                  
    //Enable all input field if mode equal to enableAll
@@ -52,15 +53,15 @@
    
    //get the number of element from input values
    $.fn.getTotalCountByFilter = function(){
-              
+       
        var loader = $(this).find('div[class="count-loader"]');
        var formAction = getActionUrl();
        var preparedForm = prepareFormValues($(this));
-       var url = moduleName+"?"+preparedForm.serialize();
-     
-       alert(url);
+       var url = formAction+"?"+preparedForm.serialize();
        
        form.disableInputFiled("enableAll");
+          
+       alert(url);
        
        return false;
        
@@ -87,7 +88,7 @@
    
    periodInput.change(function(){
        
-       formgetTotalCountByFilter();
+       form.getTotalCountByFilter();
        
    });
    
@@ -125,6 +126,8 @@
          var regionValue = (getRegionValue() !== "*") ? "/"+getRegionValue() : "";
          var baseAction = moduleName+regionValue;
          
+         console.log(baseAction);
+         
          return baseAction;
     }
      
@@ -133,12 +136,21 @@
          var tagElement = form.find(topicsElement); 
          var tagValues = tagElement.val();
          var tagAppendix = "tags";
-         
+                  
          if(tagValues  !== null) {
              
              var queryTag = tagValues.join(",");
              var input = $("<input>").attr("type", "hidden").attr("name", tagAppendix).val(queryTag);
-             form.append(input);
+             var hiddenValue = form.find(":hidden[name='tags']");
+             
+             //form.remove(hiddenValue);
+            if(hiddenValue.length > 0) {
+                
+                hiddenValue.remove();
+                
+            }
+                        
+            form.append(input);
         
          }
             
