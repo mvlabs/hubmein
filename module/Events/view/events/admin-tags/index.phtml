@@ -1,0 +1,24 @@
+<h1>Tags</h1>
+
+<p><a href="<?php echo $this->url('zfcadmin/tags/crud', array('action' => 'add'))?>">Add new tag</a></p>
+
+<?php if (count($this->tags) > 0) { ?>
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tag name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->tags as $tag) {?>
+        <tr>
+            <td><?php echo $tag->getId()?></td>
+            <td><a href="<?php echo $this->url('zfcadmin/tags/crud', array('action' => 'edit', 'id' => $tag->getId()))?>"><?php echo $tag->getName()?></a></td>
+            <td><a class="btn btn-small" href="<?php echo $this->url('zfcadmin/tags/crud', array('action' => 'remove', 'id' => $tag->getId()))?>"><i class="icon-trash"></i> Remove</a></td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
+<?php } ?>

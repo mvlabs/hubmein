@@ -90,7 +90,32 @@ return array(
                                     ),
                                 ),
                             ),
-                            
+                        ),
+                    ),
+                    
+                    'tags' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/tags',
+                            'defaults' => array(
+                                'controller' => 'Events\Controller\AdminTags',
+                                'action'     => 'index',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                    
+                            // Tag CRUD route
+                            'crud' => array(
+                                'type' => 'Zend\Mvc\Router\Http\Segment',
+                                'options' => array(
+                                    'route'    => '/:action[/:id]',
+                                    'constraints' => array(
+                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'id'         => '[0-9]*',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                     
@@ -127,6 +152,10 @@ return array(
             'events' => array(
                 'label' => 'Events',
                 'route' => 'zfcadmin/events',
+            ),
+            'tags' => array(
+                'label' => 'Tags',
+                'route' => 'zfcadmin/tags',
             ),
         ),
     ),

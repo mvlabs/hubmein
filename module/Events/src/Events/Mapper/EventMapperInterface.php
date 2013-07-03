@@ -9,7 +9,7 @@ interface EventMapperInterface {
     
     public function getEventList($country = null, $limit = null);
     
-    public function getCountryList();
+    public function getCountryListAsArray();
     
     public function saveEvent(\Events\Entity\Event $event);
     

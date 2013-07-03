@@ -6,7 +6,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 
-class AdminEventsControllerFactory implements FactoryInterface {
+class AdminTagsControllerFactory implements FactoryInterface {
 
     /**
      * Default method to be used in a Factory Class
@@ -16,19 +16,16 @@ class AdminEventsControllerFactory implements FactoryInterface {
 	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
 	    // dependency is fetched from Service Manager
-	    $eventService = $serviceLocator->getServiceLocator()->get('Events\Service\EventService');
 	    $tagService = $serviceLocator->getServiceLocator()->get('Events\Service\TagService');
 	    
 	    // Object graph is constructed
-	    $tags = $tagService->getTagListAsArray();
-	    $countries = $eventService->getCountryListAsArray();
-	    $form = new \Events\Form\Event($tags, $countries);
+	    $form = new \Events\Form\Tag();
 	    
-	    $formFilter = new \Events\Form\EventFilter();
+	    $formFilter = new \Events\Form\TagFilter();
 	    $form->setInputFilter($formFilter);
 	    
 	    // Controller is constructed, dependencies are injected (IoC in action)
-	    $controller = new \Events\Controller\AdminEventsController($eventService, $form); 
+	    $controller = new \Events\Controller\AdminTagsController($tagService, $form); 
 	    
 	    return $controller; 
 		

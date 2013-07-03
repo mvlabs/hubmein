@@ -9,7 +9,7 @@ use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
 class Event extends Form {
     	
-    public function __construct(array $countryList = null) {
+    public function __construct(array $tagList, array $countryList = null) {
         
         parent::__construct();
         
@@ -63,12 +63,12 @@ class Event extends Form {
         
         $country = new Element\Select('country');
         $country->setAttributes(array('id'    => 'country',
-            'type'  => 'select',
-        ))
-        ->setLabel('Country')
-        ->setLabelAttributes(array('class' => 'control-label'))
-        ->setEmptyOption('Please choose...')
-        ->setValueOptions($countryList);
+                                      'type'  => 'select',
+                               ))
+                ->setLabel('Country')
+                ->setLabelAttributes(array('class' => 'control-label'))
+                ->setEmptyOption('Please choose...')
+                ->setValueOptions($countryList);
         $this->add($country);
         
         
@@ -234,6 +234,13 @@ class Event extends Form {
                    ->setLabelAttributes(array('class' => 'control-label'));
         $this->add($isfeatured);
         
+        
+        // tags
+        
+        $tags = new Element\MultiCheckbox('tags');
+        $tags->setLabel('Tags')
+             ->setValueOptions($tagList);
+        $this->add($tags);
         
         $submit = new Element\Button('submit');
         $submit->setAttributes(array('type'  => 'submit', 

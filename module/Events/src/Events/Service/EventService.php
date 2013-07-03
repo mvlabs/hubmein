@@ -78,8 +78,8 @@ class EventService implements EventManagerAwareInterface {
     /**
      * Fetches list of countries within the system
      */
-    public function getCountries() {
-    	return $this->I_mapper->getCountryList();
+    public function getCountryListAsArray() {
+    	return $this->I_mapper->getCountryListAsArray();
     }
     
     /**

@@ -55,7 +55,6 @@ class DoctrineEventMapper implements EventMapperInterface {
     
         return $country;
     }
-
     
     /**
      * Gets list of events
@@ -79,7 +78,7 @@ class DoctrineEventMapper implements EventMapperInterface {
      * 
      * @return array
      */
-    public function getCountryList() 
+    public function getCountryListAsArray() 
     {
     	
         $countries = $this->countryRepository->findAll();
