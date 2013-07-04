@@ -36,6 +36,8 @@
                    inputField.attr('disabled',true);
 
                  }
+                 
+                
                break;
 
                case "enableAll":
@@ -60,11 +62,11 @@
        var loader = $(this).find('div[class="count-loader"]');
        var formAction = getActionUrl();
        var preparedForm = prepareFormValues($(this));
-       var url = formAction+"?"+preparedForm.serialize();
+       var url = (preparedForm.serialize() !== "")?formAction+"?"+preparedForm.serialize():formAction;
        
        form.disableInputFiled("enableAll");
        countLoader.show();   
-      // alert(url);
+       alert(url);
        
        return false;
        
@@ -98,6 +100,7 @@
        
    });
    
+   showCondition(false);
    
    regionInput.change(function(){
        
@@ -127,7 +130,7 @@
     function prepareFormValues(form) {
 
         form.disableInputFiled('disableAll');
-
+        checkTagsContentSize($(topicsElement));  
         buildTagRequest(form);
 
          return form;
@@ -138,7 +141,7 @@
          var regionValue = (getRegionValue() !== "*") ? "/"+getRegionValue() : "";
          var baseAction = moduleName+regionValue;
          
-         console.log(baseAction);
+        
          
          return baseAction;
     }
@@ -148,24 +151,18 @@
          var tagElement = form.find(topicsElement); 
          var tagValues = tagElement.val();
          var tagAppendix = "tags";
-                  
+         
+         var hiddenValue = form.find(":hidden[name='tags']");
+         hiddenValue.remove();
+
+         
          if(tagValues  !== null) {
              
              var queryTag = tagValues.join(",");
              var input = $("<input>").attr("type", "hidden").attr("name", tagAppendix).val(queryTag);
-             var hiddenValue = form.find(":hidden[name='tags']");
-             
-             //form.remove(hiddenValue);
-            if(hiddenValue.length > 0) {
-                
-                hiddenValue.remove();
-                
-            }
-                        
-            form.append(input);
-        
+              form.append(input);
          }
-            
+                
      }
      
      
@@ -181,20 +178,6 @@
          
     }
      
-     
-     function showCondition(show){
-        
-        var conditionBox = $('.type-condition');
-        
-        conditionBox.show();
-        
-         if(show === false) {
-             
-             conditionBox.hide();
-             
-         }
-        
-     }
      
      
      function checkTagsContentSize(tagElement) {
@@ -217,7 +200,23 @@
          }
               
      }
-      
+    
+     
+      function showCondition(show){
+        
+        var conditionBox = $('.type-condition');
+        conditionBox.find(":checked").attr("disabled",false);
+              
+         if(show === false) {
+             
+             conditionBox.find(":checked").attr("disabled",true);
+             conditionBox.hide();
+             
+         }
+        
+     }
+     
+    
 })(jQuery);
     
 
