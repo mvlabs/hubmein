@@ -9,8 +9,9 @@ class RightSideBarFactory implements FactoryInterface {
 
 	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
-	    $countryService = $serviceLocator->getServiceLocator()->get('Events\Service\RegionService');
-           
+	    $regionService = $serviceLocator->getServiceLocator()->get('Events\Service\RegionService');
+            $tagService = $serviceLocator->getServiceLocator()->get('Events\Service\TagService');
+            
 	    $request = $serviceLocator->getServiceLocator()->get('Request');
 	    
             $currentDatas = array();
@@ -33,7 +34,7 @@ class RightSideBarFactory implements FactoryInterface {
                 
 	    }
                       
-	    return new RightSideBar( $countryService->getFullList(),$currentDatas );
+	    return new RightSideBar( $regionService->getFullList(),$tagService->getTagListAsArray(), $currentDatas );
 		
 	}
 

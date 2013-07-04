@@ -25,15 +25,24 @@ class EventFilter {
     private $dateTo;
     
     /**
+     * @var "string"
+     */
+    private $totalCount;
+    
+    
+    /**
      * @var bool
      */
     private $isCfp = false;
+       
     
     /**
      * @var int
      */
     private $pageNumber = 1;
     
+    
+    const TAGLIST_SEPARATOR = ",";
 
     public function setTagList(array $tagList) {
         
@@ -67,30 +76,51 @@ class EventFilter {
         $this->pageNumber = intval($pageNumber);
         
     }
+    
+    public function setTotalCount($totalCount) {
+        
+        $this->setTotalCount($totalCount);
+        
+    }
       
     public static function createObjFromArray(array $request) {
-        
+        //init the Event filter object
         $EventFilter = new EventFilter();
+        //Default page number
+        $pageNumber = (isset($request[ 'page' ]))?$request[ 'page' ]:1;
         
-        $pageNumber = (isset($request['page']))?$request['page']:1;
+      
         
-        
-        if( isset($request[ 'period' ]) && $request[ 'period' ]!=="" ) {
+        //Set Period
+        if( isset( $request[ 'period' ] ) && $request[ 'period' ] !== "" ) {
             
             $datefromStringFormat =  '1-'.$request[ 'period' ];
             $dateFrom = \DateTime::createFromFormat( 'd-F-Y',$datefromStringFormat );
             $EventFilter->setDateFrom( $dateFrom );
             
-            $dateToStringFormat = date('t')."-".$request['period'];
+            $dateToStringFormat = date( 't' )."-".$request[ 'period' ];
             $dateTo = \DateTime::createFromFormat( 'd-F-Y',$dateToStringFormat );
             $EventFilter->setDateTo( $dateTo );
             
         }
        
+        //Set tags 
+        if( isset( $request['tags'] ) && !empty( $request['tags'] ) ) {
+                       
+            $tags = explode( self::TAGLIST_SEPARATOR,$request['tags'] );
+            $EventFilter->setTagList($tags);
+            
+        }
+        
+        if( isset( $request[ 'tc' ] ) ) {
+            
+            $EventFilter->setTotalCount( $request['tc'] );
+           
+        }
         
         $EventFilter->setRegion($request['region']);
         $EventFilter->setPageNumber($pageNumber);
-        
+              
         return $EventFilter; 
     }
     
@@ -116,6 +146,12 @@ class EventFilter {
           
       }
       
+      if(isset($this->tagList) && isset($this->totalCount)) {
+                
+          $filterDatas['tags'] = $this->tagList;
+          $filterDatas['tags']['tc'] = $this->totalCount;
+          
+      }
       
       return $filterDatas;
       

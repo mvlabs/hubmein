@@ -7,8 +7,11 @@ use Zend\Mvc\Controller\AbstractActionController,
     Zend\Form\Form;
 
 use Events\Service\EventService,
-    Events\DataFilter\EventFilter,
-    Events\Service\RegionService;
+    Events\Service\RegionService,
+    Events\Service\TagService;
+    
+use Events\DataFilter\EventFilter;
+
 
 use Zend\Mail\Transport;
 use Zend\Mail\Message as Message;
@@ -36,17 +39,24 @@ class EventsController extends AbstractActionController
      */
     private $regionService;
     
+   /**
+    *
+    * @var \Events\Service\TagService
+    */
+    private $tagService;
+    
     /**
      * Class constructor
      * 
      * @param \Events\Service\EventService $eventService
      * @param \Zend\Form\Form $promoteForm
      */
-    public function __construct( EventService $eventService,RegionService $regionService, Form $promoteForm ) {
+    public function __construct( EventService $eventService,RegionService $regionService, TagService $tagService, Form $promoteForm ) {
        
         $this->regionService = $regionService;
         $this->eventService = $eventService;
         $this->promoteForm = $promoteForm;
+        $this->tagService = $tagService;
         
     }
     
@@ -174,7 +184,7 @@ class EventsController extends AbstractActionController
         $filter = $this->createFilterFromUrlParams($this->mergeRequest());
         
         // @todo pass class to event service
-        return $this->eventService->countFilteredItems($filter);
+        return $this->eventService->getListByFilter($filter);
         
     }
    
@@ -186,6 +196,7 @@ class EventsController extends AbstractActionController
     private function mergeRequest() {
         
         $requestParams = $this->params()->fromQuery();
+        $requestParams['tc'] = "all";
         $requestParamFromRoute = $this->params()->fromRoute();
         $requestParams['region'] = $requestParamFromRoute['region']; 
                 

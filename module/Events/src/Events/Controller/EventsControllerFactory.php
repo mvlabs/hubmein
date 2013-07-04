@@ -19,17 +19,19 @@ class EventsControllerFactory implements FactoryInterface {
 	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
 	    // dependency is fetched from Service Manager
-	    $eventService = $serviceLocator->getServiceLocator()->get('Events\Service\EventService');
-	    $regionService = $serviceLocator->getServiceLocator()->get('Events\Service\RegionService');
+	    $eventService = $serviceLocator->getServiceLocator()->get( 'Events\Service\EventService' );
+	    $regionService = $serviceLocator->getServiceLocator()->get( 'Events\Service\RegionService' );
+            $tagService = $serviceLocator->getServiceLocator()->get( 'Events\Service\TagService' );
+            
 	    // Object graph is constructed
 	    $countries = $regionService->getFullList();
-	    $form = new Promote($countries);
+	    $form = new Promote( $countries );
 	    
 	    $formFilter = new PromoteFilter();
-	    $form->setInputFilter($formFilter);
+	    $form->setInputFilter( $formFilter );
 	    
 	    // Controller is constructed, dependencies are injected (IoC in action)
-	    $controller = new EventsController($eventService, $regionService,$form); 
+	    $controller = new EventsController( $eventService, $regionService,$tagService,$form ); 
 	    
 	    return $controller; 
 		

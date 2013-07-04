@@ -3,6 +3,9 @@
     var form = $('form[name="search"]');
     var regionInput = form.find(':input[name="region"]');
     var periodInput = form.find(':input[name="period"]');
+    var countLoader = $(".count-loader");
+    var loader = $(".loader");
+    
     var moduleName = "/events";
     var topicsElement = ".chzn-select.topics";
    
@@ -60,8 +63,8 @@
        var url = formAction+"?"+preparedForm.serialize();
        
        form.disableInputFiled("enableAll");
-          
-       alert(url);
+       countLoader.show();   
+      // alert(url);
        
        return false;
        
@@ -82,6 +85,9 @@
    
    showCondition(false);
    
+   loader.hide();
+   countLoader.hide();
+   
    checkTagsContentSize($(topicsElement));  
      
    form.disableInputFiled('enableAll');
@@ -91,6 +97,7 @@
        form.getTotalCountByFilter();
        
    });
+   
    
    regionInput.change(function(){
        
@@ -102,11 +109,16 @@
 
         var formAction = getActionUrl();
         var preparedForm = prepareFormValues($(this));
-
+        
+        regionInput.parent('p').hide();
+        periodInput.parent('p').hide();
+        
+        loader.show();
+        
         form.attr('action',formAction);
 
         alert(preparedForm.serialize());
-        return false;
+       // return false;
 
     });
 

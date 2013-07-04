@@ -7,19 +7,24 @@ use Zend\Http\Request;
 
 class RightSideBar extends AbstractHelper {
 
-    private $countries;
+    private $regions;
+    private $tags;
+    
     
     private $currentRegion;
     private $currentPeriod;
     
     const MAX_MONTH_NUMBER = 6;
     
-    public function __construct(array $regions,array $currentRequestDatas) {
+    public function __construct(array $regions,array $tags, array $currentRequestDatas) {
         
         $this->regions = $regions;
+        $this->tags = $tags;
         $this->requestRegion = $currentRequestDatas['region'];
         $this->requestPeriod = $currentRequestDatas['period'];
         $this->currentDate = new \DateTime();
+        
+      
     }
     
     public function __invoke() {
@@ -38,8 +43,12 @@ class RightSideBar extends AbstractHelper {
             $html .=           '<label for="location-1">Period: </label>';
             $html .=            '<select data-placeholder="select tag" multiple class="chzn-select topics" tabindex="8">';
             $html .=                '<option value="all"></option>';
-            $html .=                '<option>American Black Bear</option>';
-            $html .=                '<option>Asiatic Black Bear</option>';
+                   
+                               foreach( $this->tags as $value ) {
+                            
+            $html .=                '<option>'.$value.'</option>';
+            
+                                 }
             $html .=            '</select>';
             $html .=            '<p class="type-condition">';
             $html .=                 '<input type="radio" checked="true" value="all" name="tc">All <input type="radio" value="alo" name="tc"> At least one';
@@ -78,6 +87,7 @@ class RightSideBar extends AbstractHelper {
              $html .=                '</select>
                                       </p>
                                       <div class="count-loader"></div>
+                                      <div class="loader"></div>
                                       <p><input type="submit" class="bigbutton" value="Refine"></p>
                                 </form>
                           </div>
@@ -88,5 +98,6 @@ class RightSideBar extends AbstractHelper {
         return $html;
 
     }
+      
 
 }

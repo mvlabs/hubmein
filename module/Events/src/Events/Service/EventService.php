@@ -86,18 +86,6 @@ class EventService implements EventManagerAwareInterface {
         
     }
         
-    /**
-     * Fetches events (IE conferences) related to a specific country
-     */
-    public function getLocalEvents() {
-        
-    	$m_country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
-    	$i_limit = 4;	
-        
-       
-    	//return $this->eventMapper->getEventList($m_country, 4);
-        
-    } 
     
     /**
      * 
@@ -109,12 +97,12 @@ class EventService implements EventManagerAwareInterface {
     }
     
     /**
-     * Inserts an event from array data
+     * Inserts or updates an event from array data
      *
      * @param array $formData
      * @return \Events\Entity\Event
      */
-    public function insertEventFromArray(array $am_formData) {
+    public function upsertEventFromArray(\Events\Entity\Event $event) {
                             
         $am_formData['country'] = $this->eventMapper->getCountry($am_formData['country']);
         $I_event = Event::createFromArray($am_formData);
@@ -129,7 +117,7 @@ class EventService implements EventManagerAwareInterface {
                 
         ));
     
-        return $I_event;
+        return $event;
         
     }
     

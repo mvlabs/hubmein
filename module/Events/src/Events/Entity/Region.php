@@ -108,4 +108,40 @@ class Region
         return $this->countries;
     }
 	
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Region
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    
+        return $this;
+    }
+
+    /**
+     * Add countries
+     *
+     * @param \Events\Entity\Country $countries
+     * @return Region
+     */
+    public function addCountrie(\Events\Entity\Country $countries)
+    {
+        $this->countries[] = $countries;
+    
+        return $this;
+    }
+
+    /**
+     * Remove countries
+     *
+     * @param \Events\Entity\Country $countries
+     */
+    public function removeCountrie(\Events\Entity\Country $countries)
+    {
+        $this->countries->removeElement($countries);
+    }
 }

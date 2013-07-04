@@ -32,9 +32,11 @@ class Module implements ViewHelperProviderInterface
     	return array(
     			'factories' => array(
                                 'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
-                                'Events\Service\RegionService'=>'Events\Service\RegionServiceFactory',
                                 'Events\Mapper\DoctrineEventMapper' => 'Events\Mapper\DoctrineEventMapperFactory',
+                                'Events\Service\RegionService'=>'Events\Service\RegionServiceFactory',
                                 'Events\Mapper\DoctrineRegionMapper'=> 'Events\Mapper\DoctrineRegionMapperFactory',
+                                'Events\Service\TagService'=>'Events\Service\TagServiceFactory',
+                                'Events\Mapper\TagMapper'=> 'Events\Mapper\DoctrineTagMapperFactory',
                                 //'Events\Mapper\EventMapper' => 'Events\Mapper\ZendDbEventMapperFactory'
     			),
     			
@@ -46,6 +48,10 @@ class Module implements ViewHelperProviderInterface
         return array(
             'factories' => array(
                 'Events\Controller\Events' => 'Events\Controller\EventsControllerFactory',
+                
+                // Admin controllers
+                'Events\Controller\AdminEvents' => 'Events\Controller\AdminEventsControllerFactory',
+                'Events\Controller\AdminTags' => 'Events\Controller\AdminTagsControllerFactory',
             ),
         );
         
