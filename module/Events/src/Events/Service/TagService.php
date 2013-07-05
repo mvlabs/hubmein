@@ -17,10 +17,6 @@ use Zend\EventManager\EventManagerAwareInterface;
  */
 class TagService {
 
-	/*
-	 * @var \Events\Mapper\TagMapper Tag Mapper
-	 */
-	private $mapper = null;
 	
 	
 	/**

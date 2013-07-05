@@ -34,7 +34,8 @@ class EventFilter {
      */
     private $pageNumber = 1;
     
-
+    const TOTALCOUNTDEFAULT = "all";
+    
     public function setTagList(array $tagList) {
         
         $this->tagList = $tagList;
@@ -67,13 +68,18 @@ class EventFilter {
         $this->pageNumber = intval($pageNumber);
         
     }
+    
+    public function setTotalCount($totalCount) {
+        
+        $this->totalCount = $totalCount;
+        
+    }
       
     public static function createObjFromArray(array $request) {
         
         $EventFilter = new EventFilter();
-        
-        $pageNumber = (isset($request['page']))?$request['page']:1;
-        
+             
+               
         
         if( isset($request[ 'period' ]) && $request[ 'period' ]!=="" ) {
             
@@ -88,15 +94,26 @@ class EventFilter {
         }
        
         
+        
+        if( !isset( $request['tc'] ) ) {
+            
+            $request['tc'] = self::TOTALCOUNTDEFAULT;
+                       
+        }
+        
+        $EventFilter->setTotalCount( $request['tc'] );
         $EventFilter->setRegion($request['region']);
         $EventFilter->setPageNumber($pageNumber);
         
         return $EventFilter; 
     }
     
-    public function toArray(){
+    
+    public function toArray() {
         
       $filterDatas = array();  
+      $filterDatas['tc'] = $this->totalCount;     
+      
       
       if(isset($this->region)) {
           
@@ -110,12 +127,22 @@ class EventFilter {
           
       }
       
-       if(isset($this->dateTo)) {
+      
+      if ( isset($this->dateTo) ) 
+      {
           
           $filterDatas['dateTo'] = $this->dateTo->format('Y-m-d')." 00:00:00";
           
       }
       
+      
+      if ( isset($this->tagList) ) {
+                   
+          $filterDatas['tags'] = $this->tagList;
+          
+          
+      }
+     
       
       return $filterDatas;
       

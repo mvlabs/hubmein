@@ -10,28 +10,24 @@ use Events\DataFilter\EventFilter;
 class EventRepository extends EntityRepository {
     
     const DATE_REGEXP = "";
+       
     
     public function getFilteredList(EventFilter $EventFilter) {
         
         $queryFilter = $this->buildQuerySearch($EventFilter);
         
-       $dql = "SELECT events,country,region ".
-               "FROM Events\Entity\Event events ".
-               "INNER JOIN events.country country ".
-               "INNER JOIN country.region region ".
-               $queryFilter;
-       
-        /*$qb = $this->_em->createQueryBuilder();
-        $dql = $qb->select('events,country,region')
-            ->from($this->_entityName, 'events')
-            ->join('events.country','country')
-            ->join('country.region','region')
-            ->getDQL();*/
+       $dql = "SELECT events ".
+              "FROM Events\Entity\Event events ".
+              "LEFT JOIN events.tags tag ".
+              "LEFT JOIN events.country country ".
+              "LEFT JOIN country.region region ".
+               $queryFilter.
+             " ORDER BY events.datefrom ASC ";
+              
+      
+       $result = $this->_em->createQuery($dql)->getResult();
         
-        
-        $result = $this->_em->createQuery($dql)->getResult();
-        
-       
+             
         return $result;
         
     }    
@@ -42,9 +38,11 @@ class EventRepository extends EntityRepository {
         
         $dql = "SELECT COUNT (events) ".
                "FROM Events\Entity\Event events ".
-               "INNER JOIN events.country country ".
-               "INNER JOIN country.region region ".
-                $queryFilter;
+               "LEFT JOIN events.tags tag ".
+               "LEFT JOIN events.country country ".
+               "LEFT JOIN country.region region ".
+               $queryFilter.
+               
         
         $result = $this->_em->createQuery($dql)->getScalarResult();
         
@@ -58,6 +56,12 @@ class EventRepository extends EntityRepository {
         $queries = array();
               
         
+        if( !isset($filterDatas['tc']) ) {
+            
+            throw new \Exception('key tc is not existent');            
+        }
+        
+        
         if( sizeof($filterDatas)>0 ) {
                     
             foreach($filterDatas as $key => $value){
@@ -66,17 +70,22 @@ class EventRepository extends EntityRepository {
                     
                     case "region":
                         
-                        $queries[] = $key .".name LIKE '".$value."'";
+                        $queries[] = $key .".slug LIKE '".$value."'";
                         
                         break;
                     case "dateFrom":
                         
-                        $queries[] = "events.datefrom >= '".$value."'";
+                        $queries[] = "(events.datefrom >= '".$value."'";
                                                 
                         break;
                     case "dateTo":
                         
-                        $queries[] = "events.dateto <= '".$value."'";
+                        $queries[] = "events.dateto <= '".$value."')";
+                        
+                        break;
+                    case "tags":
+                        
+                        $queries[] = $this->buildTagQuery($filterDatas['tags'],$filterDatas['tc']);
                         
                         break;
                     case "default":
@@ -87,17 +96,52 @@ class EventRepository extends EntityRepository {
                 }
                           
             }
-            
-        
+               
         }
+      
+        
         if(sizeof($queries) == 0) {
             
             return "";
             
         }
-            return "WHERE ".implode(" AND ",$queries);
+        
+        return "WHERE ".implode( " ".self::ANDQUERYVALUE." ",$queries );
                
     }
     
+    /**
+     * Build the query to add tags with condition AND or OR based on tags['tags']['tc'] 's value
+     * @param array $tags
+     * @return string
+     * @throws \Exceptions if there are no element on array $tags 
+     */
+    private function buildTagQuery( array $tags,$separator ) {
+              
+        if( sizeof( $tags ) == 0 ) {
+            
+            throw new \Exception("There are no value in the given array");
+            
+        }
+                  
+        $separator = self::ORQUERYVALUE;
+        $querySql = "";
+        $tagNumber = sizeof($tags);
+        
+        $querys = array();
+               
+        foreach($tags as $tag) {
+            
+            $querys[] = "tag.name LIKE '".$tag."'";
+            
+        }
+              
+        $querySql .= "(".implode(" ".$separator." ",$querys).")";
+        $querySql .= " GROUP BY events.id ".
+                     " HAVING COUNT( events.id ) = ".$tagNumber;
+        
+         return $querySql;
+        
+    }
     
 }
