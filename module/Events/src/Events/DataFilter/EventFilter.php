@@ -43,7 +43,8 @@ class EventFilter {
     
     
     const TAGLIST_SEPARATOR = ",";
-
+    const TOTALCOUNTDEFAULT = "all";
+    
     public function setTagList(array $tagList) {
         
         $this->tagList = $tagList;
@@ -79,7 +80,7 @@ class EventFilter {
     
     public function setTotalCount($totalCount) {
         
-        $this->setTotalCount($totalCount);
+        $this->totalCount = $totalCount;
         
     }
       
@@ -88,9 +89,8 @@ class EventFilter {
         $EventFilter = new EventFilter();
         //Default page number
         $pageNumber = (isset($request[ 'page' ]))?$request[ 'page' ]:1;
-        
-      
-        
+             
+               
         //Set Period
         if( isset( $request[ 'period' ] ) && $request[ 'period' ] !== "" ) {
             
@@ -112,21 +112,26 @@ class EventFilter {
             
         }
         
-        if( isset( $request[ 'tc' ] ) ) {
+        
+        if( !isset( $request['tc'] ) ) {
             
-            $EventFilter->setTotalCount( $request['tc'] );
-           
+            $request['tc'] = self::TOTALCOUNTDEFAULT;
+                       
         }
         
+        $EventFilter->setTotalCount( $request['tc'] );
         $EventFilter->setRegion($request['region']);
         $EventFilter->setPageNumber($pageNumber);
               
         return $EventFilter; 
     }
     
-    public function toArray(){
+    
+    public function toArray() {
         
       $filterDatas = array();  
+      $filterDatas['tc'] = $this->totalCount;     
+      
       
       if(isset($this->region)) {
           
@@ -140,18 +145,22 @@ class EventFilter {
           
       }
       
-       if(isset($this->dateTo)) {
+      
+      if ( isset($this->dateTo) ) 
+      {
           
           $filterDatas['dateTo'] = $this->dateTo->format('Y-m-d')." 00:00:00";
           
       }
       
-      if(isset($this->tagList) && isset($this->totalCount)) {
-                
+      
+      if ( isset($this->tagList) ) {
+                   
           $filterDatas['tags'] = $this->tagList;
-          $filterDatas['tags']['tc'] = $this->totalCount;
+          
           
       }
+     
       
       return $filterDatas;
       

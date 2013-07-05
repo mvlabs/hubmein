@@ -29,7 +29,9 @@ class TagService {
      * @param \Events\Mapper\TagMapper Event Mapper
      */
     public function __construct(\Events\Mapper\TagMapperInterface $mapper) {
-            $this->mapper = $mapper;
+           
+        $this->mapper = $mapper;
+        
     }
 
     /**

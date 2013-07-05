@@ -162,9 +162,10 @@ class EventsController extends AbstractActionController
      * @return \Zend\View\Model\ViewModel
      */
     public function searchAction() {
-       
+      
         $events = $this->searchEvents();
-                
+       
+        
         $viewModel = new ViewModel(array('events' => $events));
         $viewModel->setTemplate('events/events/index');
         
@@ -179,10 +180,10 @@ class EventsController extends AbstractActionController
     
    
      private function searchEvents() {
-
+                         
         // get params from url and prepare EventFilter class
         $filter = $this->createFilterFromUrlParams($this->mergeRequest());
-        
+       
         // @todo pass class to event service
         return $this->eventService->getListByFilter($filter);
         
@@ -194,9 +195,8 @@ class EventsController extends AbstractActionController
      * @return array $requestParams
      */
     private function mergeRequest() {
-        
+       
         $requestParams = $this->params()->fromQuery();
-        $requestParams['tc'] = "all";
         $requestParamFromRoute = $this->params()->fromRoute();
         $requestParams['region'] = $requestParamFromRoute['region']; 
                 
@@ -211,10 +211,10 @@ class EventsController extends AbstractActionController
      * @return \Events\DataFilter\EventFilter
      */
     private function createFilterFromUrlParams( array $filteredRequest ) {
-            
-        $EventFilter = EventFilter::createObjFromArray( $filteredRequest );
-             
-        return $EventFilter;
+               
+        $eventFilter = EventFilter::createObjFromArray( $filteredRequest );
+           
+        return $eventFilter;
         
     }
     
