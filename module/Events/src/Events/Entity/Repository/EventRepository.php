@@ -23,7 +23,7 @@ class EventRepository extends EntityRepository {
               "LEFT JOIN events.country country ".
               "LEFT JOIN country.region region ".
                $queryFilter.
-             " ORDER BY events.datefrom ASC ";
+              " ORDER BY events.datefrom ASC ";
               
       
        $result = $this->_em->createQuery($dql)->getResult();
@@ -37,17 +37,28 @@ class EventRepository extends EntityRepository {
         
         $queryFilter = $this->buildQuerySearch($EventFilter);
         
-        $dql = "SELECT COUNT (events) ".
-               "FROM Events\Entity\Event events ".
-               "LEFT JOIN events.tags tag ".
-               "LEFT JOIN events.country country ".
-               "LEFT JOIN country.region region ".
-               $queryFilter.
-               
-              
-        $result = $this->_em->createQuery($dql)->getScalarResult();
+        $dql = "SELECT COUNT(e.id) FROM Events\Entity\Event e WHERE e.id IN (";
+        $dql .= "SELECT events.id  ";
+        $dql .= "FROM Events\Entity\Event events ";
+                if(sizeof($EventFilter->getTagList()) > 0) {
+        $dql .= "LEFT JOIN events.tags tag ";
+                }
+        $dql .="LEFT JOIN events.country country ";
+        $dql .="LEFT JOIN country.region region ";
+        $dql .= $queryFilter;
+        $dql .= ")";
         
-        return $result[0][1];
+      
+      
+       $query = $this->_em->createQuery($dql);
+     //   var_dump($query->getSQL());
+        //var_dump($dql);
+       
+        $result = $this->_em->createQuery($dql)->getScalarResult();
+        $totalCount = (sizeof($result)> 0)? $result[0][1]:0;
+        
+       
+        return $totalCount;
         
     }
     
@@ -70,22 +81,22 @@ class EventRepository extends EntityRepository {
                     
                     case "region":
                         
-                        $queries[] = $key .".slug LIKE '".$value."'";
+                        $queries[$key] = $key .".slug LIKE '".$value."'";
                         
                         break;
                     case "dateFrom":
                         
-                        $queries[] = "(events.datefrom >= '".$value."'";
+                        $queries[$key] = "(events.datefrom >= '".$value."'";
                                                 
                         break;
                     case "dateTo":
                         
-                        $queries[] = "events.dateto <= '".$value."')";
+                        $queries[$key] = "events.dateto <= '".$value."')";
                         
                         break;
                     case "tags":
                         
-                        $queries[] = $this->buildTagQuery($filterDatas['tags'],$filterDatas['tc']);
+                        $queries[$key] = $this->buildTagQuery($filterDatas['tags'],$filterDatas['tc']);
                         
                         break;
                     case "default":
@@ -98,25 +109,24 @@ class EventRepository extends EntityRepository {
             }
                
         }
-      
-        
+             
         if( sizeof($queries) == 0 ) {
             
-            return "";
+            return $this->addGroupBy();
             
         }
         
-        return "WHERE ".implode( " ".self::ANDQUERYVALUE." ",$queries );
+        return " WHERE ".implode( " ".self::ANDQUERYVALUE." ",$queries );
                
     }
     
     /**
-     * Build the query to add tags with condition AND or OR based on tags['tags']['tc'] 's value
+     * Build the query to add tags 
      * @param array $tags
      * @return string
      * @throws \Exceptions if there are no element on array $tags 
      */
-    private function buildTagQuery( array $tags,$separator ) {
+    private function buildTagQuery( array $tags,$condition ) {
               
         if( sizeof( $tags ) == 0 ) {
             
@@ -132,16 +142,38 @@ class EventRepository extends EntityRepository {
                
         foreach($tags as $tag) {
             
-            $querys[] = "tag.name LIKE '".$tag."'";
+            $querys[] = "tag.name = '".$tag."'";
             
         }
-              
+           
         $querySql .= "(".implode(" ".$separator." ",$querys).")";
-        $querySql .= " GROUP BY events.id ".
-                     " HAVING COUNT( events.id ) = ".$tagNumber;
         
-         return $querySql;
+        if($condition == "all") {
+             
+            $querySql .= $this->addGroupBy($tagNumber);
+            
+        }
         
+        return $querySql;
+        
+    }
+    
+   
+    private function addGroupBy($tagNumber = null) {
+        
+        $query = "";
+        
+        if(isset($tagNumber)) {
+            
+            //$query .= "AND events.id ='".$tagNumber."'";
+            
+            $query .= " GROUP BY events.id ";
+            $query .= " HAVING COUNT(events.id) = ".$tagNumber;
+        }
+        
+        
+        
+        return $query;
     }
     
     

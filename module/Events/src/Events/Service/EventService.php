@@ -86,16 +86,7 @@ class EventService implements EventManagerAwareInterface {
         
     }
         
-    
-    /**
-     * 
-     */
-    public function getFullList(){
         
-        return $this->eventMapper->getFullList();
-        
-    }
-    
     /**
      * Inserts or updates an event from array data
      *

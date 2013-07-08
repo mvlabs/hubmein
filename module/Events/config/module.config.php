@@ -13,6 +13,7 @@ return array(
                         '__NAMESPACE__' => 'Events\Controller',
                         'controller'    => 'Events',
                         'action'        => 'index',
+                        
                     ),
                 ),
                 'may_terminate' => true,
@@ -22,13 +23,27 @@ return array(
                         'options' => array(
                             'route'    => '/:region',
                             'constraints' => array(
-                                'region'         => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'region' => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),
                             'defaults' => array(
-                                'action' => 'search',
+                              
                             ),
                         ),
                     ),
+                    
+                    'countfilter' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/count[/:region]',
+                            'constraints' => array(
+                                'region' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                              'action'=>'count'
+                            ),
+                        ),
+                    ),
+                  
                     'promote' => array(
                         'type'    => 'Literal',
                         'options' => array(
@@ -156,6 +171,12 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
+        
+         'strategies' => array(
+         
+            'ViewJsonStrategy',
+         
+      ),
     ),
     
     // Admin panel navigation
@@ -171,5 +192,7 @@ return array(
             ),
         ),
     ),
+    
+    
     
 );
