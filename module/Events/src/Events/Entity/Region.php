@@ -27,7 +27,7 @@ class Region
      */
     private $name;
 	
-	/**
+    /**
      * @var string $slug
      *
      * @ORM\Column(name="slug", type="string", length=100, nullable=true)
@@ -43,7 +43,9 @@ class Region
 
     public function __construct()
     {
+        
         $this->countries = new \Doctrine\Common\Collections\ArrayCollection();
+        
     }
 
 

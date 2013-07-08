@@ -13,8 +13,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class RegionRepository extends EntityRepository
 {
-=======
-class RegionRepository extends EntityRepository {
-        
->>>>>>> working EventFilter, filtered dql
+    
+    
+      
 }

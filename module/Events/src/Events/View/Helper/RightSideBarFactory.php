@@ -9,13 +9,16 @@ class RightSideBarFactory implements FactoryInterface {
 
 	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
-	    $countryService = $serviceLocator->getServiceLocator()->get('Events\Service\RegionService');
-           
+	    $regionService = $serviceLocator->getServiceLocator()->get('Events\Service\RegionService');
+            $tagService = $serviceLocator->getServiceLocator()->get('Events\Service\TagService');
+            $routeMatch = $serviceLocator->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
+
+            
 	    $request = $serviceLocator->getServiceLocator()->get('Request');
-	    
+            
             $currentDatas = array();
-	    $currentDatas['region'] = $request->getQuery('region', null);
-	    $currentDatas['period'] = $request->getQuery('period',null);
+	    $currentDatas['region'] = $routeMatch->getParam('region');
+            $currentDatas['period'] = $request->getQuery('period',null);
             
            /*
             * TODO Need an explanation

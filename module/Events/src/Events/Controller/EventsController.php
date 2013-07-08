@@ -101,7 +101,9 @@ class EventsController extends AbstractActionController
     public function promoteAction() {
         
         return array(
+            
             'form' => $this->promoteForm,
+            
         );
         
     }

@@ -3,8 +3,8 @@
     var form = $('form[name="search"]');
     var regionInput = form.find(':input[name="region"]');
     var periodInput = form.find(':input[name="period"]');
-    var countLoader = $(".count-loader");
-    var loader = $(".loader");
+    var countLoaderImg = $(".count-loader");
+    var submitLoaderImg = $(".submit-loader");
     var resetSearchButton = $(".reset-filters");
 
     var moduleName = "/events";
@@ -58,25 +58,26 @@
     //get the number of element from input values
     $.fn.getTotalCountByFilter = function() {
 
-        var loader = $(this).find('div[class="count-loader"]');
+        var loader = $(this).find('div[class="loader"]');
         var formController = moduleName+ "/count"+getRegionValue();
         var preparedForm = prepareFormValues($(this));
         var url = (preparedForm.serialize() !== "") ? formController + "?" + preparedForm.serialize() : formController;
         var result = $(this).find(".result");
-
         
         form.disableInputFiled("enableAll");
+       
+        loader.hide();
         
-        loader.show();
+        countLoaderImg.show();
         result.hide();
-
+        
         loader.load(url, function(data) {
-
+            
             var obj = $.parseJSON(data);
 
             if (obj.success) {
-
-                loader.hide();
+                
+                countLoaderImg.hide();
                 result.text(obj.count);
                 result.show();
 
@@ -85,22 +86,31 @@
         });
 
     };
-
+    
+   $(".chzn-select").val("city");
+   $(".chzn-select").trigger("liszt:updated");
+    
     $(topicsElement).chosen().change(function() {
 
         checkTagsContentSize($(this));
         form.getTotalCountByFilter();
-
+        
     });
-
+    
+    form.find(":radio").change(function(){
+       
+       form.getTotalCountByFilter();
+        
+    });
+    
     //Commands
 
     form.attr('action', '');
 
     showCondition(false);
 
-    loader.hide();
-    countLoader.hide();
+    submitLoaderImg.hide();
+    countLoaderImg.hide();
 
     checkTagsContentSize($(topicsElement));
 
@@ -112,7 +122,6 @@
 
     });
 
-    showCondition(false);
 
     regionInput.change(function() {
 
@@ -123,23 +132,22 @@
     resetSearchButton.unbind("click", resetFields).bind('click', resetFields);
 
     form.submit(function() {
-        var formAction = moduleName+getRegionValue();
         
-
+        var formAction = moduleName+getRegionValue();
         var preparedForm = prepareFormValues($(this));
-
 
         regionInput.parent('p').hide();
         periodInput.parent('p').hide();
 
-        loader.show();
+        submitLoaderImg.show();
 
         form.attr('action',formAction);
+        
+        alert(formAction);
         
    });
 
     //internal function 
-
 
     function resetFields() {
 
@@ -189,31 +197,25 @@
 
     function getRegionValue() {
         
-          var regionValue = ( regionInput.attr('value') !== "*") ? "/" +  regionInput.attr('value') : "";
+        var regionValue = ( regionInput.attr('value') !== "*") ? "/" +  regionInput.attr('value') : "";
         
         return regionValue;
 
     }
-
-
 
     function checkTagsContentSize(tagElement) {
 
         var tagElement = tagElement;
         var selectedValue = tagElement.val();
         var contentSize = (selectedValue !== null) ? selectedValue.length : 0;
-
-        console.log(contentSize);
-
+                      
         if (contentSize > 1) {
-
-            console.log(tagElement);
+            
             showCondition(true);
 
         }
 
         if (contentSize <= 1) {
-
 
             showCondition(false);
 
@@ -225,9 +227,9 @@
     function showCondition(show) {
 
         var conditionBox = $('.type-condition');
+          
         conditionBox.find(":checked").attr("disabled", false);
         conditionBox.show();
-
 
         if (show === false) {
 
