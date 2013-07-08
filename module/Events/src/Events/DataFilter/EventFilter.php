@@ -36,6 +36,12 @@ class EventFilter {
     
     const TOTALCOUNTDEFAULT = "all";
     
+    public function getTagList(){
+        
+        return $this->tagList;
+        
+    }
+
     public function setTagList(array $tagList) {
         
         $this->tagList = $tagList;

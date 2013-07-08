@@ -7,8 +7,11 @@ use Zend\Mvc\Controller\AbstractActionController,
     Zend\Form\Form;
 
 use Events\Service\EventService,
-    Events\DataFilter\EventFilter,
-    Events\Service\RegionService;
+    Events\Service\RegionService,
+    Events\Service\TagService;
+    
+use Events\DataFilter\EventFilter,
+    Zend\View\Model\JsonModel;
 
 use Zend\Mail\Transport;
 use Zend\Mail\Message as Message;
@@ -59,14 +62,19 @@ class EventsController extends AbstractActionController
     {
         
     	//$region = $this->getAndCheckNumericParam('region');
-    	
+        $filter = $this->createFilterFromUrlParams($this->mergeRequest());
+       
+        // @todo pass class to event service
+        $events = $this->eventService->getListByFilter($filter);
+       
+       
         return new ViewModel(array(
             
-            'events' => $this->eventService->getFullList(null),
+            'events' => $events,
             'regions'=>$this->regionService->getFullList(),
             
         ));
-        
+                
     }
     
     /**
@@ -154,12 +162,33 @@ class EventsController extends AbstractActionController
     public function searchAction() {
       
         $events = $this->searchEvents();
-       
-        
+               
         $viewModel = new ViewModel(array('events' => $events));
         $viewModel->setTemplate('events/events/index');
-        
+               
         return $viewModel;
+        
+    }
+    
+    /**
+     * Search events action
+     * 
+     * Retrieves events list according to the filters the user have defined 
+     * 
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function countAction() {
+      
+        $eventsNr = $this->countEvents();
+               
+        $result = new JsonModel(array(
+	    
+            'count' => $eventsNr,
+            'success'=>true,
+            
+        ));
+        
+        return $result;
         
     }
     
@@ -167,9 +196,7 @@ class EventsController extends AbstractActionController
     /*
      * Private methods
      */
-    
-   
-     private function searchEvents() {
+    private function listEvents() {
                          
         // get params from url and prepare EventFilter class
         $filter = $this->createFilterFromUrlParams($this->mergeRequest());
@@ -178,7 +205,17 @@ class EventsController extends AbstractActionController
         return $this->eventService->countFilteredItems($filter);
         
     }
-   
+    
+    
+    private function countEvents() {
+                         
+        // get params from url and prepare EventFilter class
+        $filter = $this->createFilterFromUrlParams($this->mergeRequest());
+        // @todo pass class to event service
+        return $this->eventService->countFilteredItems($filter);
+        
+    }
+
     
     /**
      * Merge region parameter from route with search request parameters
@@ -188,7 +225,7 @@ class EventsController extends AbstractActionController
        
         $requestParams = $this->params()->fromQuery();
         $requestParamFromRoute = $this->params()->fromRoute();
-        $requestParams['region'] = $requestParamFromRoute['region']; 
+        $requestParams['region'] = (isset($requestParamFromRoute['region']))?$requestParamFromRoute['region']:null; 
                 
         return $requestParams;
         

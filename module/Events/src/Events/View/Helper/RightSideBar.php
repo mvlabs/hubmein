@@ -26,12 +26,15 @@ class RightSideBar extends AbstractHelper {
             
             $urlPlugin = $this->view->plugin('url');
             
-            $url = $urlPlugin('events/regionfilter',array('controller'=>'events','action'=>'search','region'=>'Africa'));
+            $url = $urlPlugin('events',array('controller'=>'events','action'=>'search'));
             
             $html = '<aside id="sidebar" class="fr">';
             $html .=  '<div class="rounded-box-title box">';
             $html .=      '<div class="box-inner clearfix">';
             $html .=         '<form id="search-form" name="search" action="'.$url.'" method="get" class="sidebar-form">';
+            $html .=         '<p class="more-wrap">';
+            $html .=            '<a class="more reset-filters">Clear filters</a>';
+	    $html .=	      '</p>';
             $html .=          '<div class="layout-slider">';
             $html .=          '</div>';
             $html .=           '<div>';
@@ -78,6 +81,8 @@ class RightSideBar extends AbstractHelper {
              $html .=                '</select>
                                       </p>
                                       <div class="count-loader"></div>
+                                      <div class="result"></div>
+                                      <div class="loader"></div>
                                       <p><input type="submit" class="bigbutton" value="Refine"></p>
                                 </form>
                           </div>
