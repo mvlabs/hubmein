@@ -18,13 +18,14 @@ class RightSideBar extends AbstractHelper {
     
     public function __construct(array $regions,array $tags, array $currentRequestDatas) {
         
+               
         $this->regions = $regions;
         $this->tags = $tags;
         $this->requestRegion = $currentRequestDatas['region'];
         $this->requestPeriod = $currentRequestDatas['period'];
         $this->currentDate = new \DateTime();
         
-      
+           
     }
     
     public function __invoke() {
@@ -40,19 +41,19 @@ class RightSideBar extends AbstractHelper {
             $html .=         '<p class="more-wrap">';
             $html .=            '<a class="more reset-filters">Clear filters</a>';
 	    $html .=	      '</p>';
-            $html .=          '<div class="layout-slider">';
-            $html .=          '</div>';
+        
             $html .=           '<div>';
             $html .=           '<label for="location-1">Period: </label>';
             $html .=            '<select data-placeholder="select tag" multiple class="chzn-select topics" tabindex="8">';
             $html .=                '<option value="all"></option>';
                    
-                               foreach( $this->tags as $value ) {
-                            
-            $html .=                '<option>'.$value.'</option>';
+                               foreach( $this->tags as $tagName ) {
+                                   
+            $html .=                '<option value="'.$tagName.'"selected>'.$tagName.'</option>';
             
                                  }
             $html .=            '</select>';
+            
             $html .=            '<p class="type-condition">';
             $html .=                 '<input type="radio" checked="true" value="all" name="tc">All <input type="radio" value="alo" name="tc"> At least one';
 	    $html .=		'</p> ';
@@ -61,11 +62,11 @@ class RightSideBar extends AbstractHelper {
             $html .=               '<label for="location-1">Location: </label>';
             $html .=               '<select name="region" id="region">';
             $html .=                    '<option value="*" >All regions</option>';
-                                        foreach ( $this->regions as $name ) {
+                                        foreach ( $this->regions as $region ) {
                                                 
-                                                $urlName = trim(strtolower(trim($name)));
-                                                                                                
-                                                $html .= '<option value="' . str_replace(" ","-",$urlName) . '"'.( $this->currentRegion == $name ?' selected="selected"':'' ).'>' . $name . '</option>';
+                                                $sluggedRegion = self::convertRegionToSlug($region);
+                                                                                              
+                                                $html .= '<option value="' . $sluggedRegion . '" '.( $this->requestRegion == $sluggedRegion ? 'selected':'' ).'>' . $region . '</option>';
 
                                         }
              $html .=              '</select>';
@@ -84,14 +85,15 @@ class RightSideBar extends AbstractHelper {
 
                                                }            
 
-                                               $html .= '<option value="' . $this->currentDate->format('F-Y') . '"'.( $this->currentPeriod == $this->currentDate->format('F-Y')?' selected="selected"':'' ).'>' . $this->currentDate->format('F-Y') . '</option>';
+                                               $html .= '<option value="' . $this->currentDate->format('F-Y') . '"'.( $this->requestPeriod == $this->currentDate->format('F-Y')?' selected="selected"':'' ).'>' . $this->currentDate->format('F-Y') . '</option>';
 
                                            }     
              $html .=                '</select>
                                       </p>
-                                      <div class="count-loader"></div>
-                                      <div class="result"></div>
-                                      <div class="loader"></div>
+                                          <div class="loader"></div>
+                                          <div class="count-loader"></div>
+                                          <div class="result"></div>
+                                          <div class="submit-loader"></div>
                                       <p><input type="submit" class="bigbutton" value="Refine"></p>
                                 </form>
                           </div>
@@ -103,5 +105,10 @@ class RightSideBar extends AbstractHelper {
 
     }
       
+    
+    private static function convertRegionToSlug($region) {
+        
+        return str_replace(" ","-",trim(strtolower(trim($region))));
+    }
 
 }

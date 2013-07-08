@@ -47,12 +47,7 @@ class EventRepository extends EntityRepository {
         $dql .="LEFT JOIN country.region region ";
         $dql .= $queryFilter;
         $dql .= ")";
-        
-      
-      
-       $query = $this->_em->createQuery($dql);
-     //   var_dump($query->getSQL());
-        //var_dump($dql);
+         
        
         $result = $this->_em->createQuery($dql)->getScalarResult();
         $totalCount = (sizeof($result)> 0)? $result[0][1]:0;
@@ -69,7 +64,8 @@ class EventRepository extends EntityRepository {
         
         if( !isset($filterDatas['tc']) ) {
             
-            throw new \Exception('key tc is not existent');            
+            throw new \Exception('key tc is not existent');        
+            
         }
         
         
@@ -164,15 +160,11 @@ class EventRepository extends EntityRepository {
         $query = "";
         
         if(isset($tagNumber)) {
-            
-            //$query .= "AND events.id ='".$tagNumber."'";
-            
+                             
             $query .= " GROUP BY events.id ";
             $query .= " HAVING COUNT(events.id) = ".$tagNumber;
         }
-        
-        
-        
+               
         return $query;
     }
     

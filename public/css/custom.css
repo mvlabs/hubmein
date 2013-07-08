@@ -15,11 +15,17 @@
     
 }
 
-.loader {
+.submit-loader {
     
     width:inherit;
     height:100px;
     clear:both;
     background:url('/images/loading.gif') no-repeat center;
+    
+}
+
+.loader {
+    
+    display:none;
     
 }
