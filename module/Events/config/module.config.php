@@ -160,4 +160,22 @@ return array(
         ),
     ),
     
+    // Admin panel ACL
+    'bjyauthorize' => array(
+        'guards' => array(
+            'BjyAuthorize\Guard\Controller' => array(
+                
+                // Enable access to ZFC User pages
+                array('controller' => 'zfcuser', 'roles' => array()),
+                
+                // Only 'admin' users can view Admin home page
+                array('controller' => 'ZfcAdmin\Controller\AdminController', 'roles' => array('admin')),
+                
+                // Restrict access to other pages to 'admin' users
+                array('controller' => 'Events\Controller\AdminEvents', 'roles' => array('admin')),
+                array('controller' => 'Events\Controller\AdminTags', 'roles' => array('admin')),
+            ),
+        ),
+    ),
+    
 );

@@ -12,6 +12,7 @@ namespace Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
+use BjyAuthorize\View\RedirectionStrategy;
 
 class Module
 {
@@ -28,6 +29,16 @@ class Module
         $I_sm = $I_application->getServiceManager();
         $I_mailService = $I_sm->get('Application\Service\MailService');
         $I_sharedEventManager->attach('Events\Service\EventService', 'event_saved', array($I_mailService, 'logEventSaved'));
+        
+        
+        /*
+         * Check Admin ACL with BjyAuthorize:
+         * use RedirectionStrategy (that redirects to ZfcUser's login route by default)
+         */
+        $strategy = new RedirectionStrategy();
+        $I_eventManager->attach($strategy);
+        
+        
         
         // Common Error Handling Code
         /*$I_eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function($e) {

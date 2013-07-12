@@ -7,7 +7,11 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'ZendDeveloperTools',
+        'ZfcBase',
         'ZfcAdmin',
+        'ZfcUser',
+        'ZfcUserDoctrineORM',
+        'BjyAuthorize',
         
         // our app modules
         'Events',
