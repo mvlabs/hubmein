@@ -12,14 +12,17 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+use Events\DataFilter\EventFilter;
+
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-       $eventService = $this->getServiceLocator()->get('Events\Service\EventService');
-       $events = $eventService->getFullList();
-      
-        return new ViewModel(array('events' => $events));
+             
+        $filterEvent = EventFilter::createObjFromArray();
+        
+        return new ViewModel($filterEvent);
+        
     }
     
     public function aboutAction()

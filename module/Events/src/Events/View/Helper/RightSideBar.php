@@ -1,40 +1,39 @@
 <?php
-
 namespace Events\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
-use Zend\Http\Request;
 
 class RightSideBar extends AbstractHelper {
 
-    private $countries;
     
-    private $currentRegion;
-    private $currentPeriod;
+    private $services = array();
+    private $loadedCurrentDatas = array();
+    
     
     const MAX_MONTH_NUMBER = 6;
     
-    public function __construct(array $regions,array $currentRequestDatas) {
-        
+    public function __construct(array $regions,array $tags, array $currentRequestDatas) {
                
-        $this->regions = $regions;
-        $this->requestRegion = $currentRequestDatas['region'];
-        $this->requestPeriod = $currentRequestDatas['period'];
-        $this->currentDate = new \DateTime();
-        
-           
+        $this->services['regions'] = $regions;
+        $this->services['tags'] = $tags;
+        $this->loadedCurrentDatas['region'] = $currentRequestDatas['region'];
+        $this->loadedCurrentDatas['period'] = $currentRequestDatas['period'];
+                 
     }
     
     public function __invoke() {
             
-            $urlPlugin = $this->view->plugin('url');
+            $this->getView()->render('partials/seach_form.phtml', $this->getValuesForPartial());
+           
+            //$urlPlugin = $this->view->plugin('url');
+    
             
-            $url = $urlPlugin('events',array('controller'=>'events','action'=>'search'));
+           // $url = $urlPlugin('events',array('controller'=>'events','action'=>'search'));
             
-            $html = '<aside id="sidebar" class="fr">';
+          /*
             $html .=  '<div class="rounded-box-title box">';
             $html .=      '<div class="box-inner clearfix">';
-            $html .=         '<form id="search-form" name="search" action="'.$url.'" method="get" class="sidebar-form">';
+            $html .=         '<form id="search-form" name="search" action="" method="get" class="sidebar-form">';
             $html .=         '<p class="more-wrap">';
             $html .=            '<a class="more reset-filters">Clear filters</a>';
 	    $html .=	      '</p>';
@@ -76,9 +75,10 @@ class RightSideBar extends AbstractHelper {
                                            for( $monthRange = 0;$monthRange < self::MAX_MONTH_NUMBER;$monthRange++ ) {
                                               
                                                if( $monthRange > 0 )  {
-
+                                                   
+                                                   $currentDate = new \DateTime();
                                                    $DateInterval = new \DateInterval('P1M');
-                                                   $this->currentDate->add($DateInterval);
+                                                   $currentDate->add($DateInterval);
 
                                                }            
 
@@ -95,16 +95,28 @@ class RightSideBar extends AbstractHelper {
                                 </form>
                           </div>
                      </div><!-- END: box -->
-                    </aside>
-                <!-- END: sidebar -->';
+                
+                
 
         return $html;
-
+        */
+    
     }
     
-    private static function convertRegionToSlug($region) {
+    private function getValuesForPartial() {
+        
+        $filters = array();
+        
+        $filters['currents'] = $this->loadedCurrentDatas;
+        $filters['service'] = $this->services;
+        
+        return $filters;
+        
+    }
+    
+    /*private static function convertRegionToSlug($region) {
         
         return str_replace(" ","-",trim(strtolower(trim($region))));
-    }
+    }*/
 
 }

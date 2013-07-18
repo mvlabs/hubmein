@@ -2,11 +2,10 @@
 
 namespace Events\Mapper;
 
-use Zend\ServiceManager\ServiceManager,
-    Zend\ServiceManager\ServiceLocatorAwareInterface,
-    Zend\ServiceManager\ServiceLocatorInterface;
+use Doctrine\ORM\EntityManager;
 
-use Events\DataFilter\EventFilter;
+use Events\DataFilter\RequestBuilder;
+
 
 class DoctrineEventMapper implements EventMapperInterface {
 
@@ -14,7 +13,7 @@ class DoctrineEventMapper implements EventMapperInterface {
     private $eventRepository;
     
  
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager) 
+    public function __construct( EntityManager $entityManager ) 
     {
         $this->entityManager = $entityManager;
         $this->eventRepository = $this->entityManager->getRepository('Events\Entity\Event');
@@ -41,36 +40,29 @@ class DoctrineEventMapper implements EventMapperInterface {
     
         
    /**
-    * Gets list of filtered evetns
-    *
-    * @param string $countryId
-    * @return integer Max number of events to return
+    * 
+    * Get a list of Events Entity by a given $criterias array
+    * @param array $criterias
+    * @return array mixed 
     */
-    public function getFilteredList( EventFilter $EventFilter, $limit = null )
+    public function getListByFilter( RequestBuilder $requestBuilder )
     {
         
-        return $this->eventRepository->getFilteredList($EventFilter);
+        return $this->eventRepository->getFilteredList( $requestBuilder );
                 
     }
     
     /**
-     * Count a list given an EventFilter
+     * Gets number of filtered events by a given $criterias array 
+     * @param array $criterias
+     * return int 
      */
-    public function countFilteredItems( EventFilter $EventFilter ){
+    public function countListByFilter( RequestBuilder $requestBuilder ){
       
-        return $this->eventRepository->countFilteredItems($EventFilter);
+        return $this->eventRepository->countFilteredItems( $requestBuilder );
         
     }
-    
-    /**
-     * 
-     */
-    public function getFullList(){
-              
-        return $this->eventRepository->findAll();
-        
-    }
-    
+     
     /**
      * Saves an event
      * 

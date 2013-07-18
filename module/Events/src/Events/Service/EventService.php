@@ -3,7 +3,7 @@
 namespace Events\Service;
 
 use Events\Entity\Event,
-    Events\DataFilter\EventFilter,
+    Events\DataFilter\RequestBuilder,
     Events\Mapper\EventMapperInterface;
 
 use Zend\ServiceManager\FactoryInterface;
@@ -57,48 +57,25 @@ class EventService implements EventManagerAwareInterface {
     }
 
     /**
-     * Get Event List given an EventFilter object
+     * Get Event List given an array of criterias
      *
-     * @param mixed $countryId
-     * @return array List of Event
+     * @return array list of Event Entity
      */
-    public function getListByFilter( EventFilter $eventFilter = null ) {
+    public function getListByFilter( RequestBuilder $requestBuilder ) {
                
-        return $this->eventMapper->getFilteredList($eventFilter);
+        return $this->eventMapper->getListByFilter( $requestBuilder );
         
     }
     
     /**
-     * Count Event list given an EventFilter object
+     * Count Event list given an array of criterias
      */
-    public function countFilteredItems( EventFilter $EventFilter ){
+    public function countListByFilter( RequestBuilder $requestBuilder ){
         
-        return $this->eventMapper->countFilteredItems($EventFilter);
+        return $this->eventMapper->countListByFilter( $requestBuilder );
         
     }
-    
-    /**
-     * Gets the list of events in the form of array
-     */
-    public function getListArray() {
-        
-        return $this->eventMapper->getListArray();
-        
-    }
-        
-    /**
-     * Fetches events (IE conferences) related to a specific country
-     */
-    public function getLocalEvents() {
-        
-    	$m_country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
-    	$i_limit = 4;	
-        
-       
-    	//return $this->eventMapper->getEventList($m_country, 4);
-        
-    } 
-    
+           
     /**
      * 
      */

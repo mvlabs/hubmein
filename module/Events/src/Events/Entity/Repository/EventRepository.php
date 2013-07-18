@@ -4,7 +4,17 @@ namespace Events\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-use Events\DataFilter\EventFilter;
+use Events\DataFilter\RequestBuilder;
+
+/**
+ *
+ * @author David Contavalli < mauipipe@gmail.com >
+ * @copyright M.V. Associates for VDA (c) 2011 - All Rights Reserved -
+ *  You may execute and modify the contents of this file, but only within the scope of this project.
+ *  Any other use shall be considered forbidden, unless otherwise specified.
+ * @link http://www.mvassociates.it
+ */
+
 
 
 class EventRepository extends EntityRepository {
@@ -12,9 +22,9 @@ class EventRepository extends EntityRepository {
     const DATE_REGEXP = "";
        
     
-    public function getFilteredList(EventFilter $EventFilter) {
-        
-        $queryFilter = $this->buildQuerySearch($EventFilter);
+    public function getFilteredList(RequestBuilder $RequestBuilder) {
+              
+       $queryFilter = $this->buildQuerySearch($RequestBuilder);
         
        $dql = "SELECT events ".
               "FROM Events\Entity\Event events ".
@@ -32,14 +42,14 @@ class EventRepository extends EntityRepository {
         
     }    
     
-    public function countFilteredItems(EventFilter $EventFilter){
+    public function countFilteredItems(RequestBuilder $RequestBuilder){
         
-        $queryFilter = $this->buildQuerySearch($EventFilter);
+        $queryFilter = $this->buildQuerySearch($RequestBuilder);
         
         $dql = "SELECT COUNT(e.id) FROM Events\Entity\Event e WHERE e.id IN (";
         $dql .= "SELECT events.id  ";
         $dql .= "FROM Events\Entity\Event events ";
-                if(sizeof($EventFilter->getTagList()) > 0) {
+                if(sizeof($RequestBuilder->getTagList()) > 0) {
         $dql .= "LEFT JOIN events.tags tag ";
                 }
         $dql .="LEFT JOIN events.country country ";
@@ -56,19 +66,20 @@ class EventRepository extends EntityRepository {
         
     }
     
-    private function buildQuerySearch(EventFilter $EventFilter) {
+    private function buildQuerySearch( RequestBuilder $requestBuilder ) {
         
-        $filterDatas = $EventFilter->toArray();
+       
+        $filterDatas = $requestBuilder->toArray();
         $queries = array();
               
         
-        if( !isset($filterDatas['tc']) ) {
+       
+        if( !array_key_exists('tc', $filterDatas) ) {
             
             throw new \Exception('key tc is not existent');        
             
         }
-        
-        
+           
         if( sizeof($filterDatas)>0 ) {
                     
             foreach($filterDatas as $key => $value){
