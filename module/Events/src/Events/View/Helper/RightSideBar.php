@@ -23,6 +23,7 @@ class RightSideBar extends AbstractHelper {
     
     public function __invoke() {
             
+            
             $this->getView()->render('partials/seach_form.phtml', $this->getValuesForPartial());
            
             //$urlPlugin = $this->view->plugin('url');
