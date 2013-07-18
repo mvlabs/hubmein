@@ -36,7 +36,7 @@ class RightSideBarFactory implements FactoryInterface {
                 
 	    }
                       
-	    return new RightSideBar( $countryService->getFullList(),$currentDatas );
+	    return new RightSideBar( $regionService->getListAsArray(),$tagService->getTagListAsArray(), $currentDatas );
 		
 	}
 

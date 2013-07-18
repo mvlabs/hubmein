@@ -10,9 +10,17 @@ use Doctrine\ORM\EntityManager;
  */
 class DoctrineRegionMapper implements RegionMapperInterface{
     
-    
+    /**
+     *
+     * @var Doctrine\ORM\EntityManager
+     */
     private $entityManager;
-    private $countryRepository;
+    
+    /**
+     *
+     * @var Events\Entity\Repository\EventsRepository 
+     */
+    private $regionRepository;
  
     public function __construct( EntityManager $entityManager ) 
     {
@@ -27,15 +35,16 @@ class DoctrineRegionMapper implements RegionMapperInterface{
      * 
      * @return array
      */
-    public function getFullList() 
+    public function getListAsArray() 
     {
     	
-        $regions = $this->regionRepository->findAll();
+        $regions = $this->regionRepository->getList();
+       
         $result = array();
         
         foreach ( $regions as $region ) {
             
-            $result[$region->getId()] = $region->getName();
+            $result[$region->getSlug()] = $region->getName();
             
         }
                 

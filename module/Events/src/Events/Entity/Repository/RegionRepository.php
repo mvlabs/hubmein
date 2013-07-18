@@ -14,6 +14,19 @@ use Doctrine\ORM\EntityRepository;
 class RegionRepository extends EntityRepository
 {
     
-    
+    public function getList() {
+        
+        $queryBuilder = $this->_em->createQueryBuilder();
+        
+         $result =   $queryBuilder->select("r")
+                     ->from($this->_entityName, "r")
+                     ->orderBy("r.name ","ASC")
+                     ->getQuery()
+                     ->getResult();
+      
+        return $result;
+        
+    }
+     
       
 }

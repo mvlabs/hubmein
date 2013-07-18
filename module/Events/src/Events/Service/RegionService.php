@@ -30,9 +30,9 @@ class RegionService {
     /**
      * Fetches list of countries within the system
      */
-    public function getFullList() {
+    public function getListAsArray() {
         
-    	return $this->regionMapper->getFullList();
+    	return $this->regionMapper->getListAsArray();
         
     }
     

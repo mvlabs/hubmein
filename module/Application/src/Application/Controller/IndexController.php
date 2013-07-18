@@ -12,16 +12,18 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-use Events\DataFilter\EventFilter;
+use Events\DataFilter\RequestBuilder;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
              
-        $filterEvent = EventFilter::createObjFromArray();
+     //   $filterEvent = RequestBuilder::createObjFromArray(array());
         
-        return new ViewModel($filterEvent);
+        
+        
+        return new ViewModel();
         
     }
     
