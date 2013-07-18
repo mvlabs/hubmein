@@ -9,7 +9,7 @@ interface RegionMapperInterface {
     
     public function getRegion($id);
     
-    public function getFullList();
+    public function getListAsArray();
     
 }
 

@@ -2,9 +2,9 @@
 <div class="rounded-box-title box">
     <div class="box-inner clearfix">
          
-         <p class="more-wrap">
+         <div class="more-wrap">
             <a class="more reset-filters">Clear filters</a>
-         </p>
+         </div>
 
         <form id="search-form" name="search" action="" method="get" class="sidebar-form">
             
@@ -31,17 +31,12 @@
                <select name="region" id="region">
                     <option value="*" >All regions</option>
                     <?php
-                    //@TODO Decide how to render loop inside partial
-                     foreach ( $this->regions as $slug => $region ) {
-                            
+                     foreach ( $this->service['regions'] as $slug => $region ) {
                            $selected = ( $this->currents['region'] == $slug ) ? "selected" : "";
-                           
                     ?>
                     <option value="<?php echo $slug; ?>" <?php echo $selected ?> > <?php echo $region; ?></option>
-                     <?php 
-                     
+                     <?php                       
                        }
-                       
                      ?>
                </select>
              </div>
@@ -51,18 +46,18 @@
                      <option value="*" >All periods</option>
 
                      <?php
-                     for( $monthRange = 0 ; $monthRange < self::MAX_MONTH_NUMBER ; $monthRange++ ) {
+                     $currentDate = new \DateTime();
+                     for( $monthRange = 0 ; $monthRange < 6 ; $monthRange++ ) {
 
                                    if( $monthRange > 0 )  {
-
-                                       $currentDate = new \DateTime();
+                                    
                                        $DateInterval = new \DateInterval(P1M);
                                        $currentDate->add($DateInterval);
 
                                    }
-                                   $selected = ( $this->currents['period'] == $currentDate->format(F-Y) ) ? "selected" : "";
+                                   $selected = ( $this->currents['period'] == $currentDate->format("F-Y") ) ? "selected" : "";
                      ?>
-                     <option value="<?php echo $this->currentDate->format(F-Y) ?>"><?php echo $this->currentDate->format(F-Y) ?></option>
+                     <option value="<?php echo $currentDate->format("F-Y")." ".$selected ?>"><?php echo $currentDate->format("F-Y") ?></option>
                      <?php
                      }  
                      ?>

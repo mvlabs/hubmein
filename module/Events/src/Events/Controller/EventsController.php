@@ -209,10 +209,9 @@ class EventsController extends AbstractActionController
     private function listEvents() {
                          
         // get params from url and prepare RequestBuilder class
-        $filter = $this->createFilterFromUrlParams($this->mergeRequest());
-       
-        // @todo pass class to event service
-        return $this->eventService->getListByFilter($filter);
+        $requestBuilder = $this->createFilterFromUrlParams($this->mergeRequest());
+               
+        return $this->eventService->getListByFilter( $requestBuilder );
         
     }
     
@@ -220,9 +219,9 @@ class EventsController extends AbstractActionController
     private function countEvents() {
                          
         // get params from url and prepare RequestBuilder class
-        $filter = $this->createFilterFromUrlParams($this->mergeRequest());
-        // @todo pass class to event service
-        return $this->eventService->countFilteredItems($filter);
+        $requestBuilder = $this->createFilterFromUrlParams( $this->mergeRequest() );
+        
+        return $this->eventService->countListByFilter($requestBuilder);
         
     }
 

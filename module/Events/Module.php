@@ -80,11 +80,15 @@ class Module implements ViewHelperProviderInterface
     {
     	return array(
 			'invokables' => array( 
+                            
 			    'cost' => 'Events\View\Helper\DisplayCost',
+                            
 			),
-    	    'factories' => array(
-    	        'rightSideBar' => 'Events\View\Helper\RightSideBarFactory',
-    	    ),
+                        'factories' => array(
+                            
+                            'rightSideBar' => 'Events\View\Helper\RightSideBarFactory',
+                            
+                        ),
     	);
     }
     

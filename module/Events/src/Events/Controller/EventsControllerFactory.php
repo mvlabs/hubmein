@@ -24,7 +24,7 @@ class EventsControllerFactory implements FactoryInterface {
             $tagService = $serviceLocator->getServiceLocator()->get( 'Events\Service\TagService' );
             
 	    // Object graph is constructed
-	    $countries = $regionService->getFullList();
+	    $countries = $regionService->getListAsArray();
 	    $form = new Promote( $countries );
 	    
 	    $formFilter = new PromoteFilter();
