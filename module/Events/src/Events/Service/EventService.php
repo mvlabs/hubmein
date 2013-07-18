@@ -3,7 +3,7 @@
 namespace Events\Service;
 
 use Events\Entity\Event,
-    Events\DataFilter\EventFilter,
+    Events\DataFilter\RequestBuilder,
     Events\Mapper\EventMapperInterface;
 
 use Zend\ServiceManager\FactoryInterface;
@@ -57,36 +57,25 @@ class EventService implements EventManagerAwareInterface {
     }
 
     /**
-     * Get Event List given an EventFilter object
+     * Get Event List given an array of criterias
      *
-     * @param mixed $countryId
-     * @return array List of Event
+     * @return array list of Event Entity
      */
-    public function getListByFilter( EventFilter $EventFilter = null ) {
+    public function getListByFilter( RequestBuilder $requestBuilder ) {
                
-        return $this->eventMapper->getFilteredList($EventFilter);
+        return $this->eventMapper->getListByFilter( $requestBuilder );
         
     }
     
     /**
-     * Count Event list given an EventFilter object
+     * Count Event list given an array of criterias
      */
-    public function countFilteredItems( EventFilter $EventFilter ){
+    public function countListByFilter( RequestBuilder $requestBuilder ){
         
-        return $this->eventMapper->countFilteredItems($EventFilter);
+        return $this->eventMapper->countListByFilter( $requestBuilder );
         
     }
-    
-    /**
-     * Gets the list of events in the form of array
-     */
-    public function getListArray() {
-        
-        return $this->eventMapper->getListArray();
-        
-    }
-        
-        
+           
     /**
      * Inserts or updates an event from array data
      *

@@ -10,7 +10,7 @@ use Events\Service\EventService,
     Events\Service\RegionService,
     Events\Service\TagService;
     
-use Events\DataFilter\EventFilter,
+use Events\DataFilter\RequestBuilder,
     Zend\View\Model\JsonModel;
 
 
@@ -208,7 +208,7 @@ class EventsController extends AbstractActionController
      */
     private function listEvents() {
                          
-        // get params from url and prepare EventFilter class
+        // get params from url and prepare RequestBuilder class
         $filter = $this->createFilterFromUrlParams($this->mergeRequest());
        
         // @todo pass class to event service
@@ -219,7 +219,7 @@ class EventsController extends AbstractActionController
     
     private function countEvents() {
                          
-        // get params from url and prepare EventFilter class
+        // get params from url and prepare RequestBuilder class
         $filter = $this->createFilterFromUrlParams($this->mergeRequest());
         // @todo pass class to event service
         return $this->eventService->countFilteredItems($filter);
@@ -243,15 +243,13 @@ class EventsController extends AbstractActionController
      
     
     /**
-     * Build an EventFilter object from a given array
+     * Build an RequestBuilder object from a given array
      * @param array $filteredRequest
-     * @return \Events\DataFilter\EventFilter
+     * @return \Events\DataFilter\RequestBuilder
      */
     private function createFilterFromUrlParams( array $filteredRequest ) {
-               
-        $eventFilter = EventFilter::createObjFromArray( $filteredRequest );
-           
-        return $eventFilter;
+                  
+        return  RequestBuilder::createObjFromArray( $filteredRequest );
         
     }
     

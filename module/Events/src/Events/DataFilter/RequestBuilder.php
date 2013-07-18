@@ -2,7 +2,18 @@
 
 namespace Events\DataFilter;
 
-class EventFilter {
+/**
+ * build a objet from a request
+ *
+ * @author David Contavalli < mauipipe@gmail.com >
+ * @copyright M.V. Associates for VDA (c) 2011 - All Rights Reserved -
+ *  You may execute and modify the contents of this file, but only within the scope of this project.
+ *  Any other use shall be considered forbidden, unless otherwise specified.
+ * @link http://www.mvassociates.it
+ */
+
+
+class RequestBuilder {
     
     /**
      * @var array
@@ -92,7 +103,7 @@ class EventFilter {
       
     public static function createObjFromArray(array $request) {
         //init the Event filter object
-        $EventFilter = new EventFilter();
+        $RequestBuilder = new RequestBuilder();
         //Default page number
         $pageNumber = (isset($request[ 'page' ]))?$request[ 'page' ]:1;
              
@@ -102,11 +113,11 @@ class EventFilter {
             
             $datefromStringFormat =  '1-'.$request[ 'period' ];
             $dateFrom = \DateTime::createFromFormat( 'd-F-Y',$datefromStringFormat );
-            $EventFilter->setDateFrom( $dateFrom );
+            $RequestBuilder->setDateFrom( $dateFrom );
             
             $dateToStringFormat = date( 't' )."-".$request[ 'period' ];
             $dateTo = \DateTime::createFromFormat( 'd-F-Y',$dateToStringFormat );
-            $EventFilter->setDateTo( $dateTo );
+            $RequestBuilder->setDateTo( $dateTo );
             
         }
        
@@ -114,7 +125,7 @@ class EventFilter {
         if( isset( $request['tags'] ) && !empty( $request['tags'] ) ) {
                        
             $tags = explode( self::TAGLIST_SEPARATOR,$request['tags'] );
-            $EventFilter->setTagList($tags);
+            $RequestBuilder->setTagList($tags);
             
         }
         
@@ -125,11 +136,12 @@ class EventFilter {
                        
         }
         
-        $EventFilter->setTotalCount( $request['tc'] );
-        $EventFilter->setRegion($request['region']);
-        $EventFilter->setPageNumber($pageNumber);
+        $RequestBuilder->setTotalCount( $request['tc'] );
+        $RequestBuilder->setRegion($request['region']);
+        $RequestBuilder->setPageNumber($pageNumber);
               
-        return $EventFilter; 
+        return $RequestBuilder; 
+        
     }
     
     

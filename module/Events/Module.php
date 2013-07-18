@@ -30,7 +30,14 @@ class Module implements ViewHelperProviderInterface
     // Service Manager Configuration
     public function getServiceConfig() {
     	return array(
+                       'aliases'=>array(
+                           
+                            'event.service'=>'Events\Service\EventService',
+                            'event.doctrine.mapper'=> 'Events\Mapper\DoctrineEventMapper'
+                           
+                        ),
     			'factories' => array(
+                            
                                 'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
                                 'Events\Mapper\DoctrineEventMapper' => 'Events\Mapper\DoctrineEventMapperFactory',
                                 'Events\Service\RegionService'=>'Events\Service\RegionServiceFactory',
@@ -38,6 +45,7 @@ class Module implements ViewHelperProviderInterface
                                 'Events\Service\TagService'=>'Events\Service\TagServiceFactory',
                                 'Events\Mapper\TagMapper'=> 'Events\Mapper\DoctrineTagMapperFactory',
                                 //'Events\Mapper\EventMapper' => 'Events\Mapper\ZendDbEventMapperFactory'
+                            
     			),
     			
     	);
