@@ -1,0 +1,83 @@
+<!-- START: box -->
+<div class="rounded-box-title box">
+    <div class="box-inner clearfix">
+         
+         <p class="more-wrap">
+            <a class="more reset-filters">Clear filters</a>
+         </p>
+
+        <form id="search-form" name="search" action="" method="get" class="sidebar-form">
+            
+            <div>
+               <label for="location-1">Period: </label>
+                <select data-placeholder="select tag" multiple class="chzn-select topics" tabindex="8">
+                    <option value="all"></option>
+                    <?php
+                    //@TODO Decide how to render loop inside partial
+                    foreach( $this->service['tags'] as $tagName ) {
+                    ?>
+                    <option value=".$tagName."selected><?php echo $tagName; ?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+
+                <p class="type-condition">
+                     <input type="radio" checked="true" value="all" name="tc">All <input type="radio" value="alo" name="tc"> At least one
+                </p> 
+            </div>
+            <div>
+               <label for="location-1">Location: </label>
+               <select name="region" id="region">
+                    <option value="*" >All regions</option>
+                    <?php
+                    //@TODO Decide how to render loop inside partial
+                     foreach ( $this->regions as $slug => $region ) {
+                            
+                           $selected = ( $this->currents['region'] == $slug ) ? "selected" : "";
+                           
+                    ?>
+                    <option value="<?php echo $slug; ?>" <?php echo $selected ?> > <?php echo $region; ?></option>
+                     <?php 
+                     
+                       }
+                       
+                     ?>
+               </select>
+             </div>
+             <div>
+                  <label for="location-1">Period: </label>
+                  <select name="period">
+                     <option value="*" >All periods</option>
+
+                     <?php
+                     for( $monthRange = 0 ; $monthRange < self::MAX_MONTH_NUMBER ; $monthRange++ ) {
+
+                                   if( $monthRange > 0 )  {
+
+                                       $currentDate = new \DateTime();
+                                       $DateInterval = new \DateInterval(P1M);
+                                       $currentDate->add($DateInterval);
+
+                                   }
+                                   $selected = ( $this->currents['period'] == $currentDate->format(F-Y) ) ? "selected" : "";
+                     ?>
+                     <option value="<?php echo $this->currentDate->format(F-Y) ?>"><?php echo $this->currentDate->format(F-Y) ?></option>
+                     <?php
+                     }  
+                     ?>
+                     </select>
+             </div>
+             <div class="loader"></div>
+             <div class="count-loader"></div>
+             <div class="result"></div>
+             <div class="submit-loader"></div>
+             <div>
+                 <input type="submit" class="bigbutton" value="Refine">
+             </div>
+            </form>
+      </div>
+ </div>
+<!-- END: box -->
+                
+            
