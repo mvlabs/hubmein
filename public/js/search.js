@@ -7,9 +7,8 @@
     var submitLoaderImg = $(".submit-loader");
     var resetSearchButton = $(".reset-filters");
 
-    var moduleName = "/events";
-    var topicsElement = ".chzn-select.topics";
-
+    var moduleName = "/conferences";
+    var topicsElement = ".topics";
 
     //Enable all input field if mode equal to enableAll
     //Disable input if its name is "region" or its value is "all"
@@ -64,6 +63,7 @@
         var url = (preparedForm.serialize() !== "") ? formController + "?" + preparedForm.serialize() : formController;
         var result = $(this).find(".result");
         
+        
         form.disableInputFiled("enableAll");
        
         loader.hide();
@@ -87,16 +87,8 @@
 
     };
     
-   $(".chzn-select").val("city");
-   $(".chzn-select").trigger("liszt:updated");
     
-    $(topicsElement).chosen().change(function() {
-
-        checkTagsContentSize($(this));
-        form.getTotalCountByFilter();
-        
-    });
-    
+  
     form.find(":radio").change(function(){
        
        form.getTotalCountByFilter();
@@ -105,13 +97,15 @@
     
     //Commands
 
+       
     form.attr('action', '');
 
     showCondition(false);
 
     submitLoaderImg.hide();
     countLoaderImg.hide();
-
+    
+    
     checkTagsContentSize($(topicsElement));
 
     form.disableInputFiled('enableAll');
@@ -121,10 +115,27 @@
         form.getTotalCountByFilter();
 
     });
-
-
+    
+    //Init select2 plugin
+    $(topicsElement).select2();
+    //Set the tags when a search is performed
+    setTagsAfterSearch();
+     
+         
+    $(topicsElement).change(function() {
+        
+        checkTagsContentSize();
+             
+        form.getTotalCountByFilter();
+        
+    });
+     
+     
+     
     regionInput.change(function() {
-
+        
+       // checkTagContentSize();
+       
         form.getTotalCountByFilter();
 
     });
@@ -159,7 +170,31 @@
         });
 
     }
-
+    
+    function setTagsAfterSearch(){
+        
+        
+        var tagsToSelect = getUrlParam('tags');
+        var tags = [];
+                
+        if( tagsToSelect !== "null") {
+            
+            tags = tagsToSelect.split(",");
+           
+        }
+      
+        $(topicsElement).select2("val",tags);
+    
+        
+    }
+    
+    function getUrlParam(name) {
+      
+        return decodeURIComponent((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]);
+        
+    }
+   
+    
     function prepareFormValues(form) {
 
         form.disableInputFiled('disableAll');
@@ -172,7 +207,7 @@
     function buildTagRequest(form) {
 
         var tagElement = form.find(topicsElement);
-        var tagValues = tagElement.val();
+        var tagValues = getTopicsContent();
         var tagAppendix = "tags";
 
         var hiddenValue = form.find(":hidden[name='tags']");
@@ -202,12 +237,19 @@
         return regionValue;
 
     }
-
-    function checkTagsContentSize(tagElement) {
-
-        var tagElement = tagElement;
-        var selectedValue = tagElement.val();
-        var contentSize = (selectedValue !== null) ? selectedValue.length : 0;
+    
+    function getTopicsContent() {
+        
+        var totalTags = $(topicsElement).select2("val");
+               
+        return totalTags;
+        
+    }
+    
+    function checkTagsContentSize() {
+      
+        var totalTags = getTopicsContent();
+        var contentSize = totalTags.length;
                       
         if (contentSize > 1) {
             
@@ -220,10 +262,10 @@
             showCondition(false);
 
         }
-
+        
     }
-
-
+    
+    
     function showCondition(show) {
 
         var conditionBox = $('.type-condition');
