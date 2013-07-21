@@ -12,7 +12,8 @@ echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scal
 
 //styles
 echo $this->headLink()->prependStylesheet('/css/open-sans/stylesheet.css')
-                      ->prependStylesheet('/css/chosen.css')
+                      //->prependStylesheet('/css/chosen.css')
+                      ->prependStylesheet('/css/select2.css')
                       ->prependStylesheet('/css/style.css')
                       ->prependStylesheet('/css/custom.css');
 
@@ -57,16 +58,29 @@ echo $this->headLink()->prependStylesheet('/css/open-sans/stylesheet.css')
     
 <?php
 //js
-echo $this->headScript()->prependFile('/js/jquery-1.6.4.min.js')
+echo $this->headScript()->prependFile('/js/jquery-1.8.2.js')
                         ->appendFile('/js/css3-mediaqueries.js')
                         ->appendFile('/js/html5.js')
-                        //->appendFile('/js/custom.js')
+                        ->appendFile('/js/custom.js')
+                        ->appendFile('/js/select2.js')
                         //->appendFile('/js/chosen.jquery.min.js')
                         ->appendFile('/js/search.js');
                        
 ?>
 <script type="text/javascript"> 
-   /* var config = {
+   
+  
+       /* (function($){
+             
+          $('.topics').select2();
+        
+          
+        })(jQuery);
+    */
+    
+    
+  
+    /* var config = {
       '.chzn-select'           : {},
       '.chzn-select-deselect'  : {allow_single_deselect:true},
       '.chzn-select-no-single' : {disable_search_threshold:10},
@@ -76,7 +90,7 @@ echo $this->headScript()->prependFile('/js/jquery-1.6.4.min.js')
     for (var selector in config) {
       $(selector).chosen(config[selector]);
     }*/
-  </script>
+</script>
 
 
 </html>
