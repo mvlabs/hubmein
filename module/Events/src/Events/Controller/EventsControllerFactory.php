@@ -9,6 +9,10 @@ use Events\Form\PromoteFilter,
     Events\Form\Promote,
     Events\Controller\EventsController;
 
+use Events\Service\EventService,
+    Events\Service\RegionService,
+    Events\Service\TagService;
+
 class EventsControllerFactory implements FactoryInterface {
 
     /**
@@ -18,18 +22,20 @@ class EventsControllerFactory implements FactoryInterface {
      */
 	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
-	    // dependency is fetched from Service Manager
-	    $eventService = $serviceLocator->getServiceLocator()->get('Events\Service\EventService');
-	    $regionService = $serviceLocator->getServiceLocator()->get('Events\Service\RegionService');
-	    // Object graph is constructed
+	    // Get $eventService, $regionService, $tagService
+	    $eventService = $serviceLocator->getServiceLocator()->get( 'Events\Service\EventService' );
+	    $regionService = $serviceLocator->getServiceLocator()->get( 'Events\Service\RegionService' );
+            $tagService = $serviceLocator->getServiceLocator()->get( 'Events\Service\TagService' );
+            
+	    //@TODO why $regionService is not injected in the form constructor?
 	    $countries = $regionService->getListAsArray();
-	    $form = new Promote($countries);
+	    $promoteForm = new Promote( $countries );
 	    
 	    $formFilter = new PromoteFilter();
-	    $form->setInputFilter($formFilter);
+	    $promoteForm->setInputFilter( $formFilter );
 	    
-	    // Controller is constructed, dependencies are injected (IoC in action)
-	    $controller = new EventsController($eventService, $regionService,$form); 
+	    // create  an instance of EventsController injecting $eventService, $regionService, $tagService, $promoteForm as dependencies (IoC in action)
+	    $controller = new EventsController( $eventService, $regionService,  $tagService,  $promoteForm ); 
 	    
 	    return $controller; 
 		

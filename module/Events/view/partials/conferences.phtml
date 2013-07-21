@@ -1,0 +1,35 @@
+<?php 
+
+if (count($this->conferences) == 0 ) {
+?>
+    <div class="event clearfix">
+            <div class="event-info">
+                    <h3>No events happening in selected country soon.</h3>
+                    <p>Please use select control on right to pick a different one.</p>
+    </div>
+
+<?php
+}
+?>
+
+<?php 
+
+foreach ($this->conferences as $conference) { ?>
+    <div class="event clearfix">
+            <figure class="event-logo"><a href="#"><img src="/images/default_icon.jpg" /></a></figure>
+            <div class="event-info">
+                    <h3>
+                        <a href="/event?id=<?php echo $conference->getId(); ?>"><?php echo $conference->getTitle(); ?></a>
+                    </h3>
+                    <div class="meta"><?php echo $conference->getDatefrom()->format("d/m/Y"); ?> - <?php echo $conference->getDateto()->format("d/m/Y"); ?> 
+                        <strong>(<?php echo $conference->getCity(); ?>, <?php echo $conference->getCountryName(); ?>, <?php echo $conference->getRegionName(); ?>)</strong>
+                    </div>
+                    <div class="cost">
+                        <?php echo $this->cost($conference->getAveragedayfee()); ?>
+                    </div>
+                    <div class="description">
+                            <p><?php echo $conference->getAbstract(); ?></p>
+                    </div>
+            </div>
+    </div>
+<?php } ?>

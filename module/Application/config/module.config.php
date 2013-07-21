@@ -59,8 +59,8 @@ return array(
         ),
     ),
     'controllers' => array(
-        'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+        'factories' => array(
+            'Application\Controller\Index' => 'Application\Controller\IndexControllerFactory'
         ),
     ),
     'view_manager' => array(

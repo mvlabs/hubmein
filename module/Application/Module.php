@@ -66,7 +66,25 @@ class Module
         });*/
         
     }
-
+    
+          
+    // Service Manager Configuration
+    public function getServiceConfig() {
+    	return array(
+                       'aliases'=>array(
+                           
+                            'event.service'=>'Events\Service\EventService',
+                                                     
+                        ),
+    			'factories' => array(
+                            
+                                'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
+                                                    
+    			),
+    			
+    	);
+    }
+    
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';

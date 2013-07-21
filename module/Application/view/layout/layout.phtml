@@ -59,13 +59,13 @@ echo $this->headLink()->prependStylesheet('/css/open-sans/stylesheet.css')
 echo $this->headScript()->prependFile('/js/jquery-1.6.4.min.js')
                         ->appendFile('/js/css3-mediaqueries.js')
                         ->appendFile('/js/html5.js')
-                        ->appendFile('/js/custom.js')
-                        ->appendFile('/js/chosen.jquery.min.js')
+                        //->appendFile('/js/custom.js')
+                        //->appendFile('/js/chosen.jquery.min.js')
                         ->appendFile('/js/search.js');
                        
 ?>
 <script type="text/javascript"> 
-    var config = {
+   /* var config = {
       '.chzn-select'           : {},
       '.chzn-select-deselect'  : {allow_single_deselect:true},
       '.chzn-select-no-single' : {disable_search_threshold:10},
@@ -74,7 +74,7 @@ echo $this->headScript()->prependFile('/js/jquery-1.6.4.min.js')
     };
     for (var selector in config) {
       $(selector).chosen(config[selector]);
-    }
+    }*/
   </script>
 
 

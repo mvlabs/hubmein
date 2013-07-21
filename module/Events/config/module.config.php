@@ -5,10 +5,10 @@ namespace Events;
 return array(
     'router' => array(
         'routes' => array(
-            'events' => array(
+            'conferences' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/events',
+                    'route'    => '/conferences',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Events\Controller',
                         'controller'    => 'Events',
@@ -94,10 +94,10 @@ return array(
             'zfcadmin' => array(
                 'child_routes' => array(
                     
-                    'events' => array(
+                    'conferences' => array(
                         'type' => 'Literal',
                         'options' => array(
-                            'route' => '/events',
+                            'route' => '/conferences',
                             'defaults' => array(
                                 'controller' => 'Events\Controller\AdminEvents',
                                 'action'     => 'index',
@@ -182,9 +182,9 @@ return array(
     // Admin panel navigation
     'navigation' => array(
         'admin' => array(
-            'events' => array(
+            'conferences' => array(
                 'label' => 'Events',
-                'route' => 'zfcadmin/events',
+                'route' => 'zfcadmin/conferences',
             ),
             'tags' => array(
                 'label' => 'Tags',

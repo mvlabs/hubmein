@@ -12,18 +12,33 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+use Events\Service\EventService;
+
 use Events\DataFilter\RequestBuilder;
 
 class IndexController extends AbstractActionController
 {
+    
+    private $conferenceService;
+    
+    public function __construct( EventService $conferenceService ) {
+        
+        $this->conferenceService = $conferenceService;
+         
+    }
+    
     public function indexAction()
     {
              
-     //   $filterEvent = RequestBuilder::createObjFromArray(array());
+        $requestBuilder = RequestBuilder::createObjFromArray(array());
         
-        
-        
-        return new ViewModel();
+              
+        return new ViewModel(array(
+                
+                        'conferences' => $this->conferenceService->getListByFilter($requestBuilder),
+                
+                    )
+                );
         
     }
     
