@@ -162,7 +162,7 @@
 
     function resetFields() {
 
-        $(".chzn-select").val('').trigger("liszt:updated");
+        $(topicsElement).select2("val",[]);
         form.find(":selected").each(function() {
 
             $(this).removeAttr("selected");
