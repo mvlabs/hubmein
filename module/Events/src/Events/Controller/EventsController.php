@@ -212,7 +212,7 @@ class EventsController extends AbstractActionController
       
         //@TODO is the method createFilterFromUrlParam really necessary using a builder ?
         // get params from url and prepare RequestBuilder class
-        $requestBuilder = RequestBuilder::createObjFromArray($this->mergeRequest());
+        $requestBuilder = $this->buildRequest();
                
         return $this->eventService->getListByFilter( $requestBuilder );
         
@@ -223,12 +223,22 @@ class EventsController extends AbstractActionController
                          
         // get params from url and prepare RequestBuilder class
        
-        $requestBuilder = RequestBuilder::createObjFromArray($this->mergeRequest());
+        $requestBuilder = $this->buildRequest();
         
         return $this->eventService->countListByFilter($requestBuilder);
         
     }
 
+    /**
+     *      * Build an RequestBuilder object from a given array
+     * @param array $filteredRequest
+     * @return \Events\DataFilter\RequestBuilder
+     */
+    private function buildRequest() {
+                  
+        return  RequestBuilder::createObjFromArray( $this->mergeRequest );
+        
+    }
     
     /**
      * Merge region parameter from route with search request parameters
@@ -243,18 +253,5 @@ class EventsController extends AbstractActionController
         return $requestParams;
         
     }
-     
-    
-    /**
-     *      * Build an RequestBuilder object from a given array
-     * @param array $filteredRequest
-     * @return \Events\DataFilter\RequestBuilder
-     */
-    private function createFilterFromUrlParams( array $filteredRequest ) {
-                  
-        return  RequestBuilder::createObjFromArray( $filteredRequest);
-        
-    }
-    
     
 }
