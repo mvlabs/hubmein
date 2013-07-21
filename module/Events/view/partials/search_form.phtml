@@ -16,7 +16,7 @@
                     //@TODO Decide how to render loop inside partial
                     foreach( $this->service['tags'] as $tagName ) {
                     ?>
-                    <option value=".$tagName."selected><?php echo $tagName; ?></option>
+                    <option value="<?php echo $tagName; ?>" ><?php echo $tagName; ?></option>
                     <?php
                     }
                     ?>
@@ -57,7 +57,7 @@
                                    }
                                    $selected = ( $this->currents['period'] == $currentDate->format("F-Y") ) ? "selected" : "";
                      ?>
-                     <option value="<?php echo $currentDate->format("F-Y")." ".$selected ?>"><?php echo $currentDate->format("F-Y") ?></option>
+                     <option value="<?php echo $currentDate->format("F-Y")?>" <?php echo $selected; ?>><?php echo $currentDate->format("F-Y") ?></option>
                      <?php
                      }  
                      ?>

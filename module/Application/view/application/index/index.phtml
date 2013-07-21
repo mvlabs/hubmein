@@ -3,7 +3,7 @@
       <div class="full-width">
         <div class="intro-message">
         <div class="border-bottom">
-          <h2>Your reference for the <strong>best events</strong> in the IT industry<br />We make sure you don't miss them.</h2>
+          <h2>Your reference for the <strong>best conferences</strong> in the IT industry<br />We make sure you don't miss them.</h2>
           </div>
         </div>
         <div id="feature" class="columns clearfix">
@@ -11,8 +11,8 @@
           <div class="first rounded-background">
             <figure><img src="images/attendees_icon.png" /></figure>
             <h3>Attendees</h3>
-            <p>Find upcoming events easily Syndicate or receive a digest of stuff you're interested in Find out what riends of yours also come to conferences, so to ravel together.</p>
-            <div class="button"><a href="/events" class="bigbutton">Ok, take me to the conferences!</a></div>
+            <p>Find upcoming conferences easily Syndicate or receive a digest of stuff you're interested in Find out what riends of yours also come to conferences, so to ravel together.</p>
+            <div class="button"><a href="/conferences" class="bigbutton">Ok, take me to the conferences!</a></div>
           </div>
           <div class="rounded-background">
             <figure><img src="images/speaker_icon.png" /></figure>
@@ -34,9 +34,9 @@
             <h2>Right now you should be on your way to:</h2>
           <?php 
           /* We can use a partial from another module here! */
-          echo $this->partial('partials/events.phtml', array('events' => $this->events)); 
+          echo $this->partial('partials/conferences.phtml', array('conferences' => $this->conferences)); 
           ?>
-         <div class="more"><a href="/events" class="bigbutton">Find Out More Great Events...</a></div>
+         <div class="more"><a href="/conferences" class="bigbutton">Find Out More Great Events...</a></div>
 		</div>
 		<!-- END: conferences --> 
           

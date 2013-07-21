@@ -43,7 +43,7 @@ class AdminEventsController extends AbstractActionController
      */
     public function indexAction()
     {
-    	return new ViewModel(array('events' => $this->eventService->getList()));
+    	return new ViewModel(array('conferences' => $this->eventService->getList()));
     }
     
     /**

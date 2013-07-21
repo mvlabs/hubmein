@@ -51,6 +51,8 @@ class EventsController extends AbstractActionController
      * 
      * @param \Events\Service\EventService $eventService
      * @param \Zend\Form\Form $promoteForm
+     * @param \Events\Service\RegionService
+     * @param \Events\Service\TagService
      */
     public function __construct( EventService $eventService,RegionService $regionService, TagService $tagService, Form $promoteForm ) {
        
@@ -70,16 +72,15 @@ class EventsController extends AbstractActionController
     {
         
     	//$region = $this->getAndCheckNumericParam('region');
-        $filter = $this->createFilterFromUrlParams($this->mergeRequest());
+        $requestBuilder = RequestBuilder::createObjFromArray($this->mergeRequest());
        
         // @todo pass class to event service
-        $events = $this->eventService->getListByFilter($filter);
-       
-       
+        $conferences = $this->eventService->getListByFilter($requestBuilder);
+         
         return new ViewModel(array(
             
-            'events' => $events,
-            'regions'=>$this->regionService->getFullList(),
+            'conferences' => $conferences,
+         
             
         ));
                 
@@ -207,9 +208,11 @@ class EventsController extends AbstractActionController
      * Private methods
      */
     private function listEvents() {
-                         
+        
+      
+        //@TODO is the method createFilterFromUrlParam really necessary using a builder ?
         // get params from url and prepare RequestBuilder class
-        $requestBuilder = $this->createFilterFromUrlParams($this->mergeRequest());
+        $requestBuilder = RequestBuilder::createObjFromArray($this->mergeRequest());
                
         return $this->eventService->getListByFilter( $requestBuilder );
         
@@ -219,7 +222,8 @@ class EventsController extends AbstractActionController
     private function countEvents() {
                          
         // get params from url and prepare RequestBuilder class
-        $requestBuilder = $this->createFilterFromUrlParams( $this->mergeRequest() );
+       
+        $requestBuilder = RequestBuilder::createObjFromArray($this->mergeRequest());
         
         return $this->eventService->countListByFilter($requestBuilder);
         
@@ -242,13 +246,13 @@ class EventsController extends AbstractActionController
      
     
     /**
-     * Build an RequestBuilder object from a given array
+     *      * Build an RequestBuilder object from a given array
      * @param array $filteredRequest
      * @return \Events\DataFilter\RequestBuilder
      */
     private function createFilterFromUrlParams( array $filteredRequest ) {
                   
-        return  RequestBuilder::createObjFromArray( $filteredRequest );
+        return  RequestBuilder::createObjFromArray( $filteredRequest);
         
     }
     

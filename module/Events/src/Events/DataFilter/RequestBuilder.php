@@ -56,6 +56,11 @@ class RequestBuilder {
     const TAGLIST_SEPARATOR = ",";
     const TOTALCOUNTDEFAULT = "all";
     
+    
+    private function __construct() {
+        
+    }
+    
     public function getTagList(){
         
         return $this->tagList;
@@ -100,24 +105,29 @@ class RequestBuilder {
         $this->totalCount = $totalCount;
         
     }
-      
-    public static function createObjFromArray(array $request) {
+     
+    public static function createObjFromArray( $request ) {
+        
+       
         //init the Event filter object
         $RequestBuilder = new RequestBuilder();
         //Default page number
-        $pageNumber = (isset($request[ 'page' ]))?$request[ 'page' ]:1;
-             
-               
+        $pageNumber = isset($request[ 'page' ]) ? $request[ 'page' ] : 1;
+        $regionParam = isset($request['region']) ? $request['region'] : null;     
+        $tcParam = isset( $request['tc']) ? $request['tc'] : self::TOTALCOUNTDEFAULT;
+        
+       
+       
         //Set Period
         if( isset( $request[ 'period' ] ) && $request[ 'period' ] !== "" ) {
             
-            $datefromStringFormat =  '1-'.$request[ 'period' ];
-            $dateFrom = \DateTime::createFromFormat( 'd-F-Y',$datefromStringFormat );
-            $RequestBuilder->setDateFrom( $dateFrom );
+            $dateFrom =  '1-'.$request[ 'period' ];
+            $dateFromObj = \DateTime::createFromFormat( 'd-F-Y',$dateFrom );
+            $RequestBuilder->setDateFrom( $dateFromObj );
             
-            $dateToStringFormat = date( 't' )."-".$request[ 'period' ];
-            $dateTo = \DateTime::createFromFormat( 'd-F-Y',$dateToStringFormat );
-            $RequestBuilder->setDateTo( $dateTo );
+            $dateTo = date( "t-m-Y",  strtotime($dateFrom) );
+            $dateToObj = \DateTime::createFromFormat( 'd-m-Y',$dateTo );
+            $RequestBuilder->setDateTo( $dateToObj );
             
         }
        
@@ -129,15 +139,9 @@ class RequestBuilder {
             
         }
         
-        
-        if( !isset( $request['tc'] ) ) {
-            
-            $request['tc'] = self::TOTALCOUNTDEFAULT;
-                       
-        }
-        
-        $RequestBuilder->setTotalCount( $request['tc'] );
-        $RequestBuilder->setRegion($request['region']);
+               
+        $RequestBuilder->setTotalCount( $tcParam );
+        $RequestBuilder->setRegion( $regionParam );
         $RequestBuilder->setPageNumber($pageNumber);
               
         return $RequestBuilder; 
