@@ -35,18 +35,6 @@ class Tag
      * @ORM\ManyToMany(targetEntity="Events\Entity\Event", inversedBy="tags")
      */
     private $events;
-    
-
-    public function exchangeArray($data)
-    {
-        $this->fillWith($data);
-    } 
-    
-    public function fillWith($data)
-    {
-        $this->id   = (isset($data['id'])) ? $data['id'] : null;
-        $this->name = (isset($data['name'])) ? $data['name'] : null;
-    }
 
     
     /*

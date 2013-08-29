@@ -5,17 +5,18 @@ namespace Events\Form;
 use Zend\Form\Form,
     Zend\Form\Element,
     Zend\Validator;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+//use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+use Doctrine\Common\Persistence\ObjectManager;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
 class Tag extends Form {
     	
-    public function __construct(array $countryList = null) {
+    public function __construct(ObjectManager $objectManager = null) {
         
         parent::__construct();
         
         // set form hydrator
-        $this->setHydrator(new ClassMethodsHydrator(false))
-             ->setObject(new \Events\Entity\Tag());
+        $this->setHydrator(new DoctrineHydrator($objectManager, '\Events\Entity\Tag'));
         
         // set form appearance
         $this->setAttribute('class', 'form-horizontal');

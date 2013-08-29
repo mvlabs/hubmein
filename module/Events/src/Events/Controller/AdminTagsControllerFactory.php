@@ -19,7 +19,8 @@ class AdminTagsControllerFactory implements FactoryInterface {
 	    $tagService = $serviceLocator->getServiceLocator()->get('Events\Service\TagService');
 	    
 	    // Object graph is constructed
-	    $form = new \Events\Form\Tag();
+        $objectManager = $serviceLocator->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+	    $form = new \Events\Form\Tag($objectManager);
 	    
 	    $formFilter = new \Events\Form\TagFilter();
 	    $form->setInputFilter($formFilter);

@@ -54,7 +54,12 @@ class AdminTagsController extends AbstractActionController
     public function addAction() 
     {
         
-        $view = $this->processForm(null);
+        $tag = new \Events\Entity\Tag();
+        
+        // bind entity values to form
+        $this->form->bind($tag);
+        
+        $view = $this->processForm($tag);
         
         if (!$view instanceof ViewModel) {
             
@@ -78,10 +83,10 @@ class AdminTagsController extends AbstractActionController
         
         $tag = $this->getTagFromQuerystring();
         
-        $view = $this->processForm($tag);
-                
-        // bind tag values to form
+        // bind entity values to form
         $this->form->bind($tag);
+        
+        $view = $this->processForm($tag);
         
         if (!$view instanceof ViewModel) {
 
@@ -116,17 +121,9 @@ class AdminTagsController extends AbstractActionController
      * Private methods
      */
     
-    private function processForm(\Events\Entity\Tag $tag = null) {
+    private function processForm(\Events\Entity\Tag $tag) {
         
         if ($this->request->isPost()) {
-            
-            // bind entity values to form
-            if ($tag instanceof \Events\Entity\Tag) {
-                $this->form->bind($tag);
-                $confirmMessage = 'Tag ' . $tag->getName() . ' updated successfully';
-            } else {
-                $confirmMessage = 'Tag inserted successfully';
-            }
             
             // get post data
             $post = $this->request->getPost()->toArray();
@@ -150,7 +147,7 @@ class AdminTagsController extends AbstractActionController
             // use service to save data
             $this->tagService->upsertTag($this->form->getData());
         
-            $this->flashMessenger()->setNamespace('admin-tag')->addMessage($confirmMessage);
+            $this->flashMessenger()->setNamespace('admin-tag')->addMessage('Operation executed correctly');
             
             // redirect to tag list
             return $this->redirect()->toRoute('zfcadmin/tags');
