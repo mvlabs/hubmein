@@ -18,8 +18,8 @@
         <tr>
             <td><?php echo $event->getId()?></td>
             <td><a href="<?php echo $this->url('zfcadmin/events/crud', array('action' => 'edit', 'id' => $event->getId()))?>"><?php echo $event->getTitle()?></a></td>
-            <td>When</td>
-            <td>Where</td>
+            <td><?php echo 'from ' . $event->getDatefrom()->format('Y-m-d') . ' to ' . $event->getDateto()->format('Y-m-d')?></td>
+            <td><?php echo $event->getCountryName()?></td>
             <td></td>
         </tr>
         <?php } ?>

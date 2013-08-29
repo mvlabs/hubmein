@@ -11,7 +11,7 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
 class Tag extends Form {
     	
-    public function __construct(ObjectManager $objectManager = null) {
+    public function __construct(ObjectManager $objectManager) {
         
         parent::__construct();
         

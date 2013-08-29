@@ -5,17 +5,18 @@ namespace Events\Form;
 use Zend\Form\Form,
     Zend\Form\Element,
     Zend\Validator;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+//use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+use Doctrine\Common\Persistence\ObjectManager;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
 class Event extends Form {
     	
-    public function __construct(array $tagList, array $countryList = null) {
+    public function __construct(ObjectManager $objectManager, array $tagList, array $countryList = null) {
         
         parent::__construct();
         
         // set for hydrator
-        $this->setHydrator(new ClassMethodsHydrator(false))
-             ->setObject(new \Events\Entity\Event());
+        $this->setHydrator(new DoctrineHydrator($objectManager, '\Events\Entity\Event'));
         
         // set form appearance
         $this->setAttribute('class', 'form-horizontal');
@@ -41,7 +42,7 @@ class Event extends Form {
         $this->add($abstract);
         
         
-        $dateFrom = new Element\Text('datefrom');
+        $dateFrom = new Element\Date('datefrom');
         $dateFrom->setAttributes(array('id'    => 'datefrom',
                                        'type'  => 'date',
                                        'class' => 'input-medium',
@@ -51,7 +52,7 @@ class Event extends Form {
         $this->add($dateFrom);
         
         
-        $dateTo = new Element\Text('dateto');
+        $dateTo = new Element\Date('dateto');
         $dateTo->setAttributes(array('id'    => 'dateto',
                                      'type'  => 'date',
                                      'class' => 'input-medium',
@@ -121,7 +122,7 @@ class Event extends Form {
         $this->add($averagedayfee);
         
         
-        $earlybirduntil = new Element\Text('earlybirduntil');
+        $earlybirduntil = new Element\Date('earlybirduntil');
         $earlybirduntil->setAttributes(array('id'    => 'earlybirduntil',
                                              'type'  => 'date',
                                              'class' => 'input-medium',
@@ -237,9 +238,11 @@ class Event extends Form {
         
         // tags
         
-        $tags = new Element\MultiCheckbox('tags');
+        $tags = new \DoctrineModule\Form\Element\ObjectMultiCheckbox('tags');
         $tags->setLabel('Tags')
-             ->setValueOptions($tagList);
+             ->setValueOptions($tagList)
+             ->setOptions(array('object_manager' => $objectManager,
+                                'target_class'   => 'Events\Entity\Tag'));
         $this->add($tags);
         
         $submit = new Element\Button('submit');

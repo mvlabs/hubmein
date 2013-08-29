@@ -3,6 +3,7 @@
 namespace Events\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Events\Entity\Event
@@ -52,11 +53,11 @@ class Event {
     private $dateto;
     
     /**
-     * @var date $earlyBirdUntil
+     * @var date $earlybirduntil
      *
-     * @ORM\Column(name="earlyBirdUntil", type="date", nullable=true)
+     * @ORM\Column(name="earlybirduntil", type="datetime", nullable=true)
      */
-    private $earlyBirdUntil;
+    private $earlybirduntil;
     
     /**
      * @var string $address
@@ -96,7 +97,7 @@ class Event {
     /**
      * @var date $cfpclosingdate
      *
-     * @ORM\Column(name="cfpClosingDate", type="date", nullable=true)
+     * @ORM\Column(name="cfpClosingDate", type="datetime", nullable=true)
      */
     private $cfpclosingdate;
     
@@ -195,17 +196,13 @@ class Event {
      */
     private $tags;
     
-        
-    public function exchangeArray($data)
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        $this->fillWith($data);
-    } 
-    
-    public static function createFromArray($data) {
-        $event = new Event();
-        $event->fillWith($data);
-    
-        return $event;
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     
@@ -252,26 +249,6 @@ class Event {
         return $this->country->getRegionName();
     }
 
-	
-    public function fillWith($data){
-        
-        $this->id = (isset($data['id'])) ? $data['id'] : null;
-        $this->title = (isset($data['title'])) ? $data['title'] : null;
-        $this->abstract = (isset($data['abstract'])) ? $data['abstract'] : null;
-        $this->datefrom = (isset($data['datefrom'])) ? \DateTime::createFromFormat('Y-m-d', substr($data['datefrom'], 0, 10)) : null;
-        $this->dateto = (isset($data['dateto'])) ? \DateTime::createFromFormat('Y-m-d', substr($data['dateto'],0,10)) : null;
-        $this->city = (isset($data['city'])) ? $data['city'] : null;
-        $this->country = (isset($data['country'])) ? $data['country'] : null;
-        $this->venue = (isset($data['venue'])) ? $data['venue'] : null;
-        $this->averagedayfee = (is_numeric($data['averagedayfee'])) ? $data['averagedayfee'] : null;
-        $this->mainsitelink = (isset($data['mainsitelink'])) ? $data['mainsitelink'] : null;
-                
-    }
-    
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
-    }
 
     /*
      * Start of doctrine generated getters / setters
@@ -385,9 +362,9 @@ class Event {
      * @param \DateTime $earlyBirdUntil
      * @return Event
      */
-    public function setEarlyBirdUntil($earlyBirdUntil)
+    public function setEarlybirduntil($earlyBirdUntil)
     {
-        $this->earlyBirdUntil = $earlyBirdUntil;
+        $this->earlybirduntil = $earlyBirdUntil;
     
         return $this;
     }
@@ -397,9 +374,9 @@ class Event {
      *
      * @return \DateTime 
      */
-    public function getEarlyBirdUntil()
+    public function getEarlybirduntil()
     {
-        return $this->earlyBirdUntil;
+        return $this->earlybirduntil;
     }
 
     /**
@@ -495,29 +472,6 @@ class Event {
     }
 
     /**
-     * Set mainsitelink
-     *
-     * @param string $mainsitelink
-     * @return Event
-     */
-    public function setMainsitelink($mainsitelink)
-    {
-        $this->mainsitelink = $mainsitelink;
-    
-        return $this;
-    }
-
-    /**
-     * Get mainsitelink
-     *
-     * @return string 
-     */
-    public function getMainsitelink()
-    {
-        return $this->mainsitelink;
-    }
-
-    /**
      * Set cfpclosingdate
      *
      * @param \DateTime $cfpclosingdate
@@ -607,29 +561,6 @@ class Event {
     public function getContactemail()
     {
         return $this->contactemail;
-    }
-
-    /**
-     * Set conferencetwitteraccount
-     *
-     * @param string $conferencetwitteraccount
-     * @return Event
-     */
-    public function setConferencetwitteraccount($conferencetwitteraccount)
-    {
-        $this->conferencetwitteraccount = $conferencetwitteraccount;
-    
-        return $this;
-    }
-
-    /**
-     * Get conferencetwitteraccount
-     *
-     * @return string 
-     */
-    public function getConferencetwitteraccount()
-    {
-        return $this->conferencetwitteraccount;
     }
 
     /**
@@ -838,14 +769,7 @@ class Event {
     {
         return $this->website;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+        
     /**
      * Set twitteraccount
      *
@@ -872,33 +796,38 @@ class Event {
     /**
      * Add tags
      *
-     * @param \Events\Entity\Tag $tags
-     * @return Event
+     * @param Collection $tags
      */
-    public function addTag(\Events\Entity\Tag $tags)
+    public function addTags(Collection $tags)
     {
-        $this->tags[] = $tags;
-    
-        return $this;
+        foreach ($tags as $tag) {
+            $tag->addEvent($this);
+            $this->tags->add($tag);
+        }
     }
 
     /**
      * Remove tags
      *
-     * @param \Events\Entity\Tag $tags
+     * @param Collection $tags
      */
-    public function removeTag(\Events\Entity\Tag $tags)
+    public function removeTags(Collection $tags)
     {
-        $this->tags->removeElement($tags);
+        foreach ($tags as $tag) {
+            $tag->removeEvent($this);
+            $this->tags->removeElement($tag);
+        }
     }
 
     /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array List of tag values
      */
     public function getTags()
     {
+        
         return $this->tags;
+        
     }
 }

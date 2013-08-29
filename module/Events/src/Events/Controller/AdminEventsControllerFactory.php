@@ -20,9 +20,10 @@ class AdminEventsControllerFactory implements FactoryInterface {
 	    $tagService = $serviceLocator->getServiceLocator()->get('Events\Service\TagService');
 	    
 	    // Object graph is constructed
+        $objectManager = $serviceLocator->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 	    $tags = $tagService->getTagListAsArray();
 	    $countries = $eventService->getCountryListAsArray();
-	    $form = new \Events\Form\Event($tags, $countries);
+	    $form = new \Events\Form\Event($objectManager, $tags, $countries);
 	    
 	    $formFilter = new \Events\Form\EventFilter();
 	    $form->setInputFilter($formFilter);

@@ -88,11 +88,10 @@ class EventService implements EventManagerAwareInterface {
      * @param array $formData
      * @return \Events\Entity\Event
      */
-    public function upsertEventFromArray(\Events\Entity\Event $event) {
-                            
-        /*$am_formData['country'] = $this->I_mapper->getCountry($am_formData['country']);
-        $I_event = Event::createFromArray($am_formData);
-          */  
+    public function upsertEvent(\Events\Entity\Event $event) {
+        
+        $event->setPublicationdate(new \DateTime());
+        
         $this->I_mapper->saveEvent($event);
         
         //trigger 'event_saved' event

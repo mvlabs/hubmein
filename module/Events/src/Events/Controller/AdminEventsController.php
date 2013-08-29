@@ -53,26 +53,44 @@ class AdminEventsController extends AbstractActionController
      */
     public function addAction() 
     {
-        $this->processForm();
+        $event = new \Events\Entity\Event();
         
-        $view = new ViewModel(array('form' => $this->form, 'title' => 'New event'));
-        $view->setTemplate('events/admin-events/event-form');
+        // bind entity values to form
+        $this->form->bind($event);
+        
+        $view = $this->processForm($event);
+        
+        if (!$view instanceof ViewModel) {
+        
+            $view = new ViewModel(array('form' => $this->form, 
+                                        'title' => 'New event'));
+            $view->setTemplate('events/admin-events/event-form');
+            
+        }
+        
+        return $view;
+    }
+    
+    public function editAction()
+    {
+        $event = $this->getEventFromQuerystring();
+                
+        // bind entity values to form
+        $this->form->bind($event);
+        
+        $view = $this->processForm($event);
+        
+        if (!$view instanceof ViewModel) {
+            
+            $view = new ViewModel(array('form' => $this->form, 'title' => 'Edit event ' . $event->getTitle()));
+            $view->setTemplate('events/admin-events/event-form');
+            
+        }
+        
         return $view;
     }
     
     /*
-     * public function editAction()
-    {
-        $I_dog = $this->getEntityFromQuerystring();
-                
-        // bind entity values to form
-        $this->I_form->bind($I_dog);
-        
-        $I_view = new ViewModel(array('form' => $this->I_form, 'title' => 'Edit dog'));
-        $I_view->setTemplate('mva-module-template/index/dog-form');
-        return $I_view;
-    }
-    
     public function deleteAction()
     {
         $I_dog = $this->getEntityFromQuerystring();
@@ -88,47 +106,50 @@ class AdminEventsController extends AbstractActionController
      * Private methods
      */
     
-    private function processForm() {
+    private function processForm(\Events\Entity\Event $event) {
         
         if ($this->request->isPost()) {
         
-            $event = $this->getEventFromQuerystring(true);
-            
             // bind entity values to form
-            if (!($event instanceof \Events\Entity\Event)) {
+            if ($event instanceof \Events\Entity\Event) {
                 $this->form->bind($event);
                 $confirmMessage = 'Event ' . $event->getTitle() . ' updated successfully';
             } else {
+                $this->form->bind(new \Events\Entity\Event);
                 $confirmMessage = 'Event inserted successfully';
             }
             
             // get post data
             $post = $this->request->getPost()->toArray();
-                        
+            
             // fill form
             $this->form->setData($post);
         
             // check if form is valid
             if(!$this->form->isValid()) {
-        
+                
                 // prepare view
-                $I_view = new ViewModel(array('form'  => $this->form,
-                                              'title' => 'Some errors during event processing'));
+                $view = new ViewModel(array('form'  => $this->form,
+                                            'title' => 'Some errors during event processing'));
                 $view->setTemplate('events/admin-events/event-form');
-                return $I_view;
+                
+                return $view;
         
             }
         
             // use service to save data
-            $event = $this->service->upsertEventFromArray($this->form->getData());
+            $event = $this->eventService->upsertEvent($this->form->getData());
         
             $this->flashMessenger()->setNamespace('admin-event')->addMessage($confirmMessage);
+            
+            // redirect to event list
+            return $this->redirect()->toRoute('zfcadmin/events');
             
         }
         
     }
     
-    private function getEventFromQuerystring($allowNull = false) {
+    private function getEventFromQuerystring() {
     
         $id = (int)$this->params('id');
     
@@ -139,12 +160,10 @@ class AdminEventsController extends AbstractActionController
             return;
         }
     
-        $event = $this->service->getEvent($id);
+        $event = $this->eventService->getEvent($id);
     
-        if (!$allowNull) {
-            if ($event === null){
-                throw new \Exception('Event not found');    //@todo throw custom exception type
-            }
+        if ($event === null){
+            throw new \Exception('Event not found');    //@todo throw custom exception type
         }
     
         return $event;

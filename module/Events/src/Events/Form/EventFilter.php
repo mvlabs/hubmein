@@ -3,7 +3,6 @@
 namespace Events\Form;
 
 use Zend\InputFilter\InputFilter;
-use Zend\Validator\Hostname as HostnameValidator;
 
 class EventFilter extends InputFilter {
     	
@@ -22,9 +21,37 @@ class EventFilter extends InputFilter {
 	            ),                
             ),
         ));
+        
+        $this->add(array(
+            'name'       => 'abstract',
+            'required'   => true,
+            'filters' => array(
+                array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
+            ),
+            'validators' => array(
+            	array(
+	                'name' => 'not_empty',
+	            ),                
+            ),
+        ));
+        
+        $this->add(array(
+            'name'       => 'abstract',
+            'required'   => true,
+            'filters' => array(
+                array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
+            ),
+            'validators' => array(
+            	array(
+	                'name' => 'not_empty',
+	            ),                
+            ),
+        ));
 		
 		$this->add(array(
-		    'name'       => 'datefrom',
+		    'name'       => 'city',
 		    'required'   => true,
 		    'filters' => array(
 		        array('name' => 'StringTrim'),
@@ -34,7 +61,6 @@ class EventFilter extends InputFilter {
 		        array(
 		            'name' => 'not_empty',
 		        ),
-		        new \Zend\Validator\Date(array('format' => 'Y-m-d'))
 		    ),
 		));
 		
@@ -54,7 +80,7 @@ class EventFilter extends InputFilter {
 		));
 		
 		$this->add(array(
-		    'name'       => 'mainsitelink',
+		    'name'       => 'website',
 		    'required'   => true,
 		    'filters' => array(
 		        array('name' => 'StringTrim'),
