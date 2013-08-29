@@ -13,7 +13,7 @@ class Tag extends Form {
         
         parent::__construct();
         
-        // set for hydrator
+        // set form hydrator
         $this->setHydrator(new ClassMethodsHydrator(false))
              ->setObject(new \Events\Entity\Tag());
         

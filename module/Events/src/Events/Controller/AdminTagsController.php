@@ -47,38 +47,65 @@ class AdminTagsController extends AbstractActionController
     }
     
     /**
-     * Add new tag
+     * Add a new tag
      *
      * @return \Zend\View\Model\ViewModel
      */
     public function addAction() 
     {
-        $this->processForm();
         
-        $view = new ViewModel(array('form' => $this->form, 'title' => 'New tag'));
-        $view->setTemplate('events/admin-tags/tag-form');
+        $view = $this->processForm(null);
+        
+        if (!$view instanceof ViewModel) {
+            
+            $view = new ViewModel(array('form' => $this->form, 
+                                        'title' => 'New tag'));
+            $view->setTemplate('events/admin-tags/tag-form');
+            
+        }
+        
         return $view;
+        
     }
     
-    /*
-     * public function editAction()
+    /**
+     * Edit an existing tag
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function editAction()
     {
-        $I_dog = $this->getEntityFromQuerystring();
-                
-        // bind entity values to form
-        $this->I_form->bind($I_dog);
         
-        $I_view = new ViewModel(array('form' => $this->I_form, 'title' => 'Edit dog'));
-        $I_view->setTemplate('mva-module-template/index/dog-form');
-        return $I_view;
-    }*/
+        $tag = $this->getTagFromQuerystring();
+        
+        $view = $this->processForm($tag);
+                
+        // bind tag values to form
+        $this->form->bind($tag);
+        
+        if (!$view instanceof ViewModel) {
+
+            $view = new ViewModel(array('form' => $this->form, 
+                                        'title' => 'Edit tag ' . $tag->getName()));
+            $view->setTemplate('events/admin-tags/tag-form');
+            
+        }
+        
+        return $view;
+        
+    }
     
+    /**
+     * Delete a tag
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
     public function removeAction()
     {
         
-        $I_tag = $this->getTagFromQuerystring();
+        $tag = $this->getTagFromQuerystring();
         
-        $this->tagService->removeTag($I_tag);
+        $this->tagService->removeTag($tag);
         
         return $this->redirect()->toRoute('zfcadmin/tags');
         
@@ -89,11 +116,9 @@ class AdminTagsController extends AbstractActionController
      * Private methods
      */
     
-    private function processForm() {
+    private function processForm(\Events\Entity\Tag $tag = null) {
         
         if ($this->request->isPost()) {
-        
-            $tag = $this->getTagFromQuerystring(true);
             
             // bind entity values to form
             if ($tag instanceof \Events\Entity\Tag) {
@@ -114,14 +139,16 @@ class AdminTagsController extends AbstractActionController
         
                 // prepare view
                 $view = new ViewModel(array('form'  => $this->form,
-                                              'title' => 'Some errors during tag processing'));
+                                            'title' => 'Some errors during tag processing'));
+                //$view = new ViewModel();
                 $view->setTemplate('events/admin-tags/tag-form');
+                
                 return $view;
         
             }
-        
+            
             // use service to save data
-            $tag = $this->tagService->upsertTagFromArray($this->form->getData());
+            $this->tagService->upsertTag($this->form->getData());
         
             $this->flashMessenger()->setNamespace('admin-tag')->addMessage($confirmMessage);
             
@@ -132,7 +159,7 @@ class AdminTagsController extends AbstractActionController
                 
     }
     
-    private function getTagFromQuerystring($allowNull = false) {
+    private function getTagFromQuerystring() {
     
         $id = (int)$this->params('id');
     
@@ -145,12 +172,10 @@ class AdminTagsController extends AbstractActionController
     
         $tag = $this->tagService->getTag($id);
     
-        if (!$allowNull) {
-            if ($tag === null){
-                throw new \Exception('Tag not found');    //@todo throw custom exception type
-            }
+        if ($tag === null){
+            throw new \Exception('Tag not found');    //@todo throw custom exception type
         }
-    
+
         return $tag;
     
     }

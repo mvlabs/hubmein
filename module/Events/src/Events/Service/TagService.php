@@ -64,7 +64,7 @@ class TagService {
      * @param array $formData
      * @return \Events\Entity\Tag
      */
-    public function upsertTagFromArray(\Events\Entity\Tag $tag) {
+    public function upsertTag(\Events\Entity\Tag $tag) {
                             
         $this->mapper->saveTag($tag);
         
