@@ -67,6 +67,37 @@ class EventRepository extends EntityRepository {
         
     }
     
+    public function getRegionsWithConferences() {
+				
+		$s_query = 'SELECT r ' . 
+		           'FROM \Events\Entity\Region r ' .
+		           'JOIN r.countries co ' .
+		           'JOIN co.conferences c ' .
+		           'WHERE c.dateto >= CURRENT_DATE() ' .
+		           '  AND c.isVisible = TRUE ' .
+		           'ORDER BY r.id';
+		           
+		$I_query = $this->getEntityManager()->createQuery($s_query);
+                               
+		return $I_query->getResult();
+		
+                
+    }
+    
+    public function getPeriodWithConferences() {
+				
+		$s_query = 'SELECT DISTINCT c.dateto as month_year ' . 
+		           'FROM \Events\Entity\Event c ' .
+		           'WHERE c.dateto >= CURRENT_DATE() ' .
+		           '  AND c.isVisible = TRUE ' .
+		           'ORDER BY month_year';
+		           
+		$I_query = $this->getEntityManager()->createQuery($s_query);
+                
+		return $I_query->getResult();
+		
+    }
+    
     private function buildQuerySearch( RequestBuilder $requestBuilder ) {
         
        
