@@ -76,8 +76,7 @@ class DoctrineEventMapper implements EventMapperInterface {
         $this->entityManager->flush();
         
     }
-    
-    
+        
    /**
     * 
     */

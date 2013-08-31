@@ -52,7 +52,19 @@ class Country
      * })
      */
     private $region;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="country")
+     */
+    private $conferences;
 
+    public function __construct()
+    {
+        $this->conferences = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     public function exchangeArray($data)
     {
         $this->fillWith($data);

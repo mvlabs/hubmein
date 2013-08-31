@@ -40,14 +40,14 @@ class Event {
     /**
      * @var \DateTime $datefrom
      *
-     * @ORM\Column(name="datefrom", type="datetime", nullable=false)
+     * @ORM\Column(name="datefrom", type="date", nullable=false)
      */
     private $datefrom;
 
     /**
      * @var \DateTime $dateto
      *
-     * @ORM\Column(name="dateto", type="datetime", nullable=false)
+     * @ORM\Column(name="dateto", type="date", nullable=false)
      */
     private $dateto;
     
@@ -207,8 +207,7 @@ class Event {
     
         return $event;
     }
-    
-    
+       
     /**
      * Get country slug
      *

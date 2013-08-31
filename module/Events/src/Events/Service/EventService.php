@@ -58,8 +58,9 @@ class EventService implements EventManagerAwareInterface {
 
     /**
      * Get Event List given an array of criterias
-     *
-     * @return array list of Event Entity
+     * 
+     * @param Event\DataFilter\RequestBuilder
+     * @return array Events\Entity\Event
      */
     public function getListByFilter( RequestBuilder $requestBuilder ) {
                
@@ -69,20 +70,43 @@ class EventService implements EventManagerAwareInterface {
     
     /**
      * Count Event list given an array of criterias
+     * 
+     * @param Event\DataFilter\RequestBuilder
+     * @retunr int; 
      */
-    public function countListByFilter( RequestBuilder $requestBuilder ){
-        
+    public function countByFilter( RequestBuilder $requestBuilder ){
+         
         return $this->eventMapper->countListByFilter( $requestBuilder );
         
     }
-           
+    
+    /**
+     * Get a list of region entity based on upcoming conferences
+     * @return array
+     */
+    public function getRegionByUpcomingConferences(){
+        
+        return $this->eventMapper->getRegionByUpcomingConferences();
+        
+    }
+    
+    /**
+     * Get a list of period based on upcoming conferences
+     * @return array
+     */
+    public function getPeriodByUpcomingConferences(){
+        
+        return $this->eventMapper->getPeriodByUpcomingConferences();
+        
+    }
+    
     /**
      * Inserts or updates an event from array data
      *
      * @param array $formData
      * @return \Events\Entity\Event
      */
-    public function upsertEventFromArray(\Events\Entity\Event $event) {
+    public function upsertEventFromArray( Event $event ) {
                             
         $am_formData['country'] = $this->eventMapper->getCountry($am_formData['country']);
         $I_event = Event::createFromArray($am_formData);
@@ -98,8 +122,7 @@ class EventService implements EventManagerAwareInterface {
         ));
     
         return $event;
-        
-    }
+     }
     
     /**
      * Injects Event Manager (ZF2 component) into this class
