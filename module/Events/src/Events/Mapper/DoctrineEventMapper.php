@@ -77,4 +77,22 @@ class DoctrineEventMapper implements EventMapperInterface {
         
     }
     
+    
+   /**
+    * 
+    */
+    public function getRegionByUpcomingConferences(){
+        
+        return $this->eventRepository->getRegionsWithConferences();
+        
+    }
+    
+    /**
+     * 
+     */
+    public function getPeriodByUpcomingConferences() {
+        
+        return $this->eventRepository->getPeriodWithConferences();
+        
+    }
 }
