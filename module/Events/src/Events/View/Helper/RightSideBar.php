@@ -32,7 +32,7 @@ class RightSideBar extends AbstractHelper {
         
         $filters = array();
         
-        $filters['currentsRequest'] = $currentRequestParams;
+        $filters['currentRequest'] = $currentRequestParams;
         $filters['regions'] = $conferenceService->getRegionByUpcomingConferences();
         $filters['periods'] = $conferenceService->getPeriodByUpcomingConferences();
         $filters['tags'] = $tagService->getTagListAsArray();

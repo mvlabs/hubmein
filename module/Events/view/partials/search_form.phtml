@@ -1,7 +1,11 @@
 <?php
+
+    $this->headLink()->appendStylesheet('/css/search_style.css');
+    
     $this->headScript() ->appendFile('/js/select2.min.js')
-                        ->appendFile('/js/search.min.js');
-                       
+                        ->appendFile('/js/search.js');
+    
+                          
 ?>
 
 <!-- START: box -->
@@ -12,12 +16,11 @@
             <a class="more reset-filters">Clear filters</a>
          </div>
 
-        <form id="search-form" name="search" action="" method="get" class="sidebar-form">
+        <form name="search" action="" method="get" class="sidebar-form">
             
             <div>
-               <label for="location-1">Period: </label>
+               <label for="location-1">Topics: </label>
                 <select  class="topics" multiple="" tabindex="-1"  >
-                    <option value="all"></option>
                     <?php
                     //@TODO Decide how to render loop inside partial
                     foreach( $this->tags as $tagName ) {
@@ -65,10 +68,9 @@
              </div>
              <div class="loader"></div>
              <div class="count-loader"></div>
-             <div class="result"></div>
              <div class="submit-loader"></div>
              <div>
-                 <input type="submit" class="bigbutton" value="Refine">
+                 <input type="submit" class="bigbutton refine" value="Refine">
              </div>
             </form>
       </div>
