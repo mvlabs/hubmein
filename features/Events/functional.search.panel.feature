@@ -5,7 +5,7 @@ Feature: search conference
   And get a count of conferences related to to filters
 
   Background: 
-    Given I have an american and an european conference
+    Given I have a list of 2 conferences
 
   Scenario: Region based on upcoming conferences
     When I get a region list
@@ -17,26 +17,20 @@ Feature: search conference
   Scenario: Period based on upcoming conferences
     When I get a period list
     Then I should have a list with:
-      | 0              | 1             | 2             |                  
-      | September 2013 |October 2013   | November 2013 | 
+      | 0              | 1             |
+      | September 2013 |October 2013   |
 
-  Scenario: count conference with 0 params
+  
+  Scenario: count existent conference which valid param
     And I send a request:
-      | topcis | regions | periods |
-      |        |         |         |
-    When the request is passed to countListByFilter method
-    Then I should get "3" as result
-
-  Scenario: count conference with param region
-    And I send a request:
-      | topic    | region | period        |
-      | zend,php | europe | November-2013 |
+      | tags    | region | period        |
+      | Zend Framework,php | north-america | October-2013 |
     When the request is passed to countListByFilter method
     Then I should get "1" as result
   
-  Scenario: count conference with param region
+  Scenario: count existent conference which invalid param
     And I send a request:
-      | topic       | region | period       |
-      | bullshitter | europe | September-2013 |
+      | tags       | region | period       |
+      | bullshitter | north-america | September-2013 |
     When the request is passed to countListByFilter method
-    Then I should get "1" as result
+    Then I should get "0" as result

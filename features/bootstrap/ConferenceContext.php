@@ -39,6 +39,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     
     private $mockRequest;
     private $result;
+       
     
     public function setZf2App(\Zend\Mvc\Application $zf2Application) {
         
@@ -60,13 +61,70 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     }
       
     
-   /**
-     * @Given /^I have an american and an european conference$/
+    //CRUD functionality
+    
+    /**
+     * @Given /^I don\'t have conference saved on my system$/
      */
-    public function iHaveAnAmericanAndAnEuropeanConference()
+    public function iDonTHaveConferenceSavedOnMySystem()
     {
-         
-        /*@TOFIX
+        
+        $conferences = $this->getEntityManager()->getRepository("Events\Entity\Event")->findAll();
+        assertEquals( 0,sizeof($conferences) );
+        
+    }
+
+    /**
+     * @When /^I pass valid data and an empty Entity to save method$/
+     */
+    public function iPassValidDataAndAnEmptyEntityToSaveMethod()
+    {
+        $conferenceDatas = $this->loadMockConferenceData();
+        
+        $this->result = $this->insertConferences($conferenceDatas[0], new Event);
+        
+        
+        
+    }
+
+    /**
+     * @Then /^I should have a saved Conference entity$/
+     */
+    public function iShouldHaveASavedConferenceEntity()
+    {
+        assertTrue($this->result->getId() > 0);
+        assertInstanceOf("Events\Entity\Event", $this->result);
+        
+    }
+
+    /**
+     * @Given /^it should have tags:$/
+     */
+    public function itShouldHaveTags(TableNode $tagTable)
+    {
+        $conference = $this->getEntityManager()->getRepository("Events\Entity\Event")->find($this->result->getId());
+             
+        $tags = $conference->getTags();
+        $tagDatas = array();
+        
+        for($i = 0; $i < sizeof($tags); $i++) {
+            
+            $tagDatas[$i]['name'] = $tags[$i]->getName();
+            
+        }
+        
+        assertSame($tagTable->getHash(),$tagDatas);
+        
+    }
+
+    
+    
+     /**
+     * @Given /^I have a list of (\d+) conferences$/
+     */
+    public function iHaveAListOfConferences($number)
+    {
+       /*@TOFIX
          $hydrator = new DoctrineHydrator($this->getEntityManager(),"Events\Entity\Event");
          $eventData = $this->loadMockConference();
          
@@ -75,9 +133,21 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
          assertEquals($eventData[1], $hydrator->extract($event));
          * 
          */
+        $savedConference = array();
         
-         $this->insertConferences();
+        foreach($this->loadMockConferenceData() as $conferenceData) {
+            
+            $conference = $this->insertConferences( $conferenceData, new Event() );
+            
+            if($conference instanceof Event) {
+                
+                $savedConference[] = $conference;
+                
+            }
+            
+        }
                      
+        assertEquals(intval($number),sizeof($savedConference));
     }
 
    
@@ -153,6 +223,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     {
        
         $requestData = $request->getHash();
+        
         $this->mockRequest = RequestBuilder::createObjFromArray($requestData[0]);
         
         assertInstanceOf("Events\DataFilter\RequestBuilder", $this->mockRequest);
@@ -169,7 +240,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
         
         assertInstanceOf("Events\Service\EventService", $eventService);
         assertTrue(is_callable(array($eventService,"countByFilter")));
-        
+                
         $this->result = $eventService->countByFilter($this->mockRequest);
         
     }
@@ -222,55 +293,60 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     }
     
     /**
-     *  2 mock conference
+     *  save mock conference
      */
-    private function insertConferences(){
+    private function insertConferences( array $conferenceData,  Event $conference ){
         
-        foreach ($this->loadMockConferenceData() as $conferenceData) {
-            
-                $conference = new Event();
-                $em = $this->getEntityManager();
-                          
-                $conference->setTitle($conferenceData['title']);
-                $conference->setAbstract($conferenceData['abstract']);
-                $conference->setDatefrom( \DateTime::createFromFormat("d/m/Y",$conferenceData['datefrom']) );
-                $conference->setDateto( \DateTime::createFromFormat("d/m/Y",$conferenceData['dateto']) );
-                $conference->setEarlyBirdUntil(\DateTime::createFromFormat("d/m/Y",$conferenceData['earlybirduntil']));
-                $conference->setAddress($conferenceData['address']);
-                $conference->setCity($conferenceData['city']);
-                $conference->setAveragedayfee($conferenceData['averagedayfee']);
-                $conference->setWebsite($conferenceData['website']);
-                $conference->setVenue($conferenceData['venue']);
-                $conference->setCfpclosingdate( \DateTime::createFromFormat("d/m/Y",$conferenceData['cfpclosingdate']));
-                $conference->setPublicationdate( \DateTime::createFromFormat("d/m/Y",$conferenceData['publicationdate']));
-                $conference->setHashtag($conferenceData['hashtag']);
-                $conference->setContactemail($conferenceData['contactemail']);
-                $conference->setTwitteraccount($conferenceData['twitteraccount']);
-                $conference->setIsinternational($conferenceData['isinternational']);
-                $conference->setSlug($conferenceData['slug']);
-                $conference->setDiscountForGroups($conferenceData['discountForGroups']);
-                $conference->setDiscountForStudents($conferenceData['discountForStudents']);
-                $conference->setIsVisible($conferenceData['isvisible']);
-                $conference->setIsFeatured($conferenceData['isfeatured']);
-                $conference->setCountry(
-                            $em->getRepository('Events\Entity\Country')->find($conferenceData['country'])
-                        );
-                 
-                $em->getRepository('Events\Entity\Country')->find($conferenceData['country']);
-                
-                foreach($conferenceData['tags'] as $tagValue) {
+        
+        $em = $this->getEntityManager();
 
-                    $conference->addTag(
-                                $em->getRepository('Events\Entity\Tag')->find($tagValue)
-                            );
+        $conference->setTitle($conferenceData['title']);
+        $conference->setAbstract($conferenceData['abstract']);
+        $conference->setDatefrom( \DateTime::createFromFormat("d/m/Y",$conferenceData['datefrom']) );
+        $conference->setDateto( \DateTime::createFromFormat("d/m/Y",$conferenceData['dateto']) );
+        $conference->setEarlyBirdUntil(\DateTime::createFromFormat("d/m/Y",$conferenceData['earlybirduntil']));
+        $conference->setAddress($conferenceData['address']);
+        $conference->setCity($conferenceData['city']);
+        $conference->setAveragedayfee($conferenceData['averagedayfee']);
+        $conference->setWebsite($conferenceData['website']);
+        $conference->setVenue($conferenceData['venue']);
+        $conference->setCfpclosingdate( \DateTime::createFromFormat("d/m/Y",$conferenceData['cfpclosingdate']));
+        $conference->setPublicationdate( \DateTime::createFromFormat("d/m/Y",$conferenceData['publicationdate']));
+        $conference->setHashtag($conferenceData['hashtag']);
+        $conference->setContactemail($conferenceData['contactemail']);
+        $conference->setTwitteraccount($conferenceData['twitteraccount']);
+        $conference->setIsinternational($conferenceData['isinternational']);
+        $conference->setSlug($conferenceData['slug']);
+        $conference->setDiscountForGroups($conferenceData['discountForGroups']);
+        $conference->setDiscountForStudents($conferenceData['discountForStudents']);
+        $conference->setIsVisible($conferenceData['isvisible']);
+        $conference->setIsFeatured($conferenceData['isfeatured']);
+        $conference->setCountry(
+                    $em->getRepository('Events\Entity\Country')->find($conferenceData['country'])
+                );
 
-                }
-                $em->persist($conference);
-          }
-             
-            
-            $em->flush();
-                   
+        $em->getRepository('Events\Entity\Country')->find($conferenceData['country']);
+
+        foreach($conferenceData['tags'] as $tagId) {
+
+            $tag = $em->getRepository('Events\Entity\Tag')->find($tagId);
+
+            if(!$tag instanceof \Events\Entity\Tag ) {
+
+                throw new UnexpectedValueException("Cannot find a valid tag"); 
+            }
+
+            $conference->addTag(
+                        $tag
+                    );
+
+        }
+        $em->persist($conference);
+          
+                     
+         $em->flush();
+         
+         return $conference;
     }
     
     /**
@@ -280,31 +356,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     private function loadMockConferenceData(){
                        
         return array(
-                  array(
-                    "title"=>"ZendCon Europe 2013",
-                    "abstract"=>"Firt Zend european conference",
-                    "datefrom"=>"20/11/2013",
-                    "dateto"=>"22/11/2013",
-                    "earlybirduntil"=>"31/08/2013",
-                    "address"=>"rue de Gauce 1809",
-                    "city"=>"Paris",
-                    "averagedayfee"=>"350",
-                    "website"=>"www.zendcomeruope.com",
-                    "cfpclosingdate"=>"12/05/2013",
-                    "hashtag" => "",
-                    "publicationdate"=>"12/02/2013",
-                    "venue"=>"Hilton hotel",
-                    "contactemail"=>"zendconeurope@test.com",
-                    "twitteraccount"=>"https://twitter.com/zendconeurope",
-                    "isinternational"=>true,
-                    "slug"=>"zendCon2013",
-                    "discountForStudents"=>false,
-                    "discountForGroups"=>true,
-                    "isvisible"=>true,
-                    "isfeatured" =>true,
-                    "country" => 3,
-                    "tags" =>array(1,2)
-                 ),
+                  
              array(
                 "title"=>"ZendCon 2013",
                 "abstract"=>"Worlwide zend conference",
