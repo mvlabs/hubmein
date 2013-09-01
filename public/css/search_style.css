@@ -6,12 +6,31 @@
        Custom style to add to the main template file
 */
 
+.loader {
+    
+    display:none;
+       
+}
+
+.sidebar-form div {
+    
+    margin: 0 0 5px 0;
+    
+}
+
+
+.topics {
+    
+    width:240px;
+    
+}
+
 .count-loader{
    
     width:inherit;
     height:20px;
     clear:both;
-    background:url('/images/ajax-loader.gif') no-repeat;
+    
     
 }
 
@@ -21,17 +40,5 @@
     height:100px;
     clear:both;
     background:url('/images/loading.gif') no-repeat center;
-    
-}
-
-.loader {
-    
-    display:none;
-    
-}
-
-.topics {
-    
-    width:240px;
     
 }
