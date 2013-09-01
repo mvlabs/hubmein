@@ -56,13 +56,14 @@
 
     //get the number of element from input values
     $.fn.getTotalCountByFilter = function() {
-
+        
+                
         var loader = $(this).find('div[class="loader"]');
         var formController = moduleName+ "/count"+getRegionValue();
         var preparedForm = prepareFormValues($(this));
         var url = (preparedForm.serialize() !== "") ? formController + "?" + preparedForm.serialize() : formController;
         var result = $(this).find(".result");
-        
+             
         
         form.disableInputFiled("enableAll");
        
@@ -71,16 +72,25 @@
         countLoaderImg.show();
         result.hide();
         
+        countLoaderImg.css({"background":"url('/images/ajax-loader.gif') no-repeat"});
+        countLoaderImg.text("");
+        
         loader.load(url, function(data) {
             
             var obj = $.parseJSON(data);
 
             if (obj.success) {
+                           
+                countLoaderImg.css({"background":"none"});
+                countLoaderImg.text(obj.count+" events found");
+                resetSearchButton.css({"visibility":"visible"});
                 
-                countLoaderImg.hide();
-                result.text(obj.count);
-                result.show();
-
+                if(url === "/conferences/count?tags="){
+                    
+                    resetSearchButton.css({"visibility":"hidden"});
+                    
+                }
+                
             }
 
         });
@@ -96,72 +106,89 @@
     });
     
     //Commands
-
-       
+      
     form.attr('action', '');
 
     showCondition(false);
 
     submitLoaderImg.hide();
-    countLoaderImg.hide();
-    
-    
+           
     checkTagsContentSize($(topicsElement));
 
     form.disableInputFiled('enableAll');
 
-    periodInput.change(function() {
-
-        form.getTotalCountByFilter();
-
-    });
+   
     
     //Init select2 plugin
     $(topicsElement).select2();
     //Set the tags when a search is performed
     setTagsAfterSearch();
-     
-         
+              
     $(topicsElement).change(function() {
         
         checkTagsContentSize();
-             
         form.getTotalCountByFilter();
-        
+                        
     });
-     
-     
-     
+       
     regionInput.change(function() {
         
-       // checkTagContentSize();
-       
+       form.getTotalCountByFilter();
+
+    });
+    
+     periodInput.change(function() {
+
         form.getTotalCountByFilter();
 
     });
+    
+    
+    resetSearchButton.unbind("click", resetFields)
+                     .bind('click', resetFields)
+                     .css({"visibility":"hidden"});
 
-    resetSearchButton.unbind("click", resetFields).bind('click', resetFields);
 
     form.submit(function() {
         
         var formAction = moduleName+getRegionValue();
-        var preparedForm = prepareFormValues($(this));
+        prepareFormValues($(this));
 
-        regionInput.parent('p').hide();
-        periodInput.parent('p').hide();
-
+        regionInput.parent('div').hide();
+        periodInput.parent('div').hide();
+        form.find(":submit").hide();
+        
         submitLoaderImg.show();
-
+        
         form.attr('action',formAction);
              
         
    });
+   
+   var currentUrl = document.URL;
+   
+   displayResetFilter();
+   
+   function displayResetFilter(){
+       
+       var active = true;
+       
+       form.find(":input").not(":submit").each(function(){
+           
+           if($(this).val() === "" || $(this).val() === "all" || $(this).val() === "alo" || $(this).val() === "*" || $(this).val() === null){
+               
+               active = false;
+           }
+           
+       });
+       
+   }
 
     //internal function 
-
     function resetFields() {
 
         $(topicsElement).select2("val",[]);
+        
         form.find(":selected").each(function() {
 
             $(this).removeAttr("selected");
@@ -169,6 +196,7 @@
         });
 
     }
+    
     
     function setTagsAfterSearch(){
         
@@ -186,6 +214,7 @@
     
         
     }
+    
     
     function getUrlParam(name) {
       
