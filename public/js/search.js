@@ -153,8 +153,7 @@
         submitLoaderImg.show();
 
         form.attr('action',formAction);
-        
-        alert(formAction);
+             
         
    });
 
