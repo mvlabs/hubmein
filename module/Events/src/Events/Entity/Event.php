@@ -181,17 +181,15 @@ class Event {
     /**
      * @var Events\Entity\Country
      *
-     * @ORM\ManyToOne(targetEntity="Events\Entity\Country", cascade={"persist", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="country_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Events\Entity\Country",  inversedBy="conferences",cascade={"persist", "remove"})
      */
     private $country;
     
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Events\Entity\Tag", mappedBy="events")
+     * @ORM\ManyToMany(targetEntity="Events\Entity\Tag", inversedBy="events")
+     * @ORM\JoinTable(name="tag_event")
      */
     private $tags;
     

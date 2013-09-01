@@ -46,10 +46,7 @@ class Country
     /**
      * @var Events\Entity\Region
      *
-     * @ORM\ManyToOne(targetEntity="Events\Entity\Region", cascade={"persist", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="region_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Events\Entity\Region", inversedBy="countries",cascade={"persist", "remove"})
      */
     private $region;
     
