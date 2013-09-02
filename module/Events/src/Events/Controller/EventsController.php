@@ -217,7 +217,7 @@ class EventsController extends AbstractActionController
        
         $requestBuilder = $this->buildRequest();
         
-        return $this->eventService->countByFilter($requestBuilder);
+        return $this->eventService->countListByFilter($requestBuilder);
         
     }
 

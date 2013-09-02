@@ -37,11 +37,14 @@ class Module implements ViewHelperProviderInterface
 
              ),
             'factories' => array(
+                
+                'Events\Service\RegionService' => 'Events\Service\RegionServiceFactory',
                 'Events\Service\EventService' => 'Events\Service\EventServiceFactory',
                 'Events\Service\TagService' => 'Events\Service\TagServiceFactory',
 
                 // Events mapper
                 'Events\Mapper\EventMapper' => 'Events\Mapper\DoctrineEventMapperFactory',
+                'Events\Mapper\RegionMapper' => 'Events\Mapper\DoctrineRegionMapperFactory',
                 //'Events\Mapper\EventMapper' => 'Events\Mapper\ZendDbEventMapperFactory'
 
                 // Tags mapper

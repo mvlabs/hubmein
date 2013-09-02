@@ -201,6 +201,7 @@ return array(
                 // Enable access to ZFC User pages
                 array('controller' => 'zfcuser', 'roles' => array()),
                 
+                array('controller' => 'Events\Controller\Events', 'roles' => array()),
                 // Only 'admin' users can view Admin home page
                 array('controller' => 'ZfcAdmin\Controller\AdminController', 'roles' => array('admin')),
                 
