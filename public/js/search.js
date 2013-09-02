@@ -8,11 +8,7 @@
     var resetSearchButton = $(".reset-filters");
 
     var moduleName = "/conferences";
-<<<<<<< HEAD
-    var topicsElement = ".topics";
-=======
     var topicsElement = "select.topics";
->>>>>>> FETCH_HEAD
 
     //Enable all input field if mode equal to enableAll
     //Disable input if its name is "region" or its value is "all"
@@ -39,10 +35,6 @@
 
                     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> FETCH_HEAD
                     break;
 
                 case "enableAll":
@@ -63,22 +55,11 @@
 
     //get the number of element from input values
     $.fn.getTotalCountByFilter = function() {
-<<<<<<< HEAD
-
-=======
-        
-                
->>>>>>> FETCH_HEAD
         var loader = $(this).find('div[class="loader"]');
         var formController = moduleName+ "/count"+getRegionValue();
         var preparedForm = prepareFormValues($(this));
         var url = (preparedForm.serialize() !== "") ? formController + "?" + preparedForm.serialize() : formController;
         var result = $(this).find(".result");
-<<<<<<< HEAD
-        
-=======
-             
->>>>>>> FETCH_HEAD
         
         form.disableInputFiled("enableAll");
        
@@ -87,31 +68,21 @@
         countLoaderImg.show();
         result.hide();
         
-<<<<<<< HEAD
-=======
         countLoaderImg.css({"background":"url('/images/ajax-loader.gif') no-repeat"});
         countLoaderImg.text("");
         
->>>>>>> FETCH_HEAD
         loader.load(url, function(data) {
             
             var obj = $.parseJSON(data);
 
             if (obj.success) {
                 
-<<<<<<< HEAD
-                countLoaderImg.hide();
-                result.text(obj.count);
-                result.show();
-
-=======
                 var event = (obj.count > 1)? "events" : "event";
                 countLoaderImg.css({"background":"none"});
                 countLoaderImg.text(obj.count+" "+event+" found");
                 displayResetFilter();
                 setTopicsDefaultValue();
                 
->>>>>>> FETCH_HEAD
             }
 
         });
@@ -127,84 +98,19 @@
     });
     
     //Commands
-<<<<<<< HEAD
-
-       
-=======
-      
->>>>>>> FETCH_HEAD
     form.attr('action', '');
 
     showCondition(false);
 
     submitLoaderImg.hide();
-<<<<<<< HEAD
+
     countLoaderImg.hide();
     
     
-=======
-           
->>>>>>> FETCH_HEAD
     checkTagsContentSize($(topicsElement));
 
     form.disableInputFiled('enableAll');
 
-<<<<<<< HEAD
-    periodInput.change(function() {
-
-        form.getTotalCountByFilter();
-
-    });
-    
-    //Init select2 plugin
-    $(topicsElement).select2();
-    //Set the tags when a search is performed
-    setTagsAfterSearch();
-     
-         
-    $(topicsElement).change(function() {
-        
-        checkTagsContentSize();
-             
-        form.getTotalCountByFilter();
-        
-    });
-     
-     
-     
-    regionInput.change(function() {
-        
-       // checkTagContentSize();
-       
-        form.getTotalCountByFilter();
-
-    });
-
-    resetSearchButton.unbind("click", resetFields).bind('click', resetFields);
-
-    form.submit(function() {
-        
-        var formAction = moduleName+getRegionValue();
-        var preparedForm = prepareFormValues($(this));
-
-        regionInput.parent('p').hide();
-        periodInput.parent('p').hide();
-
-        submitLoaderImg.show();
-
-        form.attr('action',formAction);
-        
-        alert(formAction);
-        
-   });
-
-    //internal function 
-
-    function resetFields() {
-
-        $(topicsElement).select2("val",[]);
-=======
-   
     
     //Init select2 plugin
     
@@ -286,7 +192,6 @@
 
         $(topicsElement).select2("val",[]);
         
->>>>>>> FETCH_HEAD
         form.find(":selected").each(function() {
 
             $(this).removeAttr("selected");
@@ -295,10 +200,6 @@
 
     }
     
-<<<<<<< HEAD
-=======
-    
->>>>>>> FETCH_HEAD
     function setTagsAfterSearch(){
         
         
@@ -316,10 +217,6 @@
         
     }
     
-<<<<<<< HEAD
-=======
-    
->>>>>>> FETCH_HEAD
     function getUrlParam(name) {
       
         return decodeURIComponent((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]);

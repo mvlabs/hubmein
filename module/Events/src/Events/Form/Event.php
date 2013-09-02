@@ -224,7 +224,8 @@ class Event extends Form {
         $this->add($tags);
         
         $submit = new Element\Button('submit');
-        $submit->setAttributes(array('class' => 'btn'
+        $submit->setAttributes(array('type'  => 'submit', 
+                                     'class' => 'btn'
                               ))
                ->setLabel('Save');
         $this->add($submit);

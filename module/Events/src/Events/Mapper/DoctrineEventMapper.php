@@ -44,6 +44,20 @@ class DoctrineEventMapper implements EventMapperInterface {
         return $this->eventRepository->findAll();
         
     }
+    
+
+    /**
+     * Saves an event
+     *
+     * @param \Events\Entity\Event Event to save
+     */
+    public function saveEvent(\Events\Entity\Event $event)
+    {
+
+        $this->entityManager->persist($event);
+        $this->entityManager->flush();
+
+    }
         
    /**
     * 
@@ -73,6 +87,16 @@ class DoctrineEventMapper implements EventMapperInterface {
     public function getCountryListAsArray() {
         
         $countries = $this->countryRepository->findAll();
+        
+        $result = array();
+        
+        foreach ( $countries as $country ) {
+            
+            $result[$country->getId()] = $country->getName();
+            
+        }
+                
+        return $result;
 
     }
 

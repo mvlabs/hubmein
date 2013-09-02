@@ -55,6 +55,12 @@ class EventService implements EventManagerAwareInterface {
         return $this->eventMapper->getEvent( $id );
         
     }
+    
+    public function getFullList() {
+        
+        return $this->eventMapper->getFullList();
+        
+    }
 
     /**
      * Get Event List given an array of criterias

@@ -28,7 +28,7 @@ class Module
         $I_sharedEventManager = $I_eventManager->getSharedManager();
         $I_sm = $I_application->getServiceManager();
         $I_mailService = $I_sm->get('Application\Service\MailService');
-        $I_sharedEventManager->attach('Events\Service\EventService', 'event_saved', array($I_mailService, 'logEventSaved'));
+        //$I_sharedEventManager->attach('Events\Service\EventService', 'event_saved', array($I_mailService, 'logEventSaved'));
         
         
         /*

@@ -97,7 +97,7 @@ class AdminEventsController extends AbstractActionController
                 
         $this->eventService->removeEvent($event);
         
-        return $this->redirect()->toRoute('zfcadmin/events');
+        return $this->redirect()->toRoute('zfcadmin/conferences');
     }
     
     
@@ -142,7 +142,7 @@ class AdminEventsController extends AbstractActionController
             $this->flashMessenger()->setNamespace('admin-event')->addMessage($confirmMessage);
             
             // redirect to event list
-            return $this->redirect()->toRoute('zfcadmin/events');
+            return $this->redirect()->toRoute('zfcadmin/conferences');
             
         }
         

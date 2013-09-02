@@ -108,58 +108,41 @@ class RequestBuilder {
      
     public static function createObjFromArray( $request ) {
         
-<<<<<<< HEAD
-       
+      
         //init the Event filter object
-        $RequestBuilder = new RequestBuilder();
+        $requestBuilder = new RequestBuilder();
         //Default page number
         $pageNumber = isset($request[ 'page' ]) ? $request[ 'page' ] : 1;
         $regionParam = isset($request['region']) ? $request['region'] : null;     
         $tcParam = isset( $request['tc']) ? $request['tc'] : self::TOTALCOUNTDEFAULT;
-        
-       
-=======
-       //init the Event filter object
-        $RequestBuilder = new RequestBuilder();
-        //Default page number
-        $pageNumber = isset($request[ 'page' ]) ? $request[ 'page' ] : 1;
-        
-        $regionParam = isset($request['region']) ? $request['region'] : null;     
-        $tcParam = isset( $request['tc']) ? $request['tc'] : self::TOTALCOUNTDEFAULT;
-             
->>>>>>> FETCH_HEAD
-       
+               
         //Set Period
         if( isset( $request[ 'period' ] ) && $request[ 'period' ] !== "" ) {
             
             $dateFrom =  '1-'.$request[ 'period' ];
             $dateFromObj = \DateTime::createFromFormat( 'd-F-Y',$dateFrom );
-            $RequestBuilder->setDateFrom( $dateFromObj );
+            $requestBuilder->setDateFrom( $dateFromObj );
             
             $dateTo = date( "t-m-Y",  strtotime($dateFrom) );
             $dateToObj = \DateTime::createFromFormat( 'd-m-Y',$dateTo );
-            $RequestBuilder->setDateTo( $dateToObj );
+            $requestBuilder->setDateTo( $dateToObj );
             
         }
        
-<<<<<<< HEAD
-=======
-        
->>>>>>> FETCH_HEAD
         //Set tags 
         if( isset( $request['tags'] ) && !empty( $request['tags'] ) ) {
                        
             $tags = explode( self::TAGLIST_SEPARATOR,$request['tags'] );
-            $RequestBuilder->setTagList($tags);
+            $requestBuilder->setTagList($tags);
             
         }
         
                
-        $RequestBuilder->setTotalCount( $tcParam );
-        $RequestBuilder->setRegion( $regionParam );
-        $RequestBuilder->setPageNumber($pageNumber);
+        $requestBuilder->setTotalCount( $tcParam );
+        $requestBuilder->setRegion( $regionParam );
+        $requestBuilder->setPageNumber($pageNumber);
               
-        return $RequestBuilder; 
+        return $requestBuilder; 
         
     }
     
