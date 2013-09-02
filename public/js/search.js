@@ -8,7 +8,7 @@
     var resetSearchButton = $(".reset-filters");
 
     var moduleName = "/conferences";
-    var topicsElement = ".topics";
+    var topicsElement = "select.topics";
 
     //Enable all input field if mode equal to enableAll
     //Disable input if its name is "region" or its value is "all"
@@ -34,7 +34,6 @@
                         inputField.attr('disabled', true);
 
                     }
-
 
                     break;
 
@@ -80,16 +79,12 @@
             var obj = $.parseJSON(data);
 
             if (obj.success) {
-                           
-                countLoaderImg.css({"background":"none"});
-                countLoaderImg.text(obj.count+" events found");
-                resetSearchButton.css({"visibility":"visible"});
                 
-                if(url === "/conferences/count?tags="){
-                    
-                    resetSearchButton.css({"visibility":"hidden"});
-                    
-                }
+                var event = (obj.count > 1)? "events" : "event";
+                countLoaderImg.css({"background":"none"});
+                countLoaderImg.text(obj.count+" "+event+" found");
+                displayResetFilter();
+                setTopicsDefaultValue();
                 
             }
 
@@ -120,7 +115,9 @@
    
     
     //Init select2 plugin
-    $(topicsElement).select2();
+    
+     setTopicsDefaultValue();
+    
     //Set the tags when a search is performed
     setTagsAfterSearch();
               
@@ -145,11 +142,13 @@
     
     
     resetSearchButton.unbind("click", resetFields)
-                     .bind('click', resetFields)
-                     .css({"visibility":"hidden"});
-
-
-    form.submit(function() {
+                     .bind('click', resetFields);
+   
+   
+   displayResetFilter();
+     
+     
+   form.submit(function() {
         
         var formAction = moduleName+getRegionValue();
         prepareFormValues($(this));
@@ -161,27 +160,33 @@
         submitLoaderImg.show();
         
         form.attr('action',formAction);
-             
-        
+           
    });
    
-   var currentUrl = document.URL;
    
-   displayResetFilter();
-   
+   function setTopicsDefaultValue(){
+       
+       $(topicsElement).select2(); 
+       
+       if($(topicsElement).val() === null) {
+           
+           $(topicsElement).select2({placeholder: "Pick a topics"}); 
+           
+       }
+       
+   }
+     
+   //Hide the link to reset filters based on search field value
    function displayResetFilter(){
-       
-       var active = true;
-       
-       form.find(":input").not(":submit").each(function(){
-           
-           if($(this).val() === "" || $(this).val() === "all" || $(this).val() === "alo" || $(this).val() === "*" || $(this).val() === null){
-               
-               active = false;
-           }
-           
-       });
-       
+         
+      resetSearchButton.css({"visibility":"visible"});
+      
+      if( regionInput.val() === "*" && periodInput.val() === "*" && $(topicsElement).val() === null ) {
+          
+           resetSearchButton.css({"visibility":"hidden"});
+          
+      }
+                
    }
 
     //internal function 
