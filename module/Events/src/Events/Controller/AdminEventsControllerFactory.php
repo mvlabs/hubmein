@@ -5,7 +5,6 @@ namespace Events\Controller;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-
 class AdminEventsControllerFactory implements FactoryInterface {
 
     /**

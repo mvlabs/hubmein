@@ -76,7 +76,7 @@ class DoctrineTagMapper implements TagMapperInterface {
     /**
      * Removes a tag
      *
-     * @param \Events\Entity\Tag Tag to save
+     * @param \Events\Entity\Tag Tag to remove
      */
     public function removeTag(\Events\Entity\Tag $tag)
     {

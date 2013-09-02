@@ -182,7 +182,7 @@ class Event {
     /**
      * @var Events\Entity\Country
      *
-     * @ORM\ManyToOne(targetEntity="Events\Entity\Country", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Events\Entity\Country")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="country_id", referencedColumnName="id")
      * })

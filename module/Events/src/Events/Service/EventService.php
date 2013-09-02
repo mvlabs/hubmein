@@ -27,7 +27,7 @@ class EventService implements EventManagerAwareInterface {
 	/*
 	 * @var \Events\Mapper\EventMapper Event Mapper
 	 */
-	private $I_mapper = null;
+	private $mapper = null;
 	
 	
 	/*
@@ -35,8 +35,8 @@ class EventService implements EventManagerAwareInterface {
 	 * 
 	 * @param \Events\Mapper\EventMapper Event Mapper
 	 */
-	public function __construct(\Events\Mapper\EventMapperInterface $I_mapper) {
-		$this->I_mapper = $I_mapper;
+	public function __construct(\Events\Mapper\EventMapperInterface $mapper) {
+		$this->mapper = $mapper;
 	}
 	
      /**
@@ -46,7 +46,7 @@ class EventService implements EventManagerAwareInterface {
      * @return \Events\Entity\Event 
      */
     public function getEvent($i_id) {
-        return $this->I_mapper->getEvent($i_id);
+        return $this->mapper->getEvent($i_id);
     }
 
     /**
@@ -56,14 +56,14 @@ class EventService implements EventManagerAwareInterface {
      * @return array List of Event
      */
     public function getList($m_country = null) {
-        return $this->I_mapper->getEventList($m_country);
+        return $this->mapper->getEventList($m_country);
     }
     
     /**
      * Gets the list of events in the form of array
      */
     public function getListArray() {
-        return $this->I_mapper->getListArray();
+        return $this->mapper->getListArray();
     }
         
     /**
@@ -72,14 +72,14 @@ class EventService implements EventManagerAwareInterface {
     public function getLocalEvents() {
     	$m_country = 1;	// Suppose we fetch this from somewhere and 1 is Italy...
     	$i_limit = 4;			
-    	return $this->I_mapper->getEventList($m_country, 4);
+    	return $this->mapper->getEventList($m_country, 4);
     } 
         
     /**
      * Fetches list of countries within the system
      */
     public function getCountryListAsArray() {
-    	return $this->I_mapper->getCountryListAsArray();
+    	return $this->mapper->getCountryListAsArray();
     }
     
     /**
@@ -92,7 +92,7 @@ class EventService implements EventManagerAwareInterface {
         
         $event->setPublicationdate(new \DateTime());
         
-        $this->I_mapper->saveEvent($event);
+        $this->mapper->saveEvent($event);
         
         //trigger 'event_saved' event
         $this->getEventManager()->trigger('event_saved', $this, array(
@@ -100,6 +100,17 @@ class EventService implements EventManagerAwareInterface {
         ));
     
         return $event;
+        
+    }
+    
+    /**
+     * Removes an event from db
+     * 
+     * @param \Events\Entity\Event $event
+     */
+    public function removeEvent(\Events\Entity\Event $event) {
+        
+        $this->mapper->removeEvent($event);
         
     }
     

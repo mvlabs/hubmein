@@ -90,16 +90,15 @@ class AdminEventsController extends AbstractActionController
         return $view;
     }
     
-    /*
-    public function deleteAction()
+
+    public function removeAction()
     {
-        $I_dog = $this->getEntityFromQuerystring();
+        $event = $this->getEventFromQuerystring();
                 
-        $this->I_service->deleteDog($I_dog);
+        $this->eventService->removeEvent($event);
         
-        return $this->redirect()->toRoute('mva-module-template');
+        return $this->redirect()->toRoute('zfcadmin/events');
     }
-     */
     
     
     /*

@@ -5,7 +5,6 @@ namespace Events\Form;
 use Zend\Form\Form,
     Zend\Form\Element,
     Zend\Validator;
-//use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
@@ -23,7 +22,6 @@ class Event extends Form {
         
         $title = new Element\Text('title');
         $title->setAttributes(array('id'    => 'title',
-                                    'type'  => 'text',
                                     'class' => 'input-xxlarge',
                              ))
               ->setLabel('Conference name')
@@ -33,7 +31,6 @@ class Event extends Form {
         
         $abstract = new Element\Text('abstract');
         $abstract->setAttributes(array('id'    => 'abstract',
-                                       'type'  => 'textarea',
                                        'rows'  => '8', 
                                        'class' => 'input-xxlarge',
                                 ))
@@ -44,7 +41,6 @@ class Event extends Form {
         
         $dateFrom = new Element\Date('datefrom');
         $dateFrom->setAttributes(array('id'    => 'datefrom',
-                                       'type'  => 'date',
                                        'class' => 'input-medium',
                                 ))
                   ->setLabel('From')
@@ -54,7 +50,6 @@ class Event extends Form {
         
         $dateTo = new Element\Date('dateto');
         $dateTo->setAttributes(array('id'    => 'dateto',
-                                     'type'  => 'date',
                                      'class' => 'input-medium',
                               ))
                 ->setLabel('To')
@@ -64,7 +59,6 @@ class Event extends Form {
         
         $country = new Element\Select('country');
         $country->setAttributes(array('id'    => 'country',
-                                      'type'  => 'select',
                                ))
                 ->setLabel('Country')
                 ->setLabelAttributes(array('class' => 'control-label'))
@@ -75,7 +69,6 @@ class Event extends Form {
         
         $venue = new Element\Text('venue');
         $venue->setAttributes(array('id'    => 'venue',
-                                    'type'  => 'text',
                                     'class' => 'input-xxlarge',
                              ))
               ->setLabel('Venue')
@@ -85,7 +78,6 @@ class Event extends Form {
         
         $city = new Element\Text('city');
         $city->setAttributes(array('id'    => 'city',
-                                   'type'  => 'text',
                                    'class' => 'input-xxlarge',
                             ))
              ->setLabel('City')
@@ -95,7 +87,6 @@ class Event extends Form {
         
         $address = new Element\Text('address');
         $address->setAttributes(array('id'    => 'address',
-                                      'type'  => 'text',
                                       'class' => 'input-xxlarge',
                                ))
                 ->setLabel('Address')
@@ -105,7 +96,6 @@ class Event extends Form {
         
         $website = new Element\Text('website');
         $website->setAttributes(array('id'    => 'website',
-                                      'type'  => 'text',
                                       'class' => 'input-xxlarge', 
                                ))
                 ->setLabel('Website')
@@ -115,7 +105,6 @@ class Event extends Form {
         
         $averagedayfee = new Element\Text('averagedayfee');
         $averagedayfee->setAttributes(array('id'    => 'averagedayfee',
-                                            'type'  => 'text',
                                      ))
                       ->setLabel('Avg Daily Fee')
                       ->setLabelAttributes(array('class' => 'control-label'));
@@ -124,7 +113,6 @@ class Event extends Form {
         
         $earlybirduntil = new Element\Date('earlybirduntil');
         $earlybirduntil->setAttributes(array('id'    => 'earlybirduntil',
-                                             'type'  => 'date',
                                              'class' => 'input-medium',
                                       ))
                        ->setLabel('Early bird until')
@@ -134,7 +122,6 @@ class Event extends Form {
         
         $cfpclosingdate = new Element\Date('cfpclosingdate');
         $cfpclosingdate->setAttributes(array('id'    => 'cfpclosingdate',
-                                             'type'  => 'date',
                                              'class' => 'input-medium',
                                       ))
                        ->setLabel('CFP closing date')
@@ -144,7 +131,6 @@ class Event extends Form {
         
         $contactemail = new Element\Text('contactemail');
         $contactemail->setAttributes(array('id'   => 'contactemail',
-                                           'type'  => 'text',
                                            'class' => 'input-small',
                                     ))
                      ->setLabel('Contact email')
@@ -157,7 +143,6 @@ class Event extends Form {
         
         $hashtag = new Element\Text('hashtag');
         $hashtag->setAttributes(array('id'   => 'hashtag',
-                                     'type'  => 'text',
                                      'class' => 'input-small',
                                ))
                 ->setLabel('Hashtag')
@@ -167,7 +152,6 @@ class Event extends Form {
         
         $joindinid = new Element\Text('joindinid');
         $joindinid->setAttributes(array('id'    => 'joindinid',
-                                        'type'  => 'text',
                                         'class' => 'input-small',
                                  ))
                   ->setLabel('Joind.in ID')
@@ -177,7 +161,6 @@ class Event extends Form {
         
         $twitteraccount = new Element\Text('twitteraccount');
         $twitteraccount->setAttributes(array('id'    => 'twitteraccount',
-                                             'type'  => 'text',
                                              'class' => 'input-small',
                                       ))
                        ->setLabel('Twitter account')
@@ -188,7 +171,6 @@ class Event extends Form {
         // other
         $isinternational = new Element\Checkbox('isinternational');
         $isinternational->setAttributes(array('id'    => 'isinternational',
-                                              'type'  => 'checkbox',
                                               'class' => 'input-small',
                                        ))
                         ->setLabel('Is international?')
@@ -198,7 +180,6 @@ class Event extends Form {
         
         $discountforstudents = new Element\Checkbox('discountforstudents');
         $discountforstudents->setAttributes(array('id'    => 'discountforstudents',
-                                                  'type'  => 'checkbox',
                                                   'class' => 'input-small',
                                            ))
                             ->setLabel('Discount for students?')
@@ -208,7 +189,6 @@ class Event extends Form {
         
         $discountforgroups = new Element\Checkbox('discountforgroups');
         $discountforgroups->setAttributes(array('id'    => 'discountforgroups',
-                                                'type'  => 'checkbox',
                                                 'class' => 'input-small',
                                          ))
                           ->setLabel('Discount for groups?')
@@ -218,7 +198,6 @@ class Event extends Form {
         
         $isvisible = new Element\Checkbox('isvisible');
         $isvisible->setAttributes(array('id'    => 'isvisible',
-                                        'type'  => 'checkbox',
                                         'class' => 'input-small',
                                  ))
                   ->setLabel('Is visible?')
@@ -228,7 +207,6 @@ class Event extends Form {
         
         $isfeatured = new Element\Checkbox('isfeatured');
         $isfeatured->setAttributes(array('id'    => 'isfeatured',
-                                         'type'  => 'checkbox',
                                          'class' => 'input-small',
                                   ))
                    ->setLabel('Is featured?')
@@ -246,8 +224,7 @@ class Event extends Form {
         $this->add($tags);
         
         $submit = new Element\Button('submit');
-        $submit->setAttributes(array('type'  => 'submit', 
-                                     'class' => 'btn'
+        $submit->setAttributes(array('class' => 'btn'
                               ))
                ->setLabel('Save');
         $this->add($submit);

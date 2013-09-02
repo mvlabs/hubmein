@@ -105,4 +105,17 @@ class DoctrineEventMapper implements EventMapperInterface {
         
     }
     
+    /**
+     * Removes an event
+     *
+     * @param \Events\Entity\Event Event to remove
+     */
+    public function removeEvent(\Events\Entity\Event $event)
+    {
+    
+        $this->entityManager->remove($event);
+        $this->entityManager->flush();
+    
+    }
+    
 }

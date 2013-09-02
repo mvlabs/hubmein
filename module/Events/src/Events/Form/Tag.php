@@ -5,7 +5,6 @@ namespace Events\Form;
 use Zend\Form\Form,
     Zend\Form\Element,
     Zend\Validator;
-//use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
