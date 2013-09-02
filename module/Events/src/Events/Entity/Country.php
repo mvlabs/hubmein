@@ -46,13 +46,22 @@ class Country
     /**
      * @var Events\Entity\Region
      *
-     * @ORM\ManyToOne(targetEntity="Events\Entity\Region", cascade={"persist", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="region_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Events\Entity\Region", inversedBy="countries",cascade={"persist", "remove"})
      */
     private $region;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="country")
+     */
+    private $conferences;
 
+    public function __construct()
+    {
+        $this->conferences = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     public function exchangeArray($data)
     {
         $this->fillWith($data);

@@ -41,14 +41,14 @@ class Event {
     /**
      * @var \DateTime $datefrom
      *
-     * @ORM\Column(name="datefrom", type="datetime", nullable=false)
+     * @ORM\Column(name="datefrom", type="date", nullable=false)
      */
     private $datefrom;
 
     /**
      * @var \DateTime $dateto
      *
-     * @ORM\Column(name="dateto", type="datetime", nullable=false)
+     * @ORM\Column(name="dateto", type="date", nullable=false)
      */
     private $dateto;
     
@@ -182,17 +182,15 @@ class Event {
     /**
      * @var Events\Entity\Country
      *
-     * @ORM\ManyToOne(targetEntity="Events\Entity\Country")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="country_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Events\Entity\Country", inversedBy="conferences")
      */
     private $country;
     
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Events\Entity\Tag", mappedBy="events")
+     * @ORM\ManyToMany(targetEntity="Events\Entity\Tag", inversedBy="events")
+     * @ORM\JoinTable(name="tag_event")
      */
     private $tags;
     
@@ -204,8 +202,7 @@ class Event {
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
-    
+       
     /**
      * Get country slug
      *

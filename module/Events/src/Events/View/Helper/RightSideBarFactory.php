@@ -9,12 +9,11 @@ class RightSideBarFactory implements FactoryInterface {
 
 	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
-	    $regionService = $serviceLocator->getServiceLocator()->get('Events\Service\RegionService');
+	    $conferenceService = $serviceLocator->getServiceLocator()->get('event.service');
             $tagService = $serviceLocator->getServiceLocator()->get('Events\Service\TagService');
             $routeMatch = $serviceLocator->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
 
-            
-	    $request = $serviceLocator->getServiceLocator()->get('Request');
+            $request = $serviceLocator->getServiceLocator()->get('Request');
             
             $currentDatas = array();
 	    $currentDatas['region'] = $routeMatch->getParam('region');
@@ -36,7 +35,7 @@ class RightSideBarFactory implements FactoryInterface {
                 
 	    }
                       
-	    return new RightSideBar( $regionService->getListAsArray(),$tagService->getTagListAsArray(), $currentDatas );
+	    return new RightSideBar( $conferenceService, $tagService, $currentDatas );
 		
 	}
 

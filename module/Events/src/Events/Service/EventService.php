@@ -85,9 +85,19 @@ class EventService implements EventManagerAwareInterface {
     /**
      * 
      */
-    public function getFullList(){
+    public function getRegionByUpcomingConferences(){
         
-        return $this->eventMapper->getFullList();
+        return $this->eventMapper->getRegionByUpcomingConferences();
+        
+    }
+    
+    /**
+     * Get a list of period based on upcoming conferences
+     * @return array
+     */
+    public function getPeriodByUpcomingConferences(){
+        
+        return $this->eventMapper->getPeriodByUpcomingConferences();
         
     }
         

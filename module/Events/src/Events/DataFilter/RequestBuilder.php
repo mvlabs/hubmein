@@ -108,6 +108,7 @@ class RequestBuilder {
      
     public static function createObjFromArray( $request ) {
         
+<<<<<<< HEAD
        
         //init the Event filter object
         $RequestBuilder = new RequestBuilder();
@@ -117,6 +118,16 @@ class RequestBuilder {
         $tcParam = isset( $request['tc']) ? $request['tc'] : self::TOTALCOUNTDEFAULT;
         
        
+=======
+       //init the Event filter object
+        $RequestBuilder = new RequestBuilder();
+        //Default page number
+        $pageNumber = isset($request[ 'page' ]) ? $request[ 'page' ] : 1;
+        
+        $regionParam = isset($request['region']) ? $request['region'] : null;     
+        $tcParam = isset( $request['tc']) ? $request['tc'] : self::TOTALCOUNTDEFAULT;
+             
+>>>>>>> FETCH_HEAD
        
         //Set Period
         if( isset( $request[ 'period' ] ) && $request[ 'period' ] !== "" ) {
@@ -131,6 +142,10 @@ class RequestBuilder {
             
         }
        
+<<<<<<< HEAD
+=======
+        
+>>>>>>> FETCH_HEAD
         //Set tags 
         if( isset( $request['tags'] ) && !empty( $request['tags'] ) ) {
                        

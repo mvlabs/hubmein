@@ -19,7 +19,8 @@ use Events\DataFilter\RequestBuilder;
 
 class EventRepository extends EntityRepository {
     
-    const DATE_REGEXP = "";
+    const ANDQUERYVALUE = "AND";
+    const ORQUERYVALUE = "OR";
        
     
     public function getFilteredList(RequestBuilder $RequestBuilder) {
@@ -34,6 +35,7 @@ class EventRepository extends EntityRepository {
                $queryFilter.
               " ORDER BY events.datefrom ASC ";
               
+       
       
        $result = $this->_em->createQuery($dql)->getResult();
         
@@ -57,7 +59,8 @@ class EventRepository extends EntityRepository {
         $dql .= $queryFilter;
         $dql .= ")";
          
-       
+        //echo $this->_em->createQuery($dql)->getSQL();
+      
         $result = $this->_em->createQuery($dql)->getScalarResult();
         $totalCount = (sizeof($result)> 0)? $result[0][1]:0;
         
@@ -66,14 +69,43 @@ class EventRepository extends EntityRepository {
         
     }
     
+    public function getRegionsWithConferences() {
+				
+		$s_query = 'SELECT r ' . 
+		           'FROM \Events\Entity\Region r ' .
+		           'JOIN r.countries co ' .
+		           'JOIN co.conferences c ' .
+		           'WHERE c.dateto >= CURRENT_DATE() ' .
+		           '  AND c.isVisible = TRUE ' .
+		           'ORDER BY r.id';
+		           
+		$I_query = $this->getEntityManager()->createQuery($s_query);
+                               
+		return $I_query->getResult();
+		
+                
+    }
+    
+    public function getPeriodWithConferences() {
+				
+		$s_query = 'SELECT DISTINCT c.dateto as month_year ' . 
+		           'FROM \Events\Entity\Event c ' .
+		           'WHERE c.dateto >= CURRENT_DATE() ' .
+		           '  AND c.isVisible = TRUE ' .
+		           'ORDER BY month_year';
+		           
+		$I_query = $this->getEntityManager()->createQuery($s_query);
+                
+		return $I_query->getResult();
+		
+    }
+    
     private function buildQuerySearch( RequestBuilder $requestBuilder ) {
         
        
         $filterDatas = $requestBuilder->toArray();
         $queries = array();
-              
-        
-       
+                   
         if( !array_key_exists('tc', $filterDatas) ) {
             
             throw new \Exception('key tc is not existent');        
@@ -117,7 +149,7 @@ class EventRepository extends EntityRepository {
                
         }
              
-        if(sizeof($queries) == 0) {
+        if( sizeof($queries) == 0 ) {
             
             return $this->addGroupBy();
             

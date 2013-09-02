@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+=======
+<?php
+
+    $this->headLink()->appendStylesheet('/css/search_style.css');
+    
+    $this->headScript() ->appendFile('/js/select2.min.js')
+                        ->appendFile('/js/search.min.js');
+                        
+?>
+
+>>>>>>> FETCH_HEAD
 <!-- START: box -->
 <div class="rounded-box-title box">
     <div class="box-inner clearfix">
@@ -5,6 +17,7 @@
          <div class="more-wrap">
             <a class="more reset-filters">Clear filters</a>
          </div>
+<<<<<<< HEAD
 
         <form id="search-form" name="search" action="" method="get" class="sidebar-form">
             
@@ -15,6 +28,15 @@
                     <?php
                     //@TODO Decide how to render loop inside partial
                     foreach( $this->service['tags'] as $tagName ) {
+=======
+         <form name="search" action="" method="get" class="sidebar-form">
+           <div>
+               <label for="location-1">Topics: </label>
+                <select  class="topics" multiple="" tabindex="-1"  >
+                    <?php
+                    //@TODO Decide how to render loop inside partial
+                    foreach( $this->tags as $tagName ) {
+>>>>>>> FETCH_HEAD
                     ?>
                     <option value="<?php echo $tagName; ?>" ><?php echo $tagName; ?></option>
                     <?php
@@ -28,6 +50,7 @@
             </div>
             <div>
                <label for="location-1">Location: </label>
+<<<<<<< HEAD
                <select name="region" id="region">
                     <option value="*" >All regions</option>
                     <?php
@@ -35,6 +58,15 @@
                            $selected = ( $this->currents['region'] == $slug ) ? "selected" : "";
                     ?>
                     <option value="<?php echo $slug; ?>" <?php echo $selected ?> > <?php echo $region; ?></option>
+=======
+               <select name="region" class="regions">
+                    <option value="*" >All regions</option>
+                    <?php
+                     foreach ( $this->regions as $region ) {
+                           $selected = ( $this->currentRequest['region'] == $region->getSlug() ) ? "selected" : "";
+                    ?>
+                    <option value="<?php echo $region->getSlug(); ?>" <?php echo $selected ?> > <?php echo $region->getName(); ?></option>
+>>>>>>> FETCH_HEAD
                      <?php                       
                        }
                      ?>
@@ -42,6 +74,7 @@
              </div>
              <div>
                   <label for="location-1">Period: </label>
+<<<<<<< HEAD
                   <select name="period">
                      <option value="*" >All periods</option>
 
@@ -60,15 +93,35 @@
                      <option value="<?php echo $currentDate->format("F-Y")?>" <?php echo $selected; ?>><?php echo $currentDate->format("F-Y") ?></option>
                      <?php
                      }  
+=======
+                  <select name="period" class="periods">
+                     <option value="*" >All periods</option>
+
+                     <?php
+                        foreach( $this->periods as $period) {
+                           
+                                   $formattedDate = $period["month_year"]->format("F-Y");
+                                   $selected = ( $this->currentRequest['period'] == $formattedDate ) ? "selected" : "";
+                     ?>
+                     <option value="<?php echo $formattedDate?>" <?php echo $selected; ?>><?php echo str_replace("-"," ",$formattedDate) ?></option>
+                     <?php
+                        }  
+>>>>>>> FETCH_HEAD
                      ?>
                      </select>
              </div>
              <div class="loader"></div>
              <div class="count-loader"></div>
+<<<<<<< HEAD
              <div class="result"></div>
              <div class="submit-loader"></div>
              <div>
                  <input type="submit" class="bigbutton" value="Refine">
+=======
+             <div class="submit-loader"></div>
+             <div>
+                 <input type="submit" class="bigbutton refine" value="Refine">
+>>>>>>> FETCH_HEAD
              </div>
             </form>
       </div>

@@ -57,6 +57,7 @@ class DoctrineEventMapper implements EventMapperInterface {
         return $this->eventRepository->getFilteredList( $requestBuilder );
                 
     }
+     
     
     /**
      * Gets number of filtered events by a given $criterias array 
@@ -73,25 +74,24 @@ class DoctrineEventMapper implements EventMapperInterface {
         
         $countries = $this->countryRepository->findAll();
 
-        $result = array();
-        foreach ($countries as $country) {
-            $result[$country->getId()] = $country->getName();
-        }
+    }
 
-        return $result;
+   /**
+    * 
+    */
+    public function getRegionByUpcomingConferences(){
+        
+        return $this->eventRepository->getRegionsWithConferences();
         
     }
      
     /**
      * Saves an event
      * 
-     * @param \Events\Entity\Event Event to save
      */
-    public function saveEvent(\Events\Entity\Event $event) 
-    {
-
-        $this->entityManager->persist($event);
-        $this->entityManager->flush();
+    public function getPeriodByUpcomingConferences() {
+        
+        return $this->eventRepository->getPeriodWithConferences();
         
     }
     

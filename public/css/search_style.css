@@ -1,0 +1,44 @@
+/* 
+    Document   : custom
+    Created on : 4-lug-2013, 15.59.28
+    Author     : mauilap
+    Description:
+       Custom style to add to the main template file
+*/
+
+.loader {
+    
+    display:none;
+       
+}
+
+.sidebar-form div {
+    
+    margin: 0 0 5px 0;
+    
+}
+
+
+.topics {
+    
+    width:240px;
+    
+}
+
+.count-loader{
+   
+    width:inherit;
+    height:20px;
+    clear:both;
+    
+    
+}
+
+.submit-loader {
+    
+    width:inherit;
+    height:100px;
+    clear:both;
+    background:url('/images/loading.gif') no-repeat center;
+    
+}

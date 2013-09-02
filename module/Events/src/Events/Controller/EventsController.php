@@ -47,12 +47,12 @@ class EventsController extends AbstractActionController
      * @param \Events\Service\RegionService
      * @param \Events\Service\TagService
      */
-    public function __construct( EventService $eventService,RegionService $regionService, Form $promoteForm ) {
+    public function __construct( EventService $eventService,RegionService $regionService, TagService $tagService, Form $promoteForm ) {
        
         $this->regionService = $regionService;
         $this->eventService = $eventService;
         $this->promoteForm = $promoteForm;
-        
+        $this->tagService = $tagService;
     }
     
     /**
@@ -217,7 +217,7 @@ class EventsController extends AbstractActionController
        
         $requestBuilder = $this->buildRequest();
         
-        return $this->eventService->countListByFilter($requestBuilder);
+        return $this->eventService->countByFilter($requestBuilder);
         
     }
 
@@ -228,7 +228,7 @@ class EventsController extends AbstractActionController
      */
     private function buildRequest() {
                   
-        return  RequestBuilder::createObjFromArray( $this->mergeRequest );
+        return  RequestBuilder::createObjFromArray( $this->mergeRequest() );
         
     }
     

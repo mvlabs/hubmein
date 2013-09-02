@@ -32,7 +32,7 @@ class Tag
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Events\Entity\Event", inversedBy="tags")
+     * @ORM\ManyToMany(targetEntity="Events\Entity\Event", mappedBy="tags")
      */
     private $events;
 
