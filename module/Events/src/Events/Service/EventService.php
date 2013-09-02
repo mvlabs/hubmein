@@ -75,11 +75,21 @@ class EventService implements EventManagerAwareInterface {
         return $this->eventMapper->countListByFilter( $requestBuilder );
         
     }
+    
+    public function getCountryListAsArray() {
+        
+        return $this->eventMapper->getCountryListAsArray();
+        
+    }
            
     /**
      * 
      */
     public function getFullList(){
+        
+        return $this->eventMapper->getFullList();
+        
+    }
         
     /**
      * Inserts or updates an event from array data
@@ -91,7 +101,7 @@ class EventService implements EventManagerAwareInterface {
         
         $event->setPublicationdate(new \DateTime());
         
-        $this->mapper->saveEvent($event);
+        $this->eventMapper->saveEvent($event);
         
         //trigger 'event_saved' event
         $this->getEventManager()->trigger('event_saved', $this, array(
@@ -110,7 +120,7 @@ class EventService implements EventManagerAwareInterface {
      */
     public function removeEvent(\Events\Entity\Event $event) {
         
-        $this->mapper->removeEvent($event);
+        $this->eventMapper->removeEvent($event);
         
     }
     

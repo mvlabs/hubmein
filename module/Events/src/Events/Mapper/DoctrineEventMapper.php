@@ -17,6 +17,7 @@ class DoctrineEventMapper implements EventMapperInterface {
     {
         $this->entityManager = $entityManager;
         $this->eventRepository = $this->entityManager->getRepository('Events\Entity\Event');
+        $this->countryRepository = $this->entityManager->getRepository('Events\Entity\Country');
 	
     }
 	
@@ -38,6 +39,11 @@ class DoctrineEventMapper implements EventMapperInterface {
     	return $event;
     }
     
+    public function getFullList() {
+        
+        return $this->eventRepository->findAll();
+        
+    }
         
    /**
     * 
@@ -60,6 +66,19 @@ class DoctrineEventMapper implements EventMapperInterface {
     public function countListByFilter( RequestBuilder $requestBuilder ){
       
         return $this->eventRepository->countFilteredItems( $requestBuilder );
+        
+    }
+    
+    public function getCountryListAsArray() {
+        
+        $countries = $this->countryRepository->findAll();
+
+        $result = array();
+        foreach ($countries as $country) {
+            $result[$country->getId()] = $country->getName();
+        }
+
+        return $result;
         
     }
      

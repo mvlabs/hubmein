@@ -4,7 +4,6 @@ namespace Events\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-<<<<<<< HEAD
 /**
  * RegionRepository
  *

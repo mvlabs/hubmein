@@ -1,8 +1,8 @@
 <h1>Events</h1>
 
-<p><a href="<?php echo $this->url('zfcadmin/events/crud', array('action' => 'add'))?>">Add new event</a></p>
+<p><a href="<?php echo $this->url('zfcadmin/conferences/crud', array('action' => 'add'))?>">Add new event</a></p>
 
-<?php if (count($this->events) > 0) { ?>
+<?php if (count($this->conferences) > 0) { ?>
 <table class="table table-bordered table-hover table-striped">
     <thead>
         <tr>
@@ -14,13 +14,13 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach($this->events as $event) {?>
+        <?php foreach($this->conferences as $event) {?>
         <tr>
             <td><?php echo $event->getId()?></td>
-            <td><a href="<?php echo $this->url('zfcadmin/events/crud', array('action' => 'edit', 'id' => $event->getId()))?>"><?php echo $event->getTitle()?></a></td>
+            <td><a href="<?php echo $this->url('zfcadmin/conferences/crud', array('action' => 'edit', 'id' => $event->getId()))?>"><?php echo $event->getTitle()?></a></td>
             <td><?php echo 'from ' . $event->getDatefrom()->format('Y-m-d') . ' to ' . $event->getDateto()->format('Y-m-d')?></td>
             <td><?php echo $event->getCountryName()?></td>
-            <td><a class="btn btn-small" href="<?php echo $this->url('zfcadmin/events/crud', array('action' => 'remove', 'id' => $event->getId()))?>"><i class="icon-trash"></i> Remove</a></td>
+            <td><a class="btn btn-small" href="<?php echo $this->url('zfcadmin/conferences/crud', array('action' => 'remove', 'id' => $event->getId()))?>"><i class="icon-trash"></i> Remove</a></td>
         </tr>
         <?php } ?>
     </tbody>
