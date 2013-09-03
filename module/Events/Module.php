@@ -2,14 +2,41 @@
 
 namespace Events;
 
-use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
-
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface,
+    Zend\Mvc\MvcEvent;
 
 class Module implements ViewHelperProviderInterface
 {
-
+    
+    const ROUTENAME = "cfps";
+    
+    public function onBootstrap( MvcEvent $event ){
+        
+        $eventManager = $event->getApplication()->getEventManager();
+        $eventManager->attach('dispatch', array($this, 'preDispatch'), 100);
+        
+    }
+    
+    public function preDispatch( MvcEvent $event ) {
+        
+        $matchedRoute = $event->getRouteMatch()->getMatchedRouteName();
+        $matchedRoutePart = explode("/",$matchedRoute);
+        
+        if(!$matchedRoutePart[0]) {
+            
+            throw new \UnexpectedValueException('no valid route ro retrieve');
+            
+        }
+        if( $matchedRoutePart[0] === self::ROUTENAME ) {
+                      
+            $serviceManager = $event->getApplication()->getServiceManager();
+            $helper = $serviceManager->get('viewhelpermanager')->get('paginatorbyperiod');
+            $helper->setCurrentRoute( self::ROUTENAME );
+            
+        }
+        
+    }
+    
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
@@ -91,6 +118,7 @@ class Module implements ViewHelperProviderInterface
                         'factories' => array(
                             
                             'rightSideBar' => 'Events\View\Helper\RightSideBarFactory',
+                            'paginatorByPeriod'=>'Events\View\Helper\PaginatorByPeriodFactory'
                             
                         ),
     	);
