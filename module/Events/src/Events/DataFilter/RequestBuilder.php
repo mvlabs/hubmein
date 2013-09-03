@@ -119,7 +119,7 @@ class RequestBuilder {
         //Set Period
         if( isset( $request[ 'period' ] ) && $request[ 'period' ] !== "" ) {
             
-            $dateFrom =  '1-'.$request[ 'period' ];
+            $dateFrom =  '1-'.ucfirst($request[ 'period' ]);
             $dateFromObj = \DateTime::createFromFormat( 'd-F-Y',$dateFrom );
             $requestBuilder->setDateFrom( $dateFromObj );
             

@@ -58,7 +58,7 @@
                                    $formattedDate = $period["month_year"]->format("F-Y");
                                    $selected = ( $this->currentRequest['period'] == $formattedDate ) ? "selected" : "";
                      ?>
-                     <option value="<?php echo $formattedDate?>" <?php echo $selected; ?>><?php echo str_replace("-"," ",$formattedDate) ?></option>
+                     <option value="<?php echo strtolower($formattedDate) ?>" <?php echo $selected; ?>><?php echo str_replace("-"," ",$formattedDate) ?></option>
                      <?php
                         }  
                      ?>
