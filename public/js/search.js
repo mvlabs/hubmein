@@ -3,7 +3,7 @@
     var form = $('form[name="search"]');
     var regionInput = form.find(':input[name="region"]');
     var periodInput = form.find(':input[name="period"]');
-    var countLoaderImg = $(".count-loader");
+    var countLoader = $(".count-loader");
     var submitLoaderImg = $(".submit-loader");
     var resetSearchButton = $(".reset-filters");
 
@@ -13,23 +13,23 @@
     //Enable all input field if mode equal to enableAll
     //Disable input if its name is "region" or its value is "all"
 
-    $.fn.disableInputFiled = function(mode) {
+    $.fn.disableInputField = function(mode) {
 
         $(this).find(":input").not(':submit').each(function() {
 
             var inputField = $(this);
-
-            if (inputField.attr('name') === undefined) {
+                     
+           if (inputField.attr('name') === undefined) {
 
                 return;
 
             }
-
+ 
             switch (mode) {
 
                 case "disableAll":
-
-                    if (inputField.val() === "*" || inputField.val() === "" || inputField.attr('name') === "region") {
+                                      
+                    if (inputField.val() === "*" || inputField.val() === "" || inputField.attr('name') === "region" ) {
 
                         inputField.attr('disabled', true);
 
@@ -55,21 +55,21 @@
 
     //get the number of element from input values
     $.fn.getTotalCountByFilter = function() {
+                       
         var loader = $(this).find('div[class="loader"]');
         var formController = moduleName+ "/count"+getRegionValue();
         var preparedForm = prepareFormValues($(this));
         var url = (preparedForm.serialize() !== "") ? formController + "?" + preparedForm.serialize() : formController;
         var result = $(this).find(".result");
-        
-        form.disableInputFiled("enableAll");
-       
+               
+        form.disableInputField("enableAll");
         loader.hide();
         
-        countLoaderImg.show();
+        countLoader.show();
         result.hide();
         
-        countLoaderImg.css({"background":"url('/images/ajax-loader.gif') no-repeat"});
-        countLoaderImg.text("");
+        countLoader.css({"background":"url('/images/ajax-loader.gif') no-repeat"});
+        countLoader.text("");
         
         loader.load(url, function(data) {
             
@@ -78,8 +78,8 @@
             if (obj.success) {
                 
                 var event = (obj.count > 1)? "events" : "event";
-                countLoaderImg.css({"background":"none"});
-                countLoaderImg.text(obj.count+" "+event+" found");
+                countLoader.css({"background":"none"});
+                countLoader.text(obj.count+" "+event+" found");
                 displayResetFilter();
                 setTopicsDefaultValue();
                 
@@ -98,23 +98,20 @@
     });
     
     //Commands
+      
     form.attr('action', '');
 
     showCondition(false);
 
     submitLoaderImg.hide();
-
-    countLoaderImg.hide();
-    
-    
+           
     checkTagsContentSize($(topicsElement));
 
-    form.disableInputFiled('enableAll');
-
+    form.disableInputField('enableAll');
     
     //Init select2 plugin
     
-     setTopicsDefaultValue();
+    setTopicsDefaultValue();
     
     //Set the tags when a search is performed
     setTagsAfterSearch();
@@ -149,6 +146,7 @@
    form.submit(function() {
         
         var formAction = moduleName+getRegionValue();
+      
         prepareFormValues($(this));
 
         regionInput.parent('div').hide();
@@ -191,7 +189,8 @@
     function resetFields() {
 
         $(topicsElement).select2("val",[]);
-        
+        $(countLoader).text("");
+              
         form.find(":selected").each(function() {
 
             $(this).removeAttr("selected");
@@ -200,9 +199,9 @@
 
     }
     
+    
     function setTagsAfterSearch(){
-        
-        
+                
         var tagsToSelect = getUrlParam('tags');
         var tags = [];
                 
@@ -213,9 +212,9 @@
         }
       
         $(topicsElement).select2("val",tags);
-    
-        
+            
     }
+    
     
     function getUrlParam(name) {
       
@@ -226,7 +225,7 @@
     
     function prepareFormValues(form) {
 
-        form.disableInputFiled('disableAll');
+        form.disableInputField('disableAll');
         checkTagsContentSize($(topicsElement));
         buildTagRequest(form);
 
@@ -235,18 +234,17 @@
 
     function buildTagRequest(form) {
 
-        var tagElement = form.find(topicsElement);
+        //var tagElement = form.find(topicsElement);
         var tagValues = getTopicsContent();
         var tagAppendix = "tags";
-
+        var queryTag = tagValues.join(",");
+        var input = $("<input>").attr("type", "hidden").attr("name", tagAppendix).val(queryTag);
         var hiddenValue = form.find(":hidden[name='tags']");
+        
         hiddenValue.remove();
-
-
-        if (tagValues !== null) {
-
-            var queryTag = tagValues.join(",");
-            var input = $("<input>").attr("type", "hidden").attr("name", tagAppendix).val(queryTag);
+        
+        if ( tagValues.length > 0 ) {
+            
             form.append(input);
         }
 
