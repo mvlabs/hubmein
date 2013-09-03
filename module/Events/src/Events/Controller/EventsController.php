@@ -66,12 +66,28 @@ class EventsController extends AbstractActionController
         $conferences = $this->eventService->getListByFilter( $this->buildRequest() );
          
         return new ViewModel(array(
-            
-            'conferences' => $conferences,
-                    
-        ));
+                            'conferences' => $conferences,
+                     )
+                );
                 
     }
+    
+    /**
+     * Display events with a call for paper still active
+     */
+    public function showcallForPaperAction(){
+        
+        $conferences = $this->eventService->getListByFilter($this->buildRequest());
+        
+        $viewModel = new ViewModel(
+                array("conferences"=>$conferences)
+                );
+        $viewModel->setTemplate('events/events/index');
+        
+        return $viewModel;
+        
+    }
+    
     
     /**
      * Displays a specific event 
@@ -120,12 +136,12 @@ class EventsController extends AbstractActionController
             
             if(!$form->isValid()) {
                 
-                $model = new ViewModel(array(
+                $viewModel = new ViewModel(array(
                     'error' => true,
                     'form'  => $form,
                 ));
-                $model->setTemplate('events/events/promote');
-                return $model;
+                $viewModel->setTemplate('events/events/promote');
+                return $viewModel;
             } 
             
             $this->eventService->insertEventFromArray($post);
@@ -189,18 +205,11 @@ class EventsController extends AbstractActionController
         return $result;
         
     }
-    
-    
+        
     /*
      * Private methods
      */
-    private function listEvents() {
-        //@TODO is the method createFilterFromUrlParam really necessary using a builder ?
-        // get params from url and prepare RequestBuilder class
-        return $this->eventService->getListByFilter( $this->buildRequest() );
         
-    }
-    
     /**
      * 
      * @return array 
@@ -229,8 +238,10 @@ class EventsController extends AbstractActionController
        
         $requestParams = $this->params()->fromQuery();
         $requestParamFromRoute = $this->params()->fromRoute();
+       
         $requestParams['region'] = (isset($requestParamFromRoute['region']))?$requestParamFromRoute['region']:null; 
-                
+        $requestParams['activeCfp'] = (isset($requestParamFromRoute['activeCfp']))?$requestParamFromRoute['activeCfp']:null; 
+       
         return $requestParams;
         
     }

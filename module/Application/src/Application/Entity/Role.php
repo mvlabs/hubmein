@@ -28,7 +28,7 @@ class Role implements RoleInterface
      */
     private $name;
 
-    
+    //@TOFIX seems redudant
     public function getRoleId() {
         return $this->getId();
     }
@@ -42,7 +42,15 @@ class Role implements RoleInterface
     {
         return $this->id;
     }
-
+    
+    /**
+     * 
+     * @param string $id
+     */
+    public function setId( $id ){
+        $this->id = $id;
+    }
+    
     /**
      * Set name
      *

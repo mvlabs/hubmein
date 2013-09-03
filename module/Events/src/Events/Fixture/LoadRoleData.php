@@ -5,14 +5,14 @@ use Doctrine\Common\DataFixtures\AbstractFixture,
     Doctrine\Common\Persistence\ObjectManager;
   
 
-use Events\Entity\Country;
+use Application\Entity\Role;
 
 /**
  * Region data fixture
  *
  * @author mauilap
  */
-class LoadCountryData extends AbstractFixture
+class LoadRoleData extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
@@ -27,16 +27,11 @@ class LoadCountryData extends AbstractFixture
         
         foreach ($countryDatas as $countryData) {
             
-             $country = new Country();
-             $country->setCode($countryData['code']);
-             $country->setRegion(
-                     $this->getReference($countryData['region'])
-                     ); 
-             $country->setName($countryData['name']);
-             $country->setSlug($countryData['slug']);
+             $role = new Role();
+             $role->setId($countryData['id']);
+             $role->setName($countryData['name']);
+             $manager->persist($role);
             
-             $manager->persist($country);
-             $this->addReference($country->getName(), $country);
         }
 
         $manager->flush();
@@ -47,41 +42,14 @@ class LoadCountryData extends AbstractFixture
     {
         return array(
                    array(
-                     "id"=>1,
-                     "region"=>"Northern America",
-                     "code"=>"US",
-                     "name"=>"USA",
-                     "slug"=>"usa"
+                       "id"=>"admin",
+                       "name"=>"Admin",
                    ),
                    array(
-                     "id"=>2,  
-                     "region"=>"Southern America",
-                     "code"=>"AR",
-                     "name"=>"Argentina",
-                     "slug"=>"argentina"
+                     "id"=>"guest",
+                     "name"=>"Guest",
                    ),
-                   array(
-                     "id"=>3,  
-                     "region"=>"Europe",
-                     "code"=>"FR",
-                     "name"=>"France",
-                     "slug"=>"france"
-                   ),
-                   array(
-                     "id"=>4,  
-                     "region"=>"Oceania",
-                     "code"=>"AU",
-                     "name"=>"Australia",
-                     "slug"=>"australia"
-                   ),
-                   array(
-                       "id"=>5,
-                       "region"=>"Africa",
-                       "code"=>"AL",
-                       "name"=>"Algeria",
-                       "slug"=>"algeria"
-                   )
-            );
+                  );
                  
     }
 }

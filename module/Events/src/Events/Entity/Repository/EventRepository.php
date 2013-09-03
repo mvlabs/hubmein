@@ -56,9 +56,7 @@ class EventRepository extends EntityRepository {
         $dql .="LEFT JOIN country.region region ";
         $dql .= $queryFilter;
         $dql .= ")";
-         
-        //echo $this->_em->createQuery($dql)->getSQL();
-      
+                
         $result = $this->_em->createQuery($dql)->getScalarResult();
         $totalCount = (sizeof($result)> 0)? $result[0][1]:0;
         
@@ -144,6 +142,11 @@ class EventRepository extends EntityRepository {
                         
                         $queries[$key] = $this->buildTagQuery($filterDatas['tags'],$filterDatas['tc']);
                         
+                        break;
+                    case "activeCfp":
+                        
+                        $queries[$key] = "events.cfpclosingdate >= CURRENT_DATE()";
+                       
                         break;
                     case "default":
                         

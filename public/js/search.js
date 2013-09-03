@@ -7,7 +7,7 @@
     var submitLoaderImg = $(".submit-loader");
     var resetSearchButton = $(".reset-filters");
 
-    var moduleName = "/conferences";
+    var routeName = "conferences";
     var topicsElement = "select.topics";
 
     //Enable all input field if mode equal to enableAll
@@ -57,11 +57,11 @@
     $.fn.getTotalCountByFilter = function() {
                        
         var loader = $(this).find('div[class="loader"]');
-        var formController = moduleName+ "/count"+getRegionValue();
+        var formController = getRouteName()+ "/count"+getRegionValue();
         var preparedForm = prepareFormValues($(this));
         var url = (preparedForm.serialize() !== "") ? formController + "?" + preparedForm.serialize() : formController;
         var result = $(this).find(".result");
-               
+     
         form.disableInputField("enableAll");
         loader.hide();
         
@@ -141,11 +141,12 @@
    
    
    displayResetFilter();
+   
      
      
    form.submit(function() {
         
-        var formAction = moduleName+getRegionValue();
+        var formAction = getRouteName()+getRegionValue();
       
         prepareFormValues($(this));
 
@@ -159,6 +160,19 @@
            
    });
    
+   function getRouteName(){
+       
+       var currentPathName = location.pathname.substring(1);
+       pathNamePart = currentPathName.split("/");
+     
+       if( pathNamePart[0] !== null && pathNamePart[0] !== routeName){
+           
+           routeName = pathNamePart[0];
+           
+       }
+       
+       return "/"+routeName;
+   }
    
    function setTopicsDefaultValue(){
        

@@ -802,6 +802,18 @@ class Event {
             $this->tags->add($tag);
         }
     }
+    
+    //@TOFIX added for testing purpose need explanation
+    /**
+     * Add tags
+     *
+     * @param Collection $tags
+     */
+    public function addTag(Tag $tag)
+    {
+        $this->tags[] = $tag;
+        
+    }
 
     /**
      * Remove tags

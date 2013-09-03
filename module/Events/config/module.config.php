@@ -79,6 +79,46 @@ return array(
                     ),
                 ),
             ),
+            'cfps' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/cfps',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Events\Controller',
+                        'controller'    => 'Events',
+                        'action'        => 'showcallForPaper',
+                        'activeCfp'     => true
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'regionfilter' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/:region',
+                            'constraints' => array(
+                                'region' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                              
+                            ),
+                        ),
+                    ),
+                    
+                    'countfilter' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/count[/:region]',
+                            'constraints' => array(
+                                'region' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                              'action'=>'count'
+                            ),
+                        ),
+                    ),
+                ),
+             ),
             'event' => array(
                 'type'    => 'Literal',
                 'options' => array(

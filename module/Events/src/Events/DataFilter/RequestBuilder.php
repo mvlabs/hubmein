@@ -14,6 +14,9 @@ namespace Events\DataFilter;
 
 
 class RequestBuilder {
+
+    const TAGLIST_SEPARATOR = ",";
+    const TOTALCOUNTDEFAULT = "all";
     
     /**
      * @var array
@@ -39,23 +42,11 @@ class RequestBuilder {
      * @var "string"
      */
     private $totalCount;
-    
-    
+        
     /**
      * @var bool
      */
-    private $isCfp = false;
-       
-    
-    /**
-     * @var int
-     */
-    private $pageNumber = 1;
-    
-    
-    const TAGLIST_SEPARATOR = ",";
-    const TOTALCOUNTDEFAULT = "all";
-    
+    private $activeCfp = false;
     
     private function __construct() {
         
@@ -94,15 +85,21 @@ class RequestBuilder {
         
     }
     
-    public function setPageNumber($pageNumber){
+    public function setPageNumber( $pageNumber ){
         
-        $this->pageNumber = intval($pageNumber);
+        $this->pageNumber = intval( $pageNumber );
         
     }
     
-    public function setTotalCount($totalCount) {
+    public function setTotalCount( $totalCount ) {
         
         $this->totalCount = $totalCount;
+        
+    }
+    
+    public function setActiveCfp($activeCfp) {
+        
+        $this->activeCfp = $activeCfp;
         
     }
      
@@ -137,7 +134,12 @@ class RequestBuilder {
             
         }
         
-               
+        if(isset($request['activeCfp'])) {
+        
+            $requestBuilder->setActiveCfp(true);
+            
+        }
+                       
         $requestBuilder->setTotalCount( $tcParam );
         $requestBuilder->setRegion( $regionParam );
         $requestBuilder->setPageNumber($pageNumber);
@@ -151,37 +153,38 @@ class RequestBuilder {
         
       $filterDatas = array();  
       $filterDatas['tc'] = $this->totalCount;     
-      
-      
+            
       if(isset($this->region)) {
           
           $filterDatas['region'] = $this->region;
           
       }
       
-      if(isset($this->dateFrom)) {
+      if( $this->dateFrom instanceof \DateTime ) {
           
           $filterDatas['dateFrom'] = $this->dateFrom->format('Y-m-d')." 00:00:00";
           
       }
       
       
-      if ( isset($this->dateTo) ) 
-      {
+      if ( $this->dateTo instanceof \DateTime ) {
           
           $filterDatas['dateTo'] = $this->dateTo->format('Y-m-d')." 00:00:00";
           
       }
-      
-      
-      if ( isset($this->tagList) ) {
+          
+      if ( is_array($this->tagList) && sizeof($this->tagList) > 0 ) {
                    
           $filterDatas['tags'] = $this->tagList;
-          
-          
+                   
       }
-     
       
+      if ( $this->activeCfp === true ) {
+                   
+          $filterDatas['activeCfp'] = $this->activeCfp;
+                   
+      }
+           
       return $filterDatas;
       
     }
