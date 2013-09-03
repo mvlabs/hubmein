@@ -39,6 +39,11 @@ class DoctrineEventMapper implements EventMapperInterface {
     	return $event;
     }
     
+    
+    /**
+     * 
+     * @return type
+     */
     public function getFullList() {
         
         return $this->eventRepository->findAll();
@@ -68,7 +73,7 @@ class DoctrineEventMapper implements EventMapperInterface {
     public function getListByFilter( RequestBuilder $requestBuilder )
     {
         
-        return $this->eventRepository->getFilteredList( $requestBuilder );
+        return $this->eventRepository->getListByFilter( $requestBuilder );
                 
     }
      

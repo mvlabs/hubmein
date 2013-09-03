@@ -23,9 +23,9 @@ class EventRepository extends EntityRepository {
     const ORQUERYVALUE = "OR";
        
     
-    public function getFilteredList(RequestBuilder $RequestBuilder) {
+    public function getListByFilter(RequestBuilder $RequestBuilder) {
               
-       $queryFilter = $this->buildQuerySearch($RequestBuilder);
+       $queryFilter = $this->createQuerySearch($RequestBuilder);
         
        $dql = "SELECT events ".
               "FROM Events\Entity\Event events ".
@@ -34,19 +34,17 @@ class EventRepository extends EntityRepository {
               "LEFT JOIN country.region region ".
                $queryFilter.
               " ORDER BY events.datefrom ASC ";
-              
-       
-      
+                   
        $result = $this->_em->createQuery($dql)->getResult();
         
              
-        return $result;
+       return $result;
         
     }    
     
     public function countFilteredItems(RequestBuilder $RequestBuilder){
         
-        $queryFilter = $this->buildQuerySearch($RequestBuilder);
+        $queryFilter = $this->createQuerySearch($RequestBuilder);
         
         $dql = "SELECT COUNT(e.id) FROM Events\Entity\Event e WHERE e.id IN (";
         $dql .= "SELECT events.id  ";
@@ -82,10 +80,13 @@ class EventRepository extends EntityRepository {
 		$I_query = $this->getEntityManager()->createQuery($s_query);
                                
 		return $I_query->getResult();
-		
-                
+	               
     }
     
+    /**
+     * 
+     * @return 
+     */
     public function getPeriodWithConferences() {
 				
 		$s_query = 'SELECT DISTINCT c.dateto as month_year ' . 
@@ -100,7 +101,13 @@ class EventRepository extends EntityRepository {
 		
     }
     
-    private function buildQuerySearch( RequestBuilder $requestBuilder ) {
+    /**
+     * 
+     * @param \Events\DataFilter\RequestBuilder $requestBuilder
+     * @return type
+     * @throws \Exception
+     */
+    private function createQuerySearch( RequestBuilder $requestBuilder ) {
         
        
         $filterDatas = $requestBuilder->toArray();

@@ -62,18 +62,13 @@ class EventsController extends AbstractActionController
      */
     public function indexAction()
     {
-        
-    	//$region = $this->getAndCheckNumericParam('region');
-        $requestBuilder = RequestBuilder::createObjFromArray($this->mergeRequest());
-       
-        // @todo pass class to event service
-        $conferences = $this->eventService->getListByFilter($requestBuilder);
+            
+        $conferences = $this->eventService->getListByFilter( $this->buildRequest() );
          
         return new ViewModel(array(
             
             'conferences' => $conferences,
-         
-            
+                    
         ));
                 
     }
@@ -200,30 +195,24 @@ class EventsController extends AbstractActionController
      * Private methods
      */
     private function listEvents() {
-        
-      
         //@TODO is the method createFilterFromUrlParam really necessary using a builder ?
         // get params from url and prepare RequestBuilder class
-        $requestBuilder = $this->buildRequest();
-               
-        return $this->eventService->getListByFilter( $requestBuilder );
+        return $this->eventService->getListByFilter( $this->buildRequest() );
         
     }
     
-    
+    /**
+     * 
+     * @return array 
+     */
     private function countEvents() {
                          
-        // get params from url and prepare RequestBuilder class
-       
-        $requestBuilder = $this->buildRequest();
-        
-        return $this->eventService->countListByFilter($requestBuilder);
+       return $this->eventService->countListByFilter( $this->buildRequest() );
         
     }
 
     /**
-     *      * Build an RequestBuilder object from a given array
-     * @param array $filteredRequest
+     * Build an RequestBuilder object from a given array
      * @return \Events\DataFilter\RequestBuilder
      */
     private function buildRequest() {
