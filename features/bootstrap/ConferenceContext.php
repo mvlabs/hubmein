@@ -224,6 +224,16 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
        
         $requestData = $request->getHash();
         
+        foreach($requestData[0] as $key => $value) {
+            
+            if($value === "true" || $value === "false"){
+                
+                $requestData[0][$key] = ($value == "true")?true:false;
+                
+            }
+            
+        }
+        
         $this->mockRequest = RequestBuilder::createObjFromArray($requestData[0]);
         
         assertInstanceOf("Events\DataFilter\RequestBuilder", $this->mockRequest);
@@ -239,9 +249,9 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
         $eventService  = $this->getServiceManager()->get("event.service");
         
         assertInstanceOf("Events\Service\EventService", $eventService);
-        assertTrue(is_callable(array($eventService,"countByFilter")));
+        assertTrue(is_callable(array($eventService,"countListByFilter")));
                 
-        $this->result = $eventService->countByFilter($this->mockRequest);
+        $this->result = $eventService->countListByFilter($this->mockRequest);
         
     }
 
@@ -254,12 +264,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
         assertEquals($number, $this->result);
         
     }
-    
-    //TEST EventService search
-    
-    
-    //END OF FUNCTIONAL
-    
+        
     //TEST ON UI 
     
     /**
@@ -354,7 +359,10 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
      * @return array
      */
     private function loadMockConferenceData(){
-                       
+        
+        $currentDate = new \DateTime();
+        $currentDate->add(new \DateInterval('P10D'));
+        
         return array(
                   
              array(
@@ -367,7 +375,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
                 "city"=>"Los Angeles",
                 "averagedayfee"=>"300",
                 "website"=>"www.zendcon.com",
-                "cfpclosingdate"=>"14/05/2013",
+                "cfpclosingdate"=>$currentDate->format("d/m/Y"),
                 "hashtag" => "",
                 "venue"=>"Hilton hotel",
                 "contactemail"=>"zendcon@conf.com",

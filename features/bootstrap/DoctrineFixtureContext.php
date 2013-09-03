@@ -10,7 +10,8 @@ use Doctrine\Common\DataFixtures\Loader,
         
 use Events\Fixture\LoadRegionData,
     Events\Fixture\LoadCountryData,
-    Events\Fixture\LoadTagData;
+    Events\Fixture\LoadTagData,
+    Events\Fixture\LoadRoleData;
 
 use Behat\Zf2Extension\Context\Zf2AwareContextInterface;
 
@@ -66,6 +67,7 @@ class DoctrineFixtureContext extends BehatContext implements Zf2AwareContextInte
         $loader->addFixture(new LoadRegionData());
         $loader->addFixture(new LoadCountryData());
         $loader->addFixture(new LoadTagData());
+        $loader->addFixture(new LoadRoleData());
         
         $purger = new ORMPurger();
         $executor = new ORMExecutor(self::getEntityManager(),$purger);

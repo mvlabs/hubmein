@@ -17,20 +17,27 @@ Feature: search conference
   Scenario: Period based on upcoming conferences
     When I get a period list
     Then I should have a list with:
-      | 0              | 1             |
-      | September 2013 |October 2013   |
+      | 0              | 1            |
+      | September 2013 | October 2013 |
 
-  
-  Scenario: count existent conference which valid param
+  Scenario: count conference which valid param
     And I send a request:
-      | tags    | region | period        |
+      | tags               | region        | period       |
       | Zend Framework,php | north-america | October-2013 |
     When the request is passed to countListByFilter method
     Then I should get "1" as result
-  
-  Scenario: count existent conference which invalid param
+
+  Scenario: count conference which invalid param
     And I send a request:
-      | tags       | region | period       |
+      | tags        | region        | period         |
       | bullshitter | north-america | September-2013 |
     When the request is passed to countListByFilter method
     Then I should get "0" as result
+
+  @test
+  Scenario: count conference based on call for paper
+    And I send a request:
+      | tags | region        | period       | activeCfp  |
+      | php  | north-america | October-2013 | true |
+    When the request is passed to countListByFilter method
+    Then I should get "1" as result
