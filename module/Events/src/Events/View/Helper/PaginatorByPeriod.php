@@ -54,8 +54,7 @@ class PaginatorByPeriod extends AbstractHelper implements DispatchRouteViewInter
             $dateTimeFromParam = new \DateTime($periodParam);
             $html = "<div class='pagination'>";
 
-
-            if(($position = $this->findPeriodParamPosition($dateTimeFromParam, $periods)) && ($next != $dateTimeFromParam)) {
+            if(($position = $this->findPeriodParamPosition($dateTimeFromParam, $periods))) {
 
                 $prev = (isset($periods[$position - 1][self::DEFAULT_PERIOD_KEY])) ? $periods[$position - 1][self::DEFAULT_PERIOD_KEY] : null;
                 $next = (isset($periods[$position + 1][self::DEFAULT_PERIOD_KEY])) ? $periods[$position + 1][self::DEFAULT_PERIOD_KEY] : null; 
