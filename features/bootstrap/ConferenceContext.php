@@ -6,12 +6,12 @@ use Behat\Behat\Context\BehatContext,
 
 use Behat\Zf2Extension\Context\Zf2AwareContextInterface;
 
-use Events\Service\EventService,
-    Events\DataFilter\RequestBuilder;
+use Conferences\Service\ConferenceService,
+    Conferences\DataFilter\RequestBuilder;
 
 use Doctrine\ORM\EntityManager;
 
-use Events\Entity\Event;
+use Conferences\Entity\Conference;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
@@ -32,7 +32,7 @@ use Doctrine\Common\DataFixtures\Loader,
 class ConferenceContext extends BehatContext implements Zf2AwareContextInterface{
     
     private $zf2Application;
-    private $I_eventService;
+    private $I_conferenceService;
     private $conferenceNr;
     
     private $expectedList;
@@ -69,7 +69,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     public function iDonTHaveConferenceSavedOnMySystem()
     {
         
-        $conferences = $this->getEntityManager()->getRepository("Events\Entity\Event")->findAll();
+        $conferences = $this->getEntityManager()->getRepository("Conferences\Entity\Conference")->findAll();
         assertEquals( 0,sizeof($conferences) );
         
     }
@@ -81,7 +81,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     {
         $conferenceDatas = $this->loadMockConferenceData();
         
-        $this->result = $this->insertConferences($conferenceDatas[0], new Event);
+        $this->result = $this->insertConferences($conferenceDatas[0], new Conference);
         
         
         
@@ -93,7 +93,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     public function iShouldHaveASavedConferenceEntity()
     {
         assertTrue($this->result->getId() > 0);
-        assertInstanceOf("Events\Entity\Event", $this->result);
+        assertInstanceOf("Conferences\Entity\Conference", $this->result);
         
     }
 
@@ -102,7 +102,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
      */
     public function itShouldHaveTags(TableNode $tagTable)
     {
-        $conference = $this->getEntityManager()->getRepository("Events\Entity\Event")->find($this->result->getId());
+        $conference = $this->getEntityManager()->getRepository("Conferences\Entity\Conference")->find($this->result->getId());
              
         $tags = $conference->getTags();
         $tagDatas = array();
@@ -125,21 +125,21 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     public function iHaveAListOfConferences($number)
     {
        /*@TOFIX
-         $hydrator = new DoctrineHydrator($this->getEntityManager(),"Events\Entity\Event");
-         $eventData = $this->loadMockConference();
+         $hydrator = new DoctrineHydrator($this->getEntityManager(),"Conferences\Entity\Conference");
+         $conferenceData = $this->loadMockConference();
          
-         $event = $hydrator->hydrate($eventData[1], new \Events\Entity\Event);
+         $conference = $hydrator->hydrate($conferenceData[1], new \Conferences\Entity\Conference);
                 
-         assertEquals($eventData[1], $hydrator->extract($event));
+         assertEquals($conferenceData[1], $hydrator->extract($conference));
          * 
          */
         $savedConference = array();
         
         foreach($this->loadMockConferenceData() as $conferenceData) {
             
-            $conference = $this->insertConferences( $conferenceData, new Event() );
+            $conference = $this->insertConferences( $conferenceData, new Conference() );
             
-            if($conference instanceof Event) {
+            if($conference instanceof Conference) {
                 
                 $savedConference[] = $conference;
                 
@@ -159,8 +159,8 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     public function iGetARegionList()
     {
         
-        $regions = $this->getServiceManager()->get("event.service")->getRegionByUpcomingConferences();
-        $hydrator = new DoctrineHydrator($this->getEntityManager(), "Events\Entity\Country");
+        $regions = $this->getServiceManager()->get("conference.service")->getUpcomingConferencesRegions(false);
+        $hydrator = new DoctrineHydrator($this->getEntityManager(), "Conferences\Entity\Country");
         $serializedRegions = array();
         
         foreach($regions as $region) {
@@ -198,7 +198,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     public function iGetAPeriodList()
     {
         
-        $periods = $this->getServiceManager()->get("event.service")->getPeriodByUpcomingConferences();
+        $periods = $this->getServiceManager()->get("conference.service")->getUpcomingConferencesPeriods(false);
         
         $serializedPeriods = array();
                
@@ -214,7 +214,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
         
     }
     
-    //TEST EventService count
+    //TEST ConferenceService count
     
      /**
      * @Given /^I send a request:$/
@@ -236,7 +236,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
         
         $this->mockRequest = RequestBuilder::createObjFromArray($requestData[0]);
         
-        assertInstanceOf("Events\DataFilter\RequestBuilder", $this->mockRequest);
+        assertInstanceOf("Conferences\DataFilter\RequestBuilder", $this->mockRequest);
            
     }
 
@@ -246,12 +246,12 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     public function theRequestIsPassedToCountlistbyfilterMethod()
     {
         
-        $eventService  = $this->getServiceManager()->get("event.service");
+        $conferenceService  = $this->getServiceManager()->get("conference.service");
         
-        assertInstanceOf("Events\Service\EventService", $eventService);
-        assertTrue(is_callable(array($eventService,"countListByFilter")));
+        assertInstanceOf("Conferences\Service\ConferenceService", $conferenceService);
+        assertTrue(is_callable(array($conferenceService,"countListByFilter")));
                 
-        $this->result = $eventService->countListByFilter($this->mockRequest);
+        $this->result = $conferenceService->countListByFilter($this->mockRequest);
         
     }
 
@@ -300,7 +300,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     /**
      *  save mock conference
      */
-    private function insertConferences( array $conferenceData,  Event $conference ){
+    private function insertConferences( array $conferenceData,  Conference $conference ){
         
         
         $em = $this->getEntityManager();
@@ -327,16 +327,16 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
         $conference->setIsVisible($conferenceData['isvisible']);
         $conference->setIsFeatured($conferenceData['isfeatured']);
         $conference->setCountry(
-                    $em->getRepository('Events\Entity\Country')->find($conferenceData['country'])
+                    $em->getRepository('Conferences\Entity\Country')->find($conferenceData['country'])
                 );
 
-        $em->getRepository('Events\Entity\Country')->find($conferenceData['country']);
+        $em->getRepository('Conferences\Entity\Country')->find($conferenceData['country']);
 
         foreach($conferenceData['tags'] as $tagId) {
 
-            $tag = $em->getRepository('Events\Entity\Tag')->find($tagId);
+            $tag = $em->getRepository('Conferences\Entity\Tag')->find($tagId);
 
-            if(!$tag instanceof \Events\Entity\Tag ) {
+            if(!$tag instanceof \Conferences\Entity\Tag ) {
 
                 throw new UnexpectedValueException("Cannot find a valid tag"); 
             }

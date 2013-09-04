@@ -11,10 +11,9 @@ return array(
         'ZfcAdmin',
         'ZfcUser',
         'ZfcUserDoctrineORM',
-        'BjyAuthorize',
-        
-        // our app modules
-        'Events',
+       // 'BjyAuthorize',
+         // our app modules
+        'Conferences',
         'Application',
         
     ),

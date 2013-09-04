@@ -8,10 +8,10 @@ use Doctrine\Common\DataFixtures\Loader,
     Doctrine\Common\DataFixtures\Executor\ORMExecutor,
     Doctrine\Common\DataFixtures\Purger\ORMPurger;
         
-use Events\Fixture\LoadRegionData,
-    Events\Fixture\LoadCountryData,
-    Events\Fixture\LoadTagData,
-    Events\Fixture\LoadRoleData;
+use Conferences\Fixture\LoadRegionData,
+    Conferences\Fixture\LoadCountryData,
+    Conferences\Fixture\LoadTagData,
+    Conferences\Fixture\LoadRoleData;
 
 use Behat\Zf2Extension\Context\Zf2AwareContextInterface;
 
@@ -26,7 +26,7 @@ use Behat\Zf2Extension\Context\Zf2AwareContextInterface;
 class DoctrineFixtureContext extends BehatContext implements Zf2AwareContextInterface{
    
     static $zf2Application;
-    
+    const TABLE_TO_DESTROY = "conference";
     
     public static function getEntityManager(){
             
@@ -88,7 +88,7 @@ class DoctrineFixtureContext extends BehatContext implements Zf2AwareContextInte
                
         try {
            
-            $connection->executeUpdate($platform->getTruncateTableSQL("event",true));
+            $connection->executeUpdate($platform->getTruncateTableSQL(self::TABLE_TO_DESTROY,true));
             $connection->commit();
             $em->clear();
             

@@ -12,16 +12,16 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-use Events\Service\EventService;
+use Conferences\Service\ConferenceService;
 
-use Events\DataFilter\RequestBuilder;
+use Conferences\DataFilter\RequestBuilder;
 
 class IndexController extends AbstractActionController
 {
     
     private $conferenceService;
     
-    public function __construct( EventService $conferenceService ) {
+    public function __construct( ConferenceService $conferenceService ) {
         
         $this->conferenceService = $conferenceService;
          

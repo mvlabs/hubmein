@@ -21,7 +21,7 @@ class IndexControllerFactory implements FactoryInterface {
     public function createService( ServiceLocatorInterface $serviceLocator ) {
         
              // get services from  Service Manager
-	    $conferenceService = $serviceLocator->getServiceLocator()->get( 'Events\Service\EventService' );
+	    $conferenceService = $serviceLocator->getServiceLocator()->get( 'Conferences\Service\ConferenceService' );
 	    
           
 	    // Create an instance of IndexController injecting services $eventService,$regionService,$tagService as dependencies  (IoC in action)
