@@ -5,7 +5,7 @@ Feature: search conference
   And get a count of conferences related to to filters
 
   Background: 
-    Given I have a list of 2 conferences
+    Given I have a list of 3 conferences
 
   Scenario: Region based on upcoming conferences
     When I get a region list
@@ -17,8 +17,8 @@ Feature: search conference
   Scenario: Period based on upcoming conferences
     When I get a period list
     Then I should have a list with:
-      | 0              | 1            |
-      | September 2013 | October 2013 |
+      | 0              | 1            | 2        |
+      | September 2013 | October 2013 | May 2014 |
 
   Scenario: count conference which valid param
     And I send a request:
@@ -37,7 +37,7 @@ Feature: search conference
   @test
   Scenario: count conference based on call for paper
     And I send a request:
-      | tags | region        | period       | activeCfp  |
-      | php  | north-america | October-2013 | true |
+      | tags | region        | period       | activeCfp |
+      | php  | north-america | October-2013 | true      |
     When the request is passed to countListByFilter method
     Then I should get "1" as result

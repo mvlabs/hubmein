@@ -418,6 +418,33 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
                 "tags" =>array(3,4)
 
                 ),
+                array(
+                    
+                    "title"=>"phpday 2014",
+                    "abstract"=>"italian php conference",
+                    "datefrom"=>"15/05/2014",
+                    "dateto"=>"18/05/2014",
+                    "earlybirduntil"=>"04/03/2014",
+                    "address"=>"via Marco Polo",
+                    "city"=>"Verona",
+                    "averagedayfee"=>"300",
+                    "website"=>"www.phpday.com",
+                    "cfpclosingdate"=>"02/03/2014",
+                    "hashtag" => "",
+                    "venue"=>"Marco Polo hotel",
+                    "contactemail"=>"phpday@test.it",
+                    "twitteraccount"=>"https://twitter.com/phpday",
+                    "isinternational"=>true,
+                    "slug"=>"phpday2014",
+                    "discountForStudents"=>false,
+                    "discountForGroups"=>true,
+                    "publicationdate"=>"20/10/2013",
+                    "isvisible"=>true,
+                    "isfeatured" =>true,
+                    "country" => 4,
+                    "tags" =>array(2)
+
+                ),
                               
             );
     }
