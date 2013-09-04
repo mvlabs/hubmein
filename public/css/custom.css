@@ -1,0 +1,26 @@
+/* 
+    Document   : custom
+    Created on : 4-set-2013, 10.35.17
+    Author     : David Contavalli <mauipipe@gmail.com>
+    Description:
+        template personalization
+*/
+
+
+.bigbutton.navigation {
+    
+    width:150px;
+    
+}
+
+.bigbutton.navigation.left{
+    
+    float:left;
+    
+}
+
+.bigbutton.navigation.right{
+    
+    float:right;
+    
+}
