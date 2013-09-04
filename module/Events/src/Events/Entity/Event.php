@@ -41,21 +41,21 @@ class Event {
     /**
      * @var \DateTime $datefrom
      *
-     * @ORM\Column(name="datefrom", type="datetime", nullable=false)
+     * @ORM\Column(name="datefrom", type="date", nullable=false)
      */
     private $datefrom;
 
     /**
      * @var \DateTime $dateto
      *
-     * @ORM\Column(name="dateto", type="datetime", nullable=false)
+     * @ORM\Column(name="dateto", type="date", nullable=false)
      */
     private $dateto;
     
     /**
      * @var date $earlybirduntil
      *
-     * @ORM\Column(name="earlybirduntil", type="datetime", nullable=true)
+     * @ORM\Column(name="earlybirduntil", type="date", nullable=true)
      */
     private $earlybirduntil;
     
@@ -97,7 +97,7 @@ class Event {
     /**
      * @var date $cfpclosingdate
      *
-     * @ORM\Column(name="cfpClosingDate", type="datetime", nullable=true)
+     * @ORM\Column(name="cfpClosingDate", type="date", nullable=true)
      */
     private $cfpclosingdate;
     

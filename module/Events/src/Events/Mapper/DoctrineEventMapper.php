@@ -104,23 +104,23 @@ class DoctrineEventMapper implements EventMapperInterface {
         return $result;
 
     }
-
-   /**
-    * 
+    
+    /**
+     * @param boolean $activeCfps
+    * @return array contains a list of Events\Entity\Event 
     */
-    public function getRegionByUpcomingConferences(){
+    public function getUpcomingConferencesRegions($activeCfps){
         
-        return $this->eventRepository->getRegionsWithConferences();
+        return $this->eventRepository->getUpcomingConferencesRegions($activeCfps);
         
     }
-     
+    
     /**
-     * Saves an event
-     * 
+     * @return array contains a list of DateTime
      */
-    public function getPeriodByUpcomingConferences() {
+    public function getUpcomingConferencesPeriods($activeCfps)  {
         
-        return $this->eventRepository->getPeriodWithConferences();
+        return $this->eventRepository->getUpcomingConferencesPeriods($activeCfps) ;
         
     }
     

@@ -64,60 +64,84 @@ class EventRepository extends EntityRepository {
         return $totalCount;
         
     }
-    
+            
     /**
-     * Retrieve a list of region based on upcoming conferences
-     * @return array contains a list of Events\Entity\Event
+     * Retrieve a region's list based on conferences with a still active cfps
+     * @param boolean $activeCfps
+     * @return array
      */
-    public function getRegionsWithConferences() {
-				
+    public function getUpcomingConferencesRegions( $activeCfps ) {
+		
+                $conditionCol = "dateto";
+                $conditionQuery = "";
+                
+                if($activeCfps){
+                    
+                    $conditionCol = "cfpclosingdate";
+                    $conditionQuery = 'AND (c.cfpclosingdate is not null) ';
+                    
+                }
+        
 		$s_query = 'SELECT r ' . 
 		           'FROM \Events\Entity\Region r '.
 		           'JOIN r.countries co '.
 		           'JOIN co.conferences c '.
-		           'WHERE c.dateto >= CURRENT_DATE() '.
-		           '  AND c.isVisible = TRUE '.
+		           'WHERE c.'.$conditionCol.' >= CURRENT_DATE() ' .
+		           $conditionQuery.
+		           'AND c.isVisible = TRUE ' .
 		           'ORDER BY r.id';
 		           
 		$I_query = $this->getEntityManager()->createQuery($s_query);
-                               
+				
 		return $I_query->getResult();
-	               
-    }
+		
+	}
     
     /**
-     * Retrieve a list of region based on upcoming conferences
-     * @return array contains a list of DateTime
+     * Retrieve period's list based on upcoming conferences  
+     * @param boolean $activeCfps
+     * @return array 
      */
-    public function getPeriodWithConferences() {
-				
-		$s_query = 'SELECT DISTINCT c.dateto as month_year '. 
-		           'FROM \Events\Entity\Event c '.
-		           'WHERE c.dateto >= CURRENT_DATE() '.
-		           'AND c.isVisible = TRUE '.
+    public function getUpcomingConferencesPeriods($activeCfps = false) {
+		
+                $conditionCol = "dateto";
+                $conditionQuery = "";
+                
+                if($activeCfps){
+                    
+                    $conditionCol = "cfpclosingdate";
+                    $conditionQuery = 'AND (c.cfpclosingdate is not null) ';
+                    
+                }
+                
+		$s_query =  'SELECT DISTINCT c.dateto as month_year '.
+                            'FROM \Events\Entity\Event c '.
+                            'WHERE c.'.$conditionCol.' >= CURRENT_DATE() '.
+                            $conditionQuery.
+                           'AND c.isVisible = TRUE '.
 		           'ORDER BY month_year';
-		           
+		 
+                echo $s_query;
 		$I_query = $this->getEntityManager()->createQuery($s_query);
                 
 		return $I_query->getResult();
 		
     }
-    
+   
     /**
      * 
      * @param \Events\DataFilter\RequestBuilder $requestBuilder
-     * @return type
+     * @return string
      * @throws \Exception
      */
     private function createQuerySearch( RequestBuilder $requestBuilder ) {
-        
-       
+               
         $filterDatas = $requestBuilder->toArray();
         $queries = array();
                    
         if( !array_key_exists('tc', $filterDatas) ) {
             
-            throw new \Exception('key tc is not existent');        
+            throw new \OutOfBoundsException('key tc is not existent');        
             
         }
            
@@ -224,6 +248,6 @@ class EventRepository extends EntityRepository {
                
         return $query;
     }
-    
+       
     
 }

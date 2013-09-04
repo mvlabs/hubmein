@@ -7,9 +7,7 @@ use Zend\ModuleManager\Feature\ViewHelperProviderInterface,
 
 class Module implements ViewHelperProviderInterface
 {
-    
-    const ROUTENAME = "cfps";
-    
+     
     public function onBootstrap( MvcEvent $event ){
         
         $eventManager = $event->getApplication()->getEventManager();
@@ -22,18 +20,20 @@ class Module implements ViewHelperProviderInterface
         $matchedRoute = $event->getRouteMatch()->getMatchedRouteName();
         $matchedRoutePart = explode("/",$matchedRoute);
         
-        if(!$matchedRoutePart[0]) {
+        if($routeName = $matchedRoutePart[0]) {
             
-            throw new \UnexpectedValueException('no valid route ro retrieve');
-            
-        }
-        if( $matchedRoutePart[0] === self::ROUTENAME ) {
-                      
             $serviceManager = $event->getApplication()->getServiceManager();
-            $helper = $serviceManager->get('viewhelpermanager')->get('paginatorbyperiod');
-            $helper->setCurrentRoute( self::ROUTENAME );
+            
+            $paginatorHelper = $serviceManager->get('viewhelpermanager')->get('paginatorbyperiod');
+            $rightSideBarHelper = $serviceManager->get('viewhelpermanager')->get('rightsidebar');
+            
+            $paginatorHelper->setRouteName( $routeName );
+            $rightSideBarHelper->setRouteName( $routeName );
+            return ;      
             
         }
+        
+        throw new \UnexpectedValueException('cannot retrieve a valid route');
         
     }
     

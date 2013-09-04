@@ -19,7 +19,7 @@ use Zend\EventManager\EventManagerAwareInterface;
  *
  */
 class EventService implements EventManagerAwareInterface {
-
+        
     /**
      * Event Manager (Zend Framework 2 component - NOT related to conferences!)
      * 
@@ -87,25 +87,31 @@ class EventService implements EventManagerAwareInterface {
         return $this->eventMapper->getCountryListAsArray();
         
     }
-           
+       
     /**
-     * 
+     * @param boolean $activeCfps
+     * @return array
      */
-    public function getRegionByUpcomingConferences(){
+    public function getUpcomingConferencesRegions($activeCfps){
         
-        return $this->eventMapper->getRegionByUpcomingConferences();
+        return $this->eventMapper->getUpcomingConferencesRegions($activeCfps);
         
     }
     
     /**
      * Get a list of period based on upcoming conferences
+     * @param boolean $activeCfps
      * @return array
      */
-    public function getPeriodByUpcomingConferences(){
+    public function getUpcomingConferencesPeriods($activeCfps){
         
-        return $this->eventMapper->getPeriodByUpcomingConferences();
+        return $this->eventMapper->getUpcomingConferencesPeriods($activeCfps);
         
     }
+    
+    
+    
+    
         
     /**
      * Inserts or updates an event from array data
