@@ -28,15 +28,15 @@ class PaginatorByPeriod extends AbstractHelper {
         
     }
     
-    public function __invoke($periodParam = "september 2013") {
+    public function __invoke($periodParam = null) {
         
         $periods = $this->eventService->getPeriodByUpcomingConferences();
         $dateTimeFromParam = new \DateTime($periodParam);
         $html = "<div class='pagination'>";
         $prev = null;
         $next = $periods[1][self::DEFAULT_PERIOD_KEY];
-        
-        if(($position = array_search($dateTimeFromParam, $periods)) && ($next != $dateTimeFromParam)) {
+                        
+        if(($position = $this->findPeriodParamPosition($dateTimeFromParam, $periods)) && ($next != $dateTimeFromParam)) {
             
             $prev = (isset($periods[$position - 1][self::DEFAULT_PERIOD_KEY])) ? $periods[$position - 1][self::DEFAULT_PERIOD_KEY] : null;
             $next = (isset($periods[$position + 1][self::DEFAULT_PERIOD_KEY])) ? $periods[$position + 1][self::DEFAULT_PERIOD_KEY] : null; 
@@ -44,16 +44,21 @@ class PaginatorByPeriod extends AbstractHelper {
         }
               
         if(isset($prev)) {
+            
             $prevFormattedDate = strtolower($prev->format("F-Y"));
             $prevUrl = $this->view->url($this->currentRoute,array("controller"=>"events","action"=>""))."?period=".$prevFormattedDate;
-            $html .= "<a class='bigbutton navigation' href='".$prevUrl."'>".$prevFormattedDate."</a>";
+            $html .= "<a class='bigbutton navigation left' href='".$prevUrl."'>".$prevFormattedDate."</a>";
+            
         }
         
         if(isset($next)) {
+            
             $nextFormattedDate = strtolower($next->format("F-Y"));
             $nextUrl = $this->view->url($this->currentRoute,array("controller"=>"events","action"=>""))."?period=".$nextFormattedDate;
-            $html .= "<a class='bigbutton navigation' href='".$nextUrl."'>".$nextFormattedDate."</a>";
+            $html .= "<a class='bigbutton navigation right' href='".$nextUrl."'>".$nextFormattedDate."</a>";
+            
         }
+        
         return $html;
         
     }
@@ -64,6 +69,19 @@ class PaginatorByPeriod extends AbstractHelper {
         
     }
     
+    private function findPeriodParamPosition( $dateToSearch, array $periods ){
+        
+        foreach($periods as $position => $values ) {
+                         
+            if($values[self::DEFAULT_PERIOD_KEY]->format("F-Y") == $dateToSearch->format("F-Y")) {
+                
+                return $position;
+                
+            }
+                
+        }
+        
+    }
         
 }
 

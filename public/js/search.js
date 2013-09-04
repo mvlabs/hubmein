@@ -53,7 +53,7 @@
 
     };
 
-    //get the number of element from input values
+    //get the number of element from input values13cx202e
     $.fn.getTotalCountByFilter = function() {
                        
         var loader = $(this).find('div[class="loader"]');
@@ -164,14 +164,15 @@
        
        var currentPathName = location.pathname.substring(1);
        pathNamePart = currentPathName.split("/");
-     
-       if( pathNamePart[0] !== null && pathNamePart[0] !== routeName){
+      
+       if( pathNamePart[0] !== ""  && pathNamePart[0] !== routeName){
            
            routeName = pathNamePart[0];
            
        }
-       
+         
        return "/"+routeName;
+       
    }
    
    function setTopicsDefaultValue(){

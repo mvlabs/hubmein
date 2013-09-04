@@ -64,10 +64,12 @@ class EventsController extends AbstractActionController
     {
             
         $conferences = $this->eventService->getListByFilter( $this->buildRequest() );
-         
+        $periodParam = $this->params()->fromQuery("period");
+        
         return new ViewModel(array(
                             'conferences' => $conferences,
-                     )
+                            'periodParam' => $periodParam
+                            )
                 );
                 
     }
@@ -78,9 +80,11 @@ class EventsController extends AbstractActionController
     public function showcallForPaperAction(){
         
         $conferences = $this->eventService->getListByFilter($this->buildRequest());
+        $periodParam = $this->params()->fromQuery("period");
         
         $viewModel = new ViewModel(
-                array("conferences"=>$conferences)
+                array("conferences"=>$conferences,
+                      "periodParam"=>$periodParam)
                 );
         $viewModel->setTemplate('events/events/index');
         

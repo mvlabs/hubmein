@@ -13,7 +13,7 @@ namespace Events\DataFilter;
  */
 
 
-class RequestBuilder {
+class RequestBuilder implements BuilderInterface{
 
     const TAGLIST_SEPARATOR = ",";
     const TOTALCOUNTDEFAULT = "all";

@@ -69,13 +69,20 @@ class LoadCountryData extends AbstractFixture
                    ),
                    array(
                      "id"=>4,  
+                     "region"=>"Europe",
+                     "code"=>"IT",
+                     "name"=>"Italy",
+                     "slug"=>"italy"
+                   ),
+                   array(
+                     "id"=>5,  
                      "region"=>"Oceania",
                      "code"=>"AU",
                      "name"=>"Australia",
                      "slug"=>"australia"
                    ),
                    array(
-                       "id"=>5,
+                       "id"=>6,
                        "region"=>"Africa",
                        "code"=>"AL",
                        "name"=>"Algeria",
