@@ -2,13 +2,18 @@
 
 <div>
 <?php 
+
+$form = $this->form;
+
+$form->prepare();
+
 // open form tag
-echo $this->form()->openTag($this->form);
+echo $form->openTag($form);
 ?>
 
 <?php 
 // print form elements
-$elements = $this->form->getElements();
+$elements = $form->getElements();
 foreach ($elements as $element) {  
 ?>
     <div class="control-group">
@@ -24,6 +29,6 @@ foreach ($elements as $element) {
 
 <?php 
 // close form tag
-echo $this->form()->closeTag($this->form);
+echo $this->form()->closeTag($form);
 ?>
 </div>
