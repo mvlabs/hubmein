@@ -5,7 +5,7 @@ namespace Conferences\View\Helper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class RightSideBarFactory implements FactoryInterface {
+class SearchFormFactory implements FactoryInterface {
 
 	public function createService(ServiceLocatorInterface $serviceLocator) {
 		
@@ -35,7 +35,7 @@ class RightSideBarFactory implements FactoryInterface {
                 
 	    }
                       
-	    return new RightSideBar( $conferenceService, $tagService, $currentDatas );
+	    return new SearchForm( $conferenceService, $tagService, $currentDatas );
 		
 	}
 

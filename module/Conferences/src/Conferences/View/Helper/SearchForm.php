@@ -9,7 +9,7 @@ use Conferences\Service\ConferenceService,
 
 
 
-class RightSideBar extends AbstractHelper implements DispatchRouteViewInterface{
+class SearchForm extends AbstractHelper implements DispatchRouteViewInterface{
 
     const CFPS = "cfps";
     

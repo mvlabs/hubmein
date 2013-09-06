@@ -25,10 +25,10 @@ class Module implements ViewHelperProviderInterface
             $serviceManager = $event->getApplication()->getServiceManager();
             
             $paginatorHelper = $serviceManager->get('viewhelpermanager')->get('paginatorbyperiod');
-            $rightSideBarHelper = $serviceManager->get('viewhelpermanager')->get('rightsidebar');
+            $seachFormHelper = $serviceManager->get('viewhelpermanager')->get('searchform');
             
             $paginatorHelper->setRouteName( $routeName );
-            $rightSideBarHelper->setRouteName( $routeName );
+            $seachFormHelper->setRouteName( $routeName );
             return ;      
             
         }
@@ -117,7 +117,7 @@ class Module implements ViewHelperProviderInterface
 			),
                         'factories' => array(
                             
-                            'rightSideBar' => 'Conferences\View\Helper\RightSideBarFactory',
+                            'searchForm' => 'Conferences\View\Helper\SearchFormFactory',
                             'paginatorByPeriod'=>'Conferences\View\Helper\PaginatorByPeriodFactory'
                             
                         ),
