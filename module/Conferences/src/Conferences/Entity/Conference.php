@@ -189,8 +189,8 @@ class Conference {
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Conferences\Entity\Tag", inversedBy="events")
-     * @ORM\JoinTable(name="tag_event")
+     * @ORM\ManyToMany(targetEntity="Conferences\Entity\Tag", inversedBy="conferences")
+     * @ORM\JoinTable(name="tag_conference")
      */
     private $tags;
     
@@ -798,7 +798,7 @@ class Conference {
     public function addTags(Collection $tags)
     {
         foreach ($tags as $tag) {
-            $tag->addEvent($this);
+            $tag->addConference($this);
             $this->tags->add($tag);
         }
     }

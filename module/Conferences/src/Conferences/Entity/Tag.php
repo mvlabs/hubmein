@@ -37,6 +37,7 @@ class Tag
      * @ORM\ManyToMany(targetEntity="Conferences\Entity\Conference", mappedBy="tags")
      */
     private $conferences;
+
     
     /*
      * Start of doctrine generated getters / setters
