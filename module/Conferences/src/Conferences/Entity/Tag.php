@@ -36,7 +36,7 @@ class Tag
      *
      * @ORM\ManyToMany(targetEntity="Conferences\Entity\Conference", mappedBy="tags")
      */
-    private $events;
+    private $conferences;
 
     
     /*
@@ -93,7 +93,7 @@ class Tag
      */
     public function addConference( Conference $events )
     {
-        $this->events[] = $events;
+        $this->conferences[] = $events;
     
         return $this;
     }
@@ -105,7 +105,7 @@ class Tag
      */
     public function removeConference( Conference $events )
     {
-        $this->events->removeElement($events);
+        $this->conferences->removeElement($events);
     }
 
     /**
@@ -115,6 +115,6 @@ class Tag
      */
     public function getConferences()
     {
-        return $this->events;
+        return $this->conferences;
     }
 }

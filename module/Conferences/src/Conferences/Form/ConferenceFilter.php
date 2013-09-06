@@ -63,6 +63,21 @@ class ConferenceFilter extends InputFilter {
 		        ),
 		    ),
 		));
+        
+        $this->add(array(
+		    'name'       => 'datefrom',
+		    'required'   => true,
+		    'filters' => array(
+		        array('name' => 'StringTrim'),
+		        array('name' => 'StripTags'),
+		    ),
+		    'validators' => array(
+		        array(
+		            'name' => 'not_empty',
+		        ),
+		        new \Zend\Validator\Date(array('format' => 'Y-m-d'))
+		    ),
+		));
 		
 		$this->add(array(
 		    'name'       => 'dateto',

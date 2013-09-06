@@ -29,7 +29,7 @@ class Conference extends Form {
         $this->add($title);
         
         
-        $abstract = new Element\Text('abstract');
+        $abstract = new Element\Textarea('abstract');
         $abstract->setAttributes(array('id'    => 'abstract',
                                        'rows'  => '8', 
                                        'class' => 'input-xxlarge',
@@ -131,7 +131,7 @@ class Conference extends Form {
         
         $contactemail = new Element\Text('contactemail');
         $contactemail->setAttributes(array('id'   => 'contactemail',
-                                           'class' => 'input-small',
+                                           'class' => 'input-medium',
                                     ))
                      ->setLabel('Contact email')
                      ->setLabelAttributes(array('class' => 'control-label'));
