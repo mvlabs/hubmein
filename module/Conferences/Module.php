@@ -26,9 +26,12 @@ class Module implements ViewHelperProviderInterface
             
             $paginatorHelper = $serviceManager->get('viewhelpermanager')->get('paginatorbyperiod');
             $seachFormHelper = $serviceManager->get('viewhelpermanager')->get('searchform');
+            $tagListHelper = $serviceManager->get('viewhelpermanager')->get('taglist');
             
             $paginatorHelper->setRouteName( $routeName );
             $seachFormHelper->setRouteName( $routeName );
+            $tagListHelper->setRouteName( $routeName );
+            
             return ;      
             
         }
@@ -60,6 +63,7 @@ class Module implements ViewHelperProviderInterface
             'aliases'=>array(
 
                  'conference.service'=>'Conferences\Service\ConferenceService',
+                 'tag.service'=>'Conferences\Service\TagService',
                  'conference.doctrine.mapper'=> 'Conferences\Mapper\DoctrineConferenceMapper'
 
              ),
@@ -118,8 +122,8 @@ class Module implements ViewHelperProviderInterface
                         'factories' => array(
                             
                             'searchForm' => 'Conferences\View\Helper\SearchFormFactory',
-                            'paginatorByPeriod'=>'Conferences\View\Helper\PaginatorByPeriodFactory'
-                            
+                            'paginatorByPeriod'=>'Conferences\View\Helper\PaginatorByPeriodFactory',
+                            'tagList'=>'Conferences\View\Helper\TagListFactory'
                         ),
     	);
     }

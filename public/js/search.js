@@ -119,6 +119,7 @@
     $(topicsElement).change(function() {
         
         checkTagsContentSize();
+        
         form.getTotalCountByFilter();
                         
     });
@@ -135,12 +136,15 @@
 
     });
     
-    
+   var topicTags = $(".select2-search-choice").addClass("tagbutton");
+   console.log(topicTags);
+   
     resetSearchButton.unbind("click", resetFields)
                      .bind('click', resetFields);
    
    
    displayResetFilter();
+   
    
      
      

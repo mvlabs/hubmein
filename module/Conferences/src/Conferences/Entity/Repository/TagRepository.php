@@ -12,6 +12,34 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagRepository extends EntityRepository
 {
+  
+    public function getPopularTagList($activeCfps,$orderBy = 'counter DESC') {
+		
+                $conditionCol = "dateto";
+                $conditionQuery = "";
+                
+                if($activeCfps){
+                    $conditionCol = "cfpclosingdate";
+                    $conditionQuery = 'AND (c.cfpclosingdate is not null) ';
+                 }
+            
+		$dql = 'SELECT t.name, COUNT(c) as counter '.
+                       'FROM \Conferences\Entity\Tag t '.
+                       'JOIN t.conferences c '.
+                       'WHERE c.'.$conditionCol.' >= CURRENT_DATE() '.
+                       $conditionQuery.
+                       'AND c.isVisible = TRUE '.
+                       'GROUP BY t.id '.
+                       'ORDER BY ' . $orderBy;
+				
+		$result = $this->getEntityManager()
+                            ->createQuery( $dql )
+                            ->getResult(2);
+                
+               
+                return $result;
+		
+	}
     
    
 }

@@ -27,7 +27,7 @@ class TagService {
 	 */
 	public function __construct(\Conferences\Mapper\TagMapperInterface $mapper) {
             
-		$this->mapper = $mapper;
+            $this->mapper = $mapper;
                 
 	}
 	
@@ -87,5 +87,12 @@ class TagService {
         $this->mapper->removeTag($tag);
         
     }
+    
+    public function getPopularTagList( $activeCfps ){
+        
+        return $this->mapper->getPopularTagList( $activeCfps );
+        
+    }
+    
 
 }

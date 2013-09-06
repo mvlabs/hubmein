@@ -36,15 +36,12 @@ class Tag
      *
      * @ORM\ManyToMany(targetEntity="Conferences\Entity\Conference", mappedBy="tags")
      */
-    private $events;
-
+    private $conferences;
     
     /*
      * Start of doctrine generated getters / setters
     */
     
-    
-
     /**
      * Get id
      *
@@ -91,9 +88,9 @@ class Tag
      * @param \Conferences\Entity\Conference $events
      * @return Tag
      */
-    public function addConference( Conference $events )
+    public function addConference( Conference $conference )
     {
-        $this->events[] = $events;
+        $this->conferences[] = $conference;
     
         return $this;
     }
@@ -103,9 +100,9 @@ class Tag
      *
      * @param \Conferences\Entity\Conference $events
      */
-    public function removeConference( Conference $events )
+    public function removeConference( Conference $conference )
     {
-        $this->events->removeElement($events);
+        $this->conferences->removeElement($conference);
     }
 
     /**
@@ -115,6 +112,6 @@ class Tag
      */
     public function getConferences()
     {
-        return $this->events;
+        return $this->conferences;
     }
 }
