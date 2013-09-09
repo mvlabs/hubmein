@@ -65,10 +65,13 @@ class ConferenceController extends AbstractActionController
             
         $conferences = $this->conferenceService->getListByFilter( $this->buildRequest() );
         $periodParam = $this->params()->fromQuery("period");
+        $conferencesCount = $this->countConferences();
+      
         
         return new ViewModel(array(
                             'conferences' => $conferences,
-                            'periodParam' => $periodParam
+                            'periodParam' => $periodParam,
+                            'count'=> $conferencesCount
                             )
                 );
                 
@@ -180,8 +183,9 @@ class ConferenceController extends AbstractActionController
     public function searchAction() {
       
         $conferences = $this->searchConferences();
-               
+             
         $viewModel = new ViewModel(array('conferences' => $conferences));
+        
         $viewModel->setTemplate('conferences/conference/index');
                
         return $viewModel;
@@ -219,7 +223,7 @@ class ConferenceController extends AbstractActionController
      * @return array 
      */
     private function countConferences() {
-                         
+       
        return $this->conferenceService->countListByFilter( $this->buildRequest() );
         
     }

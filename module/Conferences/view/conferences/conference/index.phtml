@@ -13,8 +13,8 @@ $this->headScript()->appendFile('/js/jslider/jquery.dependClass.js')
         <div class="title-page">
         <div class="border-bottom">
           <hgroup class="clearfix">
-          <h2><strong>Best Conferences</strong></h2>
-          <h3>Below you can find the list of conferences for the selected period.We're sure it's now going to be easy for you to identify those not to be missed!</h3>
+          <h2><strong>Event List</strong></h2>
+          <h3>Right side controls allow you to refine results. <br>Events can be ordered by date or relevance (based on tags).</h3>
           </hgroup>
           </div>
         </div>
@@ -23,7 +23,7 @@ $this->headScript()->appendFile('/js/jslider/jquery.dependClass.js')
         <section id="content" class="fl">
           <div class="conferences clearfix">
            <div class="events-head clearfix">
-           	<h4><strong>Conference List</strong></h4>
+           	<h4><strong><?php echo $this->plurify($this->count,"Event");?></strong></h4>
             <div class="order-by">
             </div>
            </div>
