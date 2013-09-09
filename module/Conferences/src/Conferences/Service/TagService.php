@@ -10,7 +10,7 @@ use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 
 use Conferences\Entity\Tag,
-    Conferences\Entity\Conference;
+    Conferences\Mapper\TagMapperInterface;
 
 
 /**
@@ -21,27 +21,27 @@ use Conferences\Entity\Tag,
  */
 class TagService {
          
-        private $mapper;
-        /**
-	 * @param \Conferences\Mapper\TagMapper Event Mapper
-	 */
-	public function __construct(\Conferences\Mapper\TagMapperInterface $mapper) {
-            
-            $this->mapper = $mapper;
-                
-	}
-	
-	/**
-	 * Gets a specific Tag
-	 *
-	 * @param int Tag Id
-	 * @return \Conferences\Entity\Tag
-	 */
-	public function getTag($id) {
-            
-	    return $this->mapper->getTag($id);
-            
-	}
+    private $tagMapper;
+    /**
+     * @param \Conferences\Mapper\TagMapper Event Mapper
+     */
+    public function __construct( TagMapperInterface $tagMapper ) {
+
+       $this->tagMapper = $tagMapper;
+
+    }
+
+    /**
+     * Gets a specific Tag
+     *
+     * @param int Tag Id
+     * @return \Conferences\Entity\Tag
+     */
+     public function getTag($id) {
+
+       return $this->tagMapper->getTag($id);
+
+     }  
 	
     /**
      * Get Tag List
@@ -50,7 +50,7 @@ class TagService {
      */
     public function getList() {
         
-        return $this->mapper->getTagList();
+        return $this->tagMapper->getTagList();
         
     }
     
@@ -59,7 +59,7 @@ class TagService {
      */
     public function getTagListAsArray() {
         
-        return $this->mapper->getTagListAsArray();
+        return $this->tagMapper->getTagListAsArray();
         
     }
         
@@ -71,7 +71,7 @@ class TagService {
      */
     public function upsertTag( Tag $tag ) {
                             
-        $this->mapper->saveTag($tag);
+        $this->tagMapper->saveTag($tag);
         
         return $tag;
         
@@ -84,13 +84,13 @@ class TagService {
      */
     public function removeTag( Tag $tag ) {
         
-        $this->mapper->removeTag($tag);
+        $this->tagMapper->removeTag($tag);
         
     }
     
-    public function getPopularTagList( $activeCfps ){
+    public function fetchAllPopularTag( $activeCfps ){
         
-        return $this->mapper->getPopularTagList( $activeCfps );
+        return $this->tagMapper->fetchAllPopularTag( $activeCfps );
         
     }
     

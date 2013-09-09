@@ -20,13 +20,15 @@ use Zend\ServiceManager\FactoryInterface,
  *
  */
 class ConferenceService implements EventManagerAwareInterface {
-        
+    
+    const CFPS_ROUTENAME = "cpfs";
+    
     /**
      * Event Manager (Zend Framework 2 component - NOT related to conferences!)
      * 
      * @var \Zend\EventManager\EventManagerInterface
      */
-    private $conferenceManager;
+    private $eventManager;
 
     /*
      * @var \Conferences\Mapper\ConferenceMapper Conference Mapper
@@ -38,9 +40,9 @@ class ConferenceService implements EventManagerAwareInterface {
      * 
      * @param \Conferences\Mapper\ConferenceMapper Conference Mapper
      */
-    public function __construct( ConferenceMapperInterface $mapper ) {
+    public function __construct( ConferenceMapperInterface $conferenceMapper ) {
 
-        $this->eventMapper = $mapper;
+        $this->conferenceMapper = $conferenceMapper;
 
     }
 	
@@ -52,13 +54,13 @@ class ConferenceService implements EventManagerAwareInterface {
      */
     public function getConference( $id ) {
        
-        return $this->eventMapper->getConference( $id );
+        return $this->conferenceMapper->getConference( $id );
         
     }
     
     public function getFullList() {
         
-        return $this->eventMapper->getFullList();
+        return $this->conferenceMapper->getFullList();
         
     }
 
@@ -69,7 +71,7 @@ class ConferenceService implements EventManagerAwareInterface {
      */
     public function getListByFilter( RequestBuilder $requestBuilder ) {
                
-        return $this->eventMapper->getListByFilter( $requestBuilder );
+        return $this->conferenceMapper->getListByFilter( $requestBuilder );
         
     }
     
@@ -78,34 +80,35 @@ class ConferenceService implements EventManagerAwareInterface {
      */
     public function countListByFilter( RequestBuilder $requestBuilder ){
         
-        return $this->eventMapper->countListByFilter( $requestBuilder );
+        return $this->conferenceMapper->countListByFilter( $requestBuilder );
         
     }
     
     public function getCountryListAsArray() {
         
-        return $this->eventMapper->getCountryListAsArray();
+        return $this->conferenceMapper->getCountryListAsArray();
         
     }
        
     /**
+     * Get a list of region based on upcoming conferences
      * @param boolean $activeCfps
      * @return array
      */
-    public function getUpcomingConferencesRegions($activeCfps){
-        
-        return $this->eventMapper->getUpcomingConferencesRegions($activeCfps);
+    public function fetchAllRegionByRoute($routeName){
+               
+        return $this->conferenceMapper->fetchAllRegions($this->hasCfps($routeName));
         
     }
     
     /**
      * Get a list of period based on upcoming conferences
-     * @param boolean $activeCfps
+     * @param string $routeName
      * @return array
      */
-    public function getUpcomingConferencesPeriods($activeCfps){
+    public function fetchAllPeriodByRoute($routeName){
         
-        return $this->eventMapper->getUpcomingConferencesPeriods($activeCfps);
+        return $this->conferenceMapper->fetchAllPeriods($this->hasCfps($routeName));
         
     }
            
@@ -119,7 +122,7 @@ class ConferenceService implements EventManagerAwareInterface {
         
         $conference->setPublicationdate(new \DateTime());
         
-        $this->eventMapper->saveConference($conference);
+        $this->conferenceMapper->saveConference($conference);
         
         //trigger 'event_saved' event
         $this->getConferenceManager()->trigger('event_saved', $this, array(
@@ -138,7 +141,7 @@ class ConferenceService implements EventManagerAwareInterface {
      */
     public function removeConference( Conference $conference ) {
         
-        $this->eventMapper->removeConference($conference);
+        $this->conferenceMapper->removeConference($conference);
         
     }
     
@@ -175,6 +178,18 @@ class ConferenceService implements EventManagerAwareInterface {
     }
 
     public function setEventManager(EventManagerInterface $eventManager) {
+        
+    }
+    
+    private function hasCfps($routeName){
+        
+        if($routeName == self::CFPS_ROUTENAME){
+            
+            return true;
+            
+        }
+        
+        return false;
         
     }
 

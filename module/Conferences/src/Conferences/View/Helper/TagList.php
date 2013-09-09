@@ -20,7 +20,6 @@ use Conferences\View\Helper\DispatchRouteViewInterface;
 class TagList extends AbstractHelper implements DispatchRouteViewInterface{
     
     const CFPS = "cfps";
-
     /**
      * @var Conferences\Service\TagService;
      */
@@ -40,7 +39,7 @@ class TagList extends AbstractHelper implements DispatchRouteViewInterface{
         
         $activeCfps = ($this->routeName == self::CFPS)?true:false; 
             
-        return  $this->view->render('partials/tag_list', array("tags"=>$this->tagService->getPopularTagList($activeCfps)));
+        return  $this->view->render('partials/tag_list', array("tags"=>$this->tagService->fetchAllPopularTag($activeCfps)));
                
     }
 
@@ -50,6 +49,7 @@ class TagList extends AbstractHelper implements DispatchRouteViewInterface{
         
     }
     
+        
 }
 
 ?>

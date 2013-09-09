@@ -70,7 +70,7 @@ class ConferenceRepository extends EntityRepository {
      * @param boolean $activeCfps
      * @return array
      */
-    public function getUpcomingConferencesRegions( $activeCfps ) {
+    public function fetchAllRegions( $activeCfps ) {
 		
                 $conditionCol = "dateto";
                 $conditionQuery = "";
@@ -102,7 +102,7 @@ class ConferenceRepository extends EntityRepository {
      * @param boolean $activeCfps
      * @return array 
      */
-    public function getUpcomingConferencesPeriods($activeCfps = false) {
+    public function fetchAllPeriods( $activeCfps ) {
 		
                 $conditionCol = "dateto";
                 $conditionQuery = "";

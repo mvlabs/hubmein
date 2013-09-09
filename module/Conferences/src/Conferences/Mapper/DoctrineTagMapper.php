@@ -87,9 +87,9 @@ class DoctrineTagMapper implements TagMapperInterface {
     }
     
     
-    public function getPopularTagList( $activeCfps ) {
+    public function fetchAllPopularTag( $activeCfps ) {
         
-        return $this->tagRepository->getPopularTagList( $activeCfps );
+        return $this->tagRepository->fetchAllPopularTag( $activeCfps );
         
     }
     

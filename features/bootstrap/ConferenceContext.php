@@ -159,7 +159,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     public function iGetARegionList()
     {
         
-        $regions = $this->getServiceManager()->get("conference.service")->getUpcomingConferencesRegions(false);
+        $regions = $this->getServiceManager()->get("conference.service")->fetchAllRegionByRoute("conference");
         $hydrator = new DoctrineHydrator($this->getEntityManager(), "Conferences\Entity\Country");
         $serializedRegions = array();
         
@@ -198,7 +198,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
     public function iGetAPeriodList()
     {
         
-        $periods = $this->getServiceManager()->get("conference.service")->getUpcomingConferencesPeriods(false);
+        $periods = $this->getServiceManager()->get("conference.service")->fetchAllPeriodByRoute("conference");
         
         $serializedPeriods = array();
                

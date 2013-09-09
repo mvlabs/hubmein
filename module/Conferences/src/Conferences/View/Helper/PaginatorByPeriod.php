@@ -48,9 +48,8 @@ class PaginatorByPeriod extends AbstractHelper implements DispatchRouteViewInter
     public function __invoke( $periodParam ) {
              
         if($periodParam) {
-            $activeCfps = ($this->routeName == self::CFPS) ? true:false;
-
-            $periods = $this->eventService->getUpcomingConferencesPeriods($activeCfps);
+            
+            $periods = $this->eventService->fetchAllRegionByRoute( $this->routeName );
             $dateTimeFromParam = new \DateTime($periodParam);
             $html = "<div class='pagination'>";
 

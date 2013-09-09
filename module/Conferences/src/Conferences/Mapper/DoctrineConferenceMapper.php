@@ -16,7 +16,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
     public function __construct( EntityManager $entityManager ) 
     {
         $this->entityManager = $entityManager;
-        $this->eventRepository = $this->entityManager->getRepository('Conferences\Entity\Conference');
+        $this->conferenceRepository = $this->entityManager->getRepository('Conferences\Entity\Conference');
         $this->countryRepository = $this->entityManager->getRepository('Conferences\Entity\Country');
 	
     }
@@ -29,7 +29,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
     */
     public function getConference( $id ) {
     	
-        $conference = $this->eventRepository->find($id);
+        $conference = $this->conferenceRepository->find($id);
         
         if (null == $conference) {
         	throw new \DomainException('No event with such ID here.');
@@ -45,7 +45,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
      */
     public function getFullList() {
         
-        return $this->eventRepository->findAll();
+        return $this->conferenceRepository->findAll();
         
     }
     
@@ -70,7 +70,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
     */
     public function getListByFilter( RequestBuilder $requestBuilder ){
         
-        return $this->eventRepository->getListByFilter( $requestBuilder );
+        return $this->conferenceRepository->getListByFilter( $requestBuilder );
                 
     }
      
@@ -82,7 +82,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
      */
     public function countListByFilter( RequestBuilder $requestBuilder ){
       
-        return $this->eventRepository->countFilteredItems( $requestBuilder );
+        return $this->conferenceRepository->countFilteredItems( $requestBuilder );
         
     }
     
@@ -106,18 +106,19 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
      * @param boolean $activeCfps
     * @return array contains a list of Conferences\Entity\Conference 
     */
-    public function getUpcomingConferencesRegions($activeCfps){
+    public function fetchAllRegions( $activeCfps ){
         
-        return $this->eventRepository->getUpcomingConferencesRegions($activeCfps);
+        return $this->conferenceRepository->fetchAllRegions( $activeCfps );
         
     }
     
     /**
+     * @param boolean $activeCpfs
      * @return array contains a list of DateTime
      */
-    public function getUpcomingConferencesPeriods($activeCfps)  {
+    public function fetchAllPeriods( $activeCfps )  {
         
-        return $this->eventRepository->getUpcomingConferencesPeriods($activeCfps) ;
+        return $this->conferenceRepository->fetchAllPeriods( $activeCfps ) ;
         
     }
     

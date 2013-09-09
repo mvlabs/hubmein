@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class TagRepository extends EntityRepository
 {
   
-    public function getPopularTagList($activeCfps,$orderBy = 'counter DESC') {
+    public function fetchAllPopularTag($activeCfps,$orderBy = 'counter DESC') {
 		
                 $conditionCol = "dateto";
                 $conditionQuery = "";
@@ -24,7 +24,7 @@ class TagRepository extends EntityRepository
                  }
             
 		$dql = 'SELECT t.name, COUNT(c) as counter '.
-                       'FROM \Conferences\Entity\Tag t '.
+                       'FROM '.$this->_entityName.' t '.
                        'JOIN t.conferences c '.
                        'WHERE c.'.$conditionCol.' >= CURRENT_DATE() '.
                        $conditionQuery.
@@ -35,8 +35,7 @@ class TagRepository extends EntityRepository
 		$result = $this->getEntityManager()
                             ->createQuery( $dql )
                             ->getResult(2);
-                
-               
+                              
                 return $result;
 		
 	}

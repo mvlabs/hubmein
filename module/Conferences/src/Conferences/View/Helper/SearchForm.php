@@ -11,8 +11,7 @@ use Conferences\Service\ConferenceService,
 
 class SearchForm extends AbstractHelper implements DispatchRouteViewInterface{
 
-    const CFPS = "cfps";
-    
+       
     private $conferenceService;
     private $tagService;
     private $currentRequestParams = array();
@@ -41,11 +40,10 @@ class SearchForm extends AbstractHelper implements DispatchRouteViewInterface{
     private function setDataForPartial( ConferenceService $conferenceService, TagService $tagService, array $currentRequestParams ) {
         
         $filters = array();
-        $activeCfps = ($this->routeName == self::CFPS) ? true:false;
-            
+                    
         $filters['currentRequest'] = $currentRequestParams;
-        $filters['regions'] = $conferenceService->getUpcomingConferencesRegions($activeCfps);
-        $filters['periods'] = $conferenceService->getUpcomingConferencesPeriods($activeCfps);
+        $filters['regions'] = $conferenceService->fetchAllRegionByRoute( $this->routeName );
+        $filters['periods'] = $conferenceService->fetchAllPeriodByRoute( $this->routeName );
         $filters['tags'] = $tagService->getTagListAsArray();
         
         return $filters;
