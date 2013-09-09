@@ -139,7 +139,7 @@
    resetSearchButton.unbind("click", resetFields)
                      .bind('click', resetFields);
    
-   console.log($(".select2-choices").find(".select2-search-choice").addClass("tagbutton"));
+   $(".select2-choices").find(".select2-search-choice").addClass("tagbutton");
    
    displayResetFilter();
        
