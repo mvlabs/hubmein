@@ -42,3 +42,9 @@
     background:url('/images/loading.gif') no-repeat center;
     
 }
+
+.select2-container-multi .select2-choices .select2-search-choice {
+       
+    background:#716d5d; background:-moz-linear-gradient(top,#817e6e 0%,#716d5d 25%,#666152); background:-webkit-gradient(linear,left top,left bottom,from(#817e6e),color-stop(0.25,#716d5d),to(#666152));
+    color:#FFF;
+}

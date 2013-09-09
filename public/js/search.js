@@ -136,17 +136,13 @@
 
     });
     
-   var topicTags = $(".select2-search-choice").addClass("tagbutton");
-   console.log(topicTags);
-   
-    resetSearchButton.unbind("click", resetFields)
+   resetSearchButton.unbind("click", resetFields)
                      .bind('click', resetFields);
    
+   console.log($(".select2-choices").find(".select2-search-choice").addClass("tagbutton"));
    
    displayResetFilter();
-   
-   
-     
+       
      
    form.submit(function() {
         
@@ -223,13 +219,14 @@
                 
         var tagsToSelect = getUrlParam('tags');
         var tags = [];
-                
+             
         if( tagsToSelect !== "null") {
             
-            tags = tagsToSelect.split(",");
+            tags = tagsToSelect.replace("+"," ")
+                               .split(",");
            
         }
-      
+               
         $(topicsElement).select2("val",tags);
             
     }
