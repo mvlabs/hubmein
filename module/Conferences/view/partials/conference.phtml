@@ -30,6 +30,17 @@ foreach ($this->conferences as $conference) { ?>
                     <div class="description">
                             <p><?php echo $conference->getAbstract(); ?></p>
                     </div>
+                    <div class="tag">
+                        <?php
+                            if(sizeof($conference->getTags())):
+                                foreach($conference->getTags() as $tag):?>
+                              <a class="tagbutton" href="<?php echo $this->url("conferences")."?tags=".$tag->getName()?>"><?php echo $tag->getName()?></a>
+                         
+                       <?php  
+                               endforeach;                          
+                           endif;
+                        ?>
+                    </div>
             </div>
     </div>
 <?php } ?>
