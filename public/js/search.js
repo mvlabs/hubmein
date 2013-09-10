@@ -170,7 +170,7 @@
            routeName = pathNamePart[0];
            
        }
-         
+      
        return "/"+routeName;
        
    }
@@ -275,9 +275,10 @@
 
     function getRegionValue() {
         
-        var regionValue = ( regionInput.attr('value') !== "*") ? "/" +  regionInput.attr('value') : "";
+        var selectedRegionValue = regionInput.find(":selected").val();
+        var regionUrl = ( selectedRegionValue !== "*") ? "/" +  regionInput.attr('value') : "";
         
-        return regionValue;
+        return regionUrl;
 
     }
     
