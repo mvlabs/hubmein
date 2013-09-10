@@ -81,7 +81,7 @@ class ConferenceController extends AbstractActionController
      */
     public function showcallForPaperAction(){
         
-        $conferences = $this->conferenceService->getListByFilter($this->buildRequest());
+        $conferences = $this->conferenceService->fetchAllByFilter($this->buildRequest());
         $periodParam = $this->params()->fromQuery("period");
         
         $viewModel = new ViewModel(
@@ -93,8 +93,7 @@ class ConferenceController extends AbstractActionController
         return $viewModel;
         
     }
-    
-    
+        
     /**
      * Displays a specific conference 
      * 
