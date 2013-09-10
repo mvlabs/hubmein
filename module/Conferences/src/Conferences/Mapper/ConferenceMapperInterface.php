@@ -19,9 +19,9 @@ interface ConferenceMapperInterface {
     
     public function getConference( $id );
     
-    public function getListByFilter( RequestBuilder $requestBuilder );
+    public function fetchAllByFilter( RequestBuilder $requestBuilder );
     
-    public function countListByFilter( RequestBuilder $requestBuilder );
+    public function countByFilter( RequestBuilder $requestBuilder );
        
     public function saveConference( Conference $conference );
     

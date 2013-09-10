@@ -23,7 +23,7 @@ class ConferenceRepository extends EntityRepository {
     const ORQUERYVALUE = "OR";
        
     
-    public function getListByFilter(RequestBuilder $RequestBuilder) {
+    public function fetchAllByFilter(RequestBuilder $RequestBuilder) {
               
        $queryFilter = $this->createQuerySearch($RequestBuilder);
         
@@ -42,7 +42,7 @@ class ConferenceRepository extends EntityRepository {
         
     }    
     
-    public function countFilteredItems(RequestBuilder $RequestBuilder){
+    public function countByFilter(RequestBuilder $RequestBuilder){
         
         $queryFilter = $this->createQuerySearch($RequestBuilder);
         

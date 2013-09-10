@@ -68,9 +68,9 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
     * @param array $criterias
     * @return array mixed 
     */
-    public function getListByFilter( RequestBuilder $requestBuilder ){
+    public function fetchAllByFilter( RequestBuilder $requestBuilder ){
         
-        return $this->conferenceRepository->getListByFilter( $requestBuilder );
+        return $this->conferenceRepository->fetchAllByFilter( $requestBuilder );
                 
     }
      
@@ -80,9 +80,9 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
      * @param array $criterias
      * return int 
      */
-    public function countListByFilter( RequestBuilder $requestBuilder ){
+    public function countByFilter( RequestBuilder $requestBuilder ){
       
-        return $this->conferenceRepository->countFilteredItems( $requestBuilder );
+        return $this->conferenceRepository->countByFilter( $requestBuilder );
         
     }
     

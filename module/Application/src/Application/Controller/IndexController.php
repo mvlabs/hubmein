@@ -35,7 +35,7 @@ class IndexController extends AbstractActionController
               
         return new ViewModel(array(
                 
-                        'conferences' => $this->conferenceService->getListByFilter($requestBuilder),
+                        'conferences' => $this->conferenceService->fetchAllByFilter($requestBuilder),
                 
                     )
                 );

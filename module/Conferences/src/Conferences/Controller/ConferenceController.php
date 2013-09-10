@@ -63,9 +63,9 @@ class ConferenceController extends AbstractActionController
     public function indexAction()
     {
             
-        $conferences = $this->conferenceService->getListByFilter( $this->buildRequest() );
+        $conferences = $this->conferenceService->fetchAllByFilter( $this->buildRequest() );
         $periodParam = $this->params()->fromQuery("period");
-        $conferencesCount = $this->countConferences();
+        $conferencesCount = $this->countByFilter();
               
         return new ViewModel(array(
                             'conferences' => $conferences,
@@ -200,7 +200,7 @@ class ConferenceController extends AbstractActionController
      */
     public function countAction() {
       
-        $conferencesNr = $this->countConferences();
+        $conferencesNr = $this->countByFilter();
                
         $result = new JsonModel(array(
 	    
@@ -218,12 +218,12 @@ class ConferenceController extends AbstractActionController
      */
         
     /**
-     * 
+     * count conferences based given filter
      * @return array 
      */
-    private function countConferences() {
+    private function countByFilter() {
        
-       return $this->conferenceService->countListByFilter( $this->buildRequest() );
+       return $this->conferenceService->countByFilter( $this->buildRequest() );
         
     }
 

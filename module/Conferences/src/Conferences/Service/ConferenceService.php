@@ -69,18 +69,18 @@ class ConferenceService implements EventManagerAwareInterface {
      *
      * @return array list of Conference Entity
      */
-    public function getListByFilter( RequestBuilder $requestBuilder ) {
+    public function fetchAllByFilter( RequestBuilder $requestBuilder ) {
                
-        return $this->conferenceMapper->getListByFilter( $requestBuilder );
+        return $this->conferenceMapper->fetchAllByFilter( $requestBuilder );
         
     }
     
     /**
      * Count Conference list given an array of criterias
      */
-    public function countListByFilter( RequestBuilder $requestBuilder ){
+    public function countByFilter( RequestBuilder $requestBuilder ){
         
-        return $this->conferenceMapper->countListByFilter( $requestBuilder );
+        return $this->conferenceMapper->countByFilter( $requestBuilder );
         
     }
     
