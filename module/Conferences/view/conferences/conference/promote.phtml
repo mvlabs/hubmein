@@ -1,3 +1,8 @@
+<?php
+   $this->headScript()->appendFile("/js/jquery-ui-1.10.3.custom.min.js")
+                      ->appendFile("/js/jquery.general.js");
+   $this->headLink()->appendStylesheet('/css/ui-lightness/jquery-ui-1.10.3.custom.min.css');                      
+?>
 <div class="wrap">
   <div class="full-width">
     <div class="title-page">
@@ -11,20 +16,54 @@
     </div>
  
     <section id="content" class="fl">
-    	<form action="<?php echo $this->url('events/process')?>" method="post" id="promote-form">
-    	<?php 
-    	
-    	$elements = $this->form->getElements();
-    	foreach($elements as $element) { 
-            echo '<div>' . $this->formRow($element) . '</div>' . "\n";
-        } 
-        
+        <?php 
+            $this->form->setAttributes(array(
+                'action' => $this->url('conferences/process'),
+                'class'=>'promote-form'  )
+             );
+            $this->form->prepare();
+             
+            echo $this->form()->openTag($this->form); 
+            ?>
+       
+        <?php
+           foreach($this->form->getElements() as $element) {
+               
+               $elementName = $element->getName();
+               
+               switch($elementName){
+                   
+                   case "dateFrom":
+                       echo "<div class='date from'>". $this->formRow($element) ."</div>" ;
+                       break;
+                   case "dateTo":
+                       echo "<div class='date'>". $this->formRow($element) ."</div>" ;
+                       break;
+                   case "captcha":
+                   case "submit":
+                       echo "<div class='centered'>". $this->formRow($element) ."</div>" ;
+                       break;
+                   default:
+                       echo "<div>". $this->formRow($element) ."</div>" ;
+                       break;
+                }
+               
+               
+               
+           } 
+           /*
+            $elements = $this->form->getElements();
+            foreach($elements as $element) { 
+                echo '<div>' . $this->formRow($element) . '</div>' . "\n";
+            } 
+           */
+           echo $this->form()->closeTag($this->form); 
         ?>
     	</form>
     </section>
     <!-- END: content -->
-    
-   <?php echo $this->searchForm(); ?>
-    
+    <aside id="sidebar" class="fr">
+        
+    </aside>
   </div>
 </div>

@@ -2,6 +2,30 @@
 namespace Conferences;
 
 return array(
+    
+    'navigation' => array(
+         'conference' => array(
+             array(
+                 'label' => 'Upcoming Events',
+                 'route' => '',
+             ),
+             array(
+                 'label' => 'Page #1',
+                 'route' => 'page-1',
+                 'pages' => array(
+                     array(
+                         'label' => 'Child #1',
+                         'route' => 'page-1-child'
+                     )
+                 )
+             ),
+             array(
+                 'label' => 'Page #2',
+                 'route' => 'page-2',
+             )
+         )
+     ),
+    
     'router' => array(
         'routes' => array(
             'conferences' => array(

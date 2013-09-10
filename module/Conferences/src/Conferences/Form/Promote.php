@@ -3,70 +3,127 @@
 namespace Conferences\Form;
 
 use Zend\Form\Form,
-    Zend\Form\Element,
+    Zend\Form\Element\Captcha,
+    Zend\Captcha\Image as CaptchaImage,
+    Zend\Form\Element\Email,
+    Zend\Form\Element\Textarea,
+    Zend\Form\Element\Text,
+    Zend\Form\Element\Csrf,
     Zend\Validator;
 
 class Promote extends Form {
-    	
+       
     public function __construct(array $countryList = null, $name = 'contact') {
         
         parent::__construct($name);
         
-        $this->add(array(
-            'name' => 'title',
-            'attributes' => array(
-            	'id'    => 'title',
-                'type'  => 'text',
-            ),
-            'options' => array(
-                'label' => 'Conference name',
-            ),
+                
+        $dataFolder = './data/fonts';
+        $defaultFont = 'arial.ttf';
+        
+        $email = new Email('email');
+        $email->setName('email')
+              ->setLabel('Your Email*')
+              ->setAttributes(array(
+                 'id'=>'email',
+                 'type'=>'text'
+              ));
+        
+        $title = new Text('title');
+        $title->setLabel("Conference name*")
+               ->setName('title')
+               ->setAttributes( array(
+                    'id'    => 'title',
+               ));
+        
+        $dateFrom = new Text('datefrom');
+        $dateFrom->setLabel("From*")
+                 ->setName('dateFrom')
+                 ->setAttributes( array(
+                    'id' => 'dateFrom',
+                    'maxLength'=>'100',
+                    'class'=>'datepicker'
+                 ));
+        
+        $dateTo = new Text('dateto');
+        $dateTo->setLabel("To*")
+                 ->setName('dateTo')
+                 ->setAttributes( array(
+                    'id' => 'dateTo',
+                    'maxLength'=>'100',
+                    'class'=>'datepicker' 
+                 ));
+        
+        $webSite = new Text('mainsite');
+        $webSite->setLabel("Event Website*")
+                 ->setName('mainsite')
+                 ->setAttributes( array(
+                    'id' => 'mainsite',
+                    'maxLength'=>'150'
+                 ));
+        
+        $description = new Textarea('abstract');
+        $description->setLabel("Description")
+                 ->setName('abstract')
+                 ->setAttributes( array(
+                    'id' => 'abstract',
+                    'maxLength'=>'160'
+                 ));
+        
+        $tags = new Text('tags');
+        $tags->setLabel("Tags")
+             ->setName('tags')
+             ->setAttributes( array(
+                    'id' => 'tag',
+                    'maxLength'=>'200'
+                 ));
+        
+        $captchaImg = new CaptchaImage( array(
+            'font'=>$dataFolder.DIRECTORY_SEPARATOR.$defaultFont,
+            'width'=> 250,
+            'height'=> 50,
+            'doNoiseLevel'=> 40,
+            'lineNoiseLevel'=> 3)
+        );
+        
+        $captcha = new Captcha('captcha');
+        $captcha->setCaptcha($captchaImg);
+                                                
+        $csrf = new Csrf('security');
+        $csrf->setOptions(array(
+           'csrf_options'=> array(
+               'timeout'=>600
+           ) 
         ));
         
-       	$this->add(array(
-            'name'  => 'abstract',
-            'attributes' => array(
-            	'id'    => 'abstract',
-                'type'  => 'textarea',
-                'cols'  => '40',
-                'rows'  => '8',
-            ),
-		    'options' => array(
-		        'label' => 'About',
-		    )
-        ));
+        $submit = new Text('submit');
+        $submit->setValue('Submit Conference')
+               ->setAttributes(array(
+                   'type'=>'submit',
+                   'class'=>'bigbutton'                 
+               ));
+        	
         
-       	$this->add(array(
-       			'name' => 'datefrom',
-       			'attributes' => array(
-       					'id'    => 'datefrom',
-       					'type'  => 'text',
-       			),
-       			'options' => array(
-       					'label' => 'From',
-       			),
-       	));
-       	
-       	$this->add(array(
-       			'name' => 'dateto',
-       			'attributes' => array(
-       					'id'    => 'dateto',
-       					'type'  => 'text',
-       			),
-       			'options' => array(
-       					'label' => 'To',
-       			),
-       	));
-       	
+        $this->add($email);
+        $this->add($title);
+        $this->add($dateFrom);
+        $this->add($dateTo);
+        $this->add($webSite);
+        $this->add($description);
+        $this->add($tags);
+        $this->add($captcha);
+        $this->add($csrf);
+        $this->add($submit);
         
+        /*
         $this->add(array(
         		'name' => 'venue',
         		'attributes' => array(
         				'id'    => 'venue',
-        				'type'  => 'text',
+        				
         		),
         		'options' => array(
-        				'label' => 'Venue',
+        				'label' => 'Venue*',
         		),
         ));
         
@@ -74,10 +131,10 @@ class Promote extends Form {
         		'name' => 'city',
         		'attributes' => array(
         				'id'    => 'city',
-        				'type'  => 'text',
+        				
         		),
         		'options' => array(
-        				'label' => 'City',
+        				'label' => 'City*',
         		),
         ));
         
@@ -89,46 +146,22 @@ class Promote extends Form {
         		),
         		'type' => 'Zend\Form\Element\Select',
         		'options' => array(
-        				'label' => 'Country',
+        				'label' => 'Country*',
         				'empty_option' => 'Please choose...',
         				'value_options' => $countryList
         				),
         		)
         );
-        
-        $this->add(array(
-            'name' => 'mainsitelink',
-            'attributes' => array(
-                'id'    => 'mainsitelink',
-                'type'  => 'text',
-            ),
-            'options' => array(
-                'label' => 'Website',
-            ),
-        ));
-        
-
+       
         $this->add(array(
         		'name' => 'averagedayfee',
         		'attributes' => array(
         				'id'    => 'averagedayfee',
-        				'type'  => 'text',
+        				
         		),
         		'options' => array(
         				'label' => 'Avg Daily Fee',
         		),
-        ));
-        
-
-        $this->add(array(
-            'name' => 'submit',
-            'attributes' => array(
-            	'id'    => 'submit',
-                'type'  => 'submit',
-                'value' => 'Submit',
-                'class' => 'bigbutton'
-            ),
-        	'options' => array('label' => '.')
-        ));
-	}	  
+        ));*/
+    }	  
 }

@@ -101,7 +101,7 @@ a, .rounded-background{ -webkit-transition-property:background-color, color, bor
 /*semibold*/
 .rounded-background h3, .event h3{ font-family:"OpenSansSemibold", Arial, sans-serif; }
 /*semibolditalic*/
-em, .#sidebar .more-wrap .more, .tags li .number{ font-family:"OpenSansSemiboldItalic"; font-style:italic!important; }
+em, #sidebar .more-wrap .more, .tags li .number{ font-family:"OpenSansSemiboldItalic"; font-style:italic!important; }
 
 /*bold*/
 .about .service h3, strong, b, #main-content #feature h2, #content h2, .conferences h2,
@@ -135,8 +135,8 @@ em, .#sidebar .more-wrap .more, .tags li .number{ font-family:"OpenSansSemiboldI
 #conferences .title-page h2{ float:left; width:34.4%; background:url(/images/v_dotted_2.gif) repeat-y right 0; }
 #conferences .title-page h2.show{ float:left; width:100%;}
 #conferences .title-page h3{ float:right; width:63.3%; }
-#about .title-page h2{ float:left; width:16.6%;margin-left:20px;  background:url(/images/v_dotted_2.gif) repeat-y right 0;}
-#about .title-page h3{ width:78.1%; float:right; }
+#about .title-page h2{ float:left; width:32.4%;margin-left:20px;  background:url(/images/v_dotted_2.gif) repeat-y right 0;}
+#about .title-page h3{ width:63.3%; float:right; }
 
 #account .title-page h2{  float:left; width:20.6%; margin:0 20px;  background:url(/images/v_dotted_2.gif) repeat-y right 0; }
 
@@ -265,7 +265,7 @@ div#main-content.clearfix div.wrap div.full-width section#content.fl div.event-d
 font-family:"OpenSansBold", Arial, sans-serif;; color:#6a6a6a;
 border:3px solid #f6f3ea; background:#f6f4dc;
 /* url(images/field_bkg.png) */
-repeat-x; -moz-box-shadow:inset 0px 0px 1px rgba(199,196,160,1);
+/*repeat-x; -moz-box-shadow:inset 0px 0px 1px rgba(199,196,160,1);*/
 -webkit-box-shadow:inset 0px 0px 1px rgba(199,196,160,1);
 -o-box-shadow:inset 0px 0px 1px rgba(199,196,160,1); }
 #lookup-form input[type="text"]:focus{outline:none; background-color:#fdfcf3}
@@ -273,12 +273,18 @@ repeat-x; -moz-box-shadow:inset 0px 0px 1px rgba(199,196,160,1);
 
 
 /*promote form*/
-#promote-form div{ margin-bottom:10px; clear:both; }
-#promote-form div label{ float:left; text-align:right; width:30.9%; padding-right:20px; margin-top:10px; }
-#promote-form input[type="text"], #promote-form input[type="file"], #promote-form textarea, #promote-form select{ width:50%; color:#000; font-size:1.3em; font-family:Arial, Helvetica, sans-serif;  }
-#promote-form textarea{ width:60%; }
-#promote-form input[type="file"] { font-size:1.2em; }
-#promote-form input[type="submit"]{ width:30%; }
+.promote-form div{ margin-bottom:10px; clear:both; }
+.promote-form div label{ float:left; text-align:right; width:30.9%;padding-right:20px; margin-top:10px; }
+.promote-form input[type="text"], #promote-form input[type="file"], #promote-form textarea, #promote-form select{ width:50%; color:#000; font-size:1.3em; font-family:Arial, Helvetica, sans-serif;  }
+.promote-form textarea{ width:60%; }
+.promote-form input[type="file"] { font-size:1.2em; }
+.promote-form input[type="submit"]{ width:30%; }
+/*.promote-form .date {width:38%;display: inline-block}
+.promote-form .date.from{margin-left: 24% }
+.promote-form .date label{width:18%}
+.promote-form .date input{width:46%}*/
+.promote-form .centered img{display:block; margin:0 auto}
+.promote-form .input{margin:0 auto}}
 
 /*feeback form*/
 #feedback-form div{ margin-bottom:10px; clear:both; }

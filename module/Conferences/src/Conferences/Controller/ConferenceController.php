@@ -66,8 +66,7 @@ class ConferenceController extends AbstractActionController
         $conferences = $this->conferenceService->getListByFilter( $this->buildRequest() );
         $periodParam = $this->params()->fromQuery("period");
         $conferencesCount = $this->countConferences();
-      
-        
+              
         return new ViewModel(array(
                             'conferences' => $conferences,
                             'periodParam' => $periodParam,
