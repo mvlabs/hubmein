@@ -67,7 +67,7 @@
         
         countLoader.show();
         result.hide();
-        
+           
         countLoader.css({"background":"url('/images/ajax-loader.gif') no-repeat"});
         countLoader.text("");
         
@@ -88,7 +88,6 @@
         });
 
     };
-    
     
   
     form.find(":radio").change(function(){
@@ -275,8 +274,9 @@
 
     function getRegionValue() {
         
-        var selectedRegionValue = regionInput.find(":selected").val();
-        var regionUrl = ( selectedRegionValue !== "*") ? "/" +  regionInput.attr('value') : "";
+        var selectedValue = regionInput.find(":selected").val();
+                    
+        var regionUrl = ( selectedValue !== "*") ? "/" +  selectedValue: "";
         
         return regionUrl;
 
