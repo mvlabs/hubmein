@@ -15,7 +15,7 @@ class Region
     /**
      * @var integer $id
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column( type="integer", nullable=false )
      * @ORM\Id
      */
     private $id;
@@ -23,14 +23,14 @@ class Region
     /**
      * @var string $name
      *
-     * @ORM\Column(name="name", type="string", length=100, nullable=false)
+     * @ORM\Column( type="string", length=100, nullable=false )
      */
     private $name;
 	
     /**
      * @var string $slug
      *
-     * @ORM\Column(name="slug", type="string", length=100, nullable=true)
+     * @ORM\Column( type="string", length=100, nullable=true )
      */
     private $slug;
 	

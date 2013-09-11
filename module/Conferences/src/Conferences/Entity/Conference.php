@@ -17,7 +17,7 @@ class Conference {
 	/**
 	 * @var integer $id
 	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
+	 * @ORM\Column(type="integer", nullable=false)
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="SEQUENCE")
 	 * @ORM\SequenceGenerator(sequenceName="event_id_seq", allocationSize=1, initialValue=1)
@@ -27,112 +27,112 @@ class Conference {
     /**
      * @var string $title
      *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $title;
 
     /**
      * @var string $abstract
      *
-     * @ORM\Column(name="abstract", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $abstract;
 
     /**
      * @var \DateTime $datefrom
      *
-     * @ORM\Column(name="datefrom", type="date", nullable=false)
+     * @ORM\Column(type="date", nullable=false)
      */
     private $datefrom;
 
     /**
      * @var \DateTime $dateto
      *
-     * @ORM\Column(name="dateto", type="date", nullable=false)
+     * @ORM\Column(type="date", nullable=false)
      */
     private $dateto;
     
     /**
      * @var date $earlybirduntil
      *
-     * @ORM\Column(name="earlybirduntil", type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $earlybirduntil;
     
     /**
      * @var string $address
      *
-     * @ORM\Column(name="address", type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $address;
 	
     /**
      * @var string $city
      *
-     * @ORM\Column(name="city", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $city;
 
     /**
      * @var string $venue
      *
-     * @ORM\Column(name="venue", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $venue;
 
     /**
      * @var string $averagedayfee
      *
-     * @ORM\Column(name="averagedayfee", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $averagedayfee;
 
     /**
      * @var string $website
      *
-     * @ORM\Column(name="website", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $website;
     
     /**
      * @var date $cfpclosingdate
      *
-     * @ORM\Column(name="cfpClosingDate", type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $cfpclosingdate;
     
     /**
      * @var string $hashtag
      *
-     * @ORM\Column(name="hashTag", type="string", length=30, nullable=true)
+     * @ORM\Column(type="string", length=30, nullable=true)
      */
     private $hashtag;
     
     /**
      * @var string $joindinid
      *
-     * @ORM\Column(name="joindinId", type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $joindinid;
     
     /**
      * @var string $contactemail
      *
-     * @ORM\Column(name="contactEmail", type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $contactemail;
     
     /**
      * @var string $twitteraccount
      *
-     * @ORM\Column(name="twitteraccount", type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $twitteraccount;
     
     /**
      * @var date $publicationDate
      *
-     * @ORM\Column(name="publicationDate", type="date", nullable=false)
+     * @ORM\Column(type="date", nullable=false)
      */
     private $publicationdate;
     
@@ -146,7 +146,7 @@ class Conference {
     /**
      * @var string $slug
      *
-     * @ORM\Column(name="slug", type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $slug;
     
@@ -178,7 +178,6 @@ class Conference {
      */
     private $isFeatured = false;
     
-
     /**
      * @var Conferences\Entity\Country
      *
@@ -218,9 +217,7 @@ class Conference {
                     
     }
         
-    /*
-     * Get country name
-     * 
+    /**
      * @return string 
      */
     public function getCountryName() 
@@ -232,9 +229,20 @@ class Conference {
         return $this->country->getName();
     }
     
-    /*
-     * Get region name
-     *
+    /**
+     * @return string
+     */
+    public function getRegionSlug()
+    {
+        if (!($this->country instanceof Country)) {
+            return '';
+        }
+    
+        return $this->country->getRegionSlug();
+        
+    }
+    
+    /**
      * @return string
      */
     public function getRegionName()
@@ -593,8 +601,7 @@ class Conference {
     {
         $this->isinternational = $isinternational;
     
-        return $this;
-    }
+     }
 
     /**
      * Get isinternational
@@ -606,17 +613,11 @@ class Conference {
         return $this->isinternational;
     }
 
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Event
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
     
-        return $this;
+    public function setSlug()
+    {
+        $this->slug = strtolower(str_replace(" ","-",$this->title));
+            
     }
 
     /**

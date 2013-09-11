@@ -17,7 +17,7 @@ class Tag
     /**
      * @var integer $id
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column( type="integer", nullable=false )
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="tag_id_seq", allocationSize=1, initialValue=1)
@@ -27,7 +27,7 @@ class Tag
     /**
      * @var string $name
      *
-     * @ORM\Column(name="name", type="string", length=100, nullable=false)
+     * @ORM\Column( type="string", length=100, nullable=false )
      */
     private $name;
     

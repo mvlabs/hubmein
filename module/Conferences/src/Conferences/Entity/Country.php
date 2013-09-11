@@ -15,7 +15,7 @@ class Country
     /**
      * @var integer $id
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="country_id_seq", allocationSize=1, initialValue=1)
@@ -25,21 +25,21 @@ class Country
     /**
      * @var string $code
      *
-     * @ORM\Column(name="code", type="string", length=2, nullable=false)
+     * @ORM\Column(type="string", length=2, nullable=false)
      */
     private $code;
 
     /**
      * @var string $name
      *
-     * @ORM\Column(name="name", type="string", length=100, nullable=false)
+     * @ORM\Column(type="string", length=100, nullable=false)
      */
     private $name;
     
     /**
      * @var string $slug
      *
-     * @ORM\Column(name="slug", type="string", length=100, nullable=false)
+     * @ORM\Column(type="string", length=100, nullable=false)
      */
     private $slug;
     
@@ -67,6 +67,10 @@ class Country
         $this->fillWith($data);
     } 
     
+    /**
+     * 
+     * @TOFIX this method should be removed
+     */
     public function fillWith($data)
     {
         $this->id   = (isset($data['id'])) ? $data['id'] : null;
@@ -76,8 +80,6 @@ class Country
     }
 
     /**
-     * Get id
-     *
      * @return integer 
      */
     public function getId()
@@ -86,8 +88,6 @@ class Country
     }
 
     /**
-     * Set code
-     *
      * @param string $code
      * @return Country
      */
@@ -99,8 +99,6 @@ class Country
     }
 
     /**
-     * Get code
-     *
      * @return string 
      */
     public function getCode()
@@ -109,8 +107,6 @@ class Country
     }
 
     /**
-     * Set name
-     *
      * @param string $name
      * @return Country
      */
@@ -122,8 +118,6 @@ class Country
     }
 
     /**
-     * Get name
-     *
      * @return string 
      */
     public function getName()
@@ -132,8 +126,6 @@ class Country
     }
     
     /**
-     * Set slug
-     *
      * @param string $slug
      * @return Country
      */
@@ -145,8 +137,6 @@ class Country
     }
     
     /**
-     * Get slug
-     *
      * @return string
      */
     public function getSlug()
@@ -155,8 +145,6 @@ class Country
     }
     
     /**
-     * Set region
-     *
      * @param Conferences\Entity\Region $region
      */
     public function setRegion(\Conferences\Entity\Region $region)
@@ -165,8 +153,6 @@ class Country
     }
     
     /**
-     * Get region
-     *
      * @return Conferences\Entity\Region
      */
     public function getRegion()
@@ -178,14 +164,20 @@ class Country
      * End of entity fields getters / setters
     */
     
-    /*
-     * Get region name
-    *
+    /**
     * @return string
     */
     public function getRegionName()
     {
         return $this->region->getName();
+    }
+    
+    /**
+     * @return string
+     */
+    public function getRegionSlug()
+    {
+        return $this->region->getSlug();
     }
     
 }
