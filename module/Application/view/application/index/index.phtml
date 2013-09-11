@@ -34,7 +34,7 @@
             <h2>Right now you should be on your way to:</h2>
           <?php 
           /* We can use a partial from another module here! */
-          echo $this->partial('partials/conference.phtml', array('conferences' => $this->conferences)); 
+          echo $this->partial('partials/conference_list.phtml', array('conferences' => $this->conferences)); 
           ?>
          <div class="more"><a href="/conferences" class="bigbutton">Find Out More Great Events...</a></div>
 		</div>
