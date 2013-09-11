@@ -1,0 +1,57 @@
+<?php 
+$this->headTitle($this->conference->getTitle());
+?>
+<div class="wrap">
+      <div class="full-width">
+        <div class="title-page">
+        <div class="border-bottom">
+          <hgroup class="clearfix">
+          <h2><strong><?php echo $this->conference->getTitle(); ?></strong></h2>
+          </hgroup>
+          </div>
+        </div>
+     
+        <section id="content" class="fl">
+        <div class="event-details">
+          <div class="event-logo"><figure><img src="/images/default_icon.jpg" alt="Logo" ></figure></div>
+          <div class="e-details">
+              <div class="meta">
+                  <span class="date"><?php echo $this->conference->getDatefrom()->format("d/m/Y"); ?> - <?php echo $this->conference->getDateto()->format("d/m/Y"); ?></span>
+                  <span class="location"><?php echo $this->conference->getCity(); ?>, <?php echo $this->conference->getCountryName(); ?></span>
+                  <span class="cost"><?php echo $this->cost($this->conference->getAveragedayfee()); ?></span>
+              </div>
+                <div>
+                  <h3>Abstract</h3>
+                  <p><?php echo $this->conference->getAbstract(); ?></p>
+                  <div class="other-info">
+                  	<p></p>
+                    <h3>Conference Website:</h3>
+                    <a href="<?php echo $this->conference->getWebsite(); ?>"><?php echo $this->conference->getWebsite(); ?></a>
+                   <h3>Hashtag:</h3>
+                    <a href="<?php echo $this->conference->getHashtag(); ?>"><?php echo $this->conference->getHashtag(); ?></a>
+                    <h3>Conference Twitter Account:</h3>
+                    <a href="<?php echo $this->conference->getTwitteraccount(); ?>"><?php echo $this->conference->getTwitteraccount(); ?></a>
+                  </div>
+                  <div class="tag">
+                        <?php
+                            if(sizeof($this->conference->getTags())):
+                                foreach($this->conference->getTags() as $tag):?>
+                              <a class="tagbutton" href="<?php echo $this->url("conferences")."?tags=".$tag->getName()?>"><?php echo $tag->getName()?></a>
+                         
+                       <?php  
+                               endforeach;                          
+                           endif;
+                        ?>
+                    </div>
+              </div>
+          </div><!-- END: event-details-->
+          <div class="clearfix"></div>
+     
+         </div>
+        </section>
+        <!-- END: content -->
+        <aside id="sidebar" class="fr">
+            <?php echo $this->tagList(); ?>
+        </aside>
+      </div>
+    </div>

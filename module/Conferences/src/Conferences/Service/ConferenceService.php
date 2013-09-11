@@ -49,12 +49,12 @@ class ConferenceService implements EventManagerAwareInterface {
      /**
      * Gets a specific Conference
      *
-     * @param int Conference Id
+     * @param string $slug
      * @return \Conferences\Entity\Conference 
      */
-    public function getConference( $id ) {
+    public function getConference( $slug ) {
        
-        return $this->conferenceMapper->getConference( $id );
+        return $this->conferenceMapper->getConference( $slug );
         
     }
     

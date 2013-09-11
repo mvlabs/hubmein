@@ -66,7 +66,18 @@ return array(
                             ),
                         ),
                     ),
-                  
+                    'detail' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/:region/:city/:slug',
+                            'defaults' => array(
+                                'action'        => 'detail',
+                                'region'        => ':region',
+                                'city'          => ':city',
+                                'slug'     => ':slug'
+                            ),
+                        )
+                    ),                  
                     'promote' => array(
                         'type'    => 'Literal',
                         'options' => array(

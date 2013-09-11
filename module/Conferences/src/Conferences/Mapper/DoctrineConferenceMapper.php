@@ -15,6 +15,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
  
     public function __construct( EntityManager $entityManager ) 
     {
+        
         $this->entityManager = $entityManager;
         $this->conferenceRepository = $this->entityManager->getRepository('Conferences\Entity\Conference');
         $this->countryRepository = $this->entityManager->getRepository('Conferences\Entity\Country');
@@ -24,18 +25,19 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
    /**
     * Gets an Conference
     *
-    * @param int Conference Id
+    * @param string $slug
     * @return \Conferences\Entity\Conference 
     */
-    public function getConference( $id ) {
+    public function getConference( $slug ) {
     	
-        $conference = $this->conferenceRepository->find($id);
+        $conference = $this->conferenceRepository->findOneBy( array("slug"=>$slug) );
         
         if (null == $conference) {
         	throw new \DomainException('No event with such ID here.');
         }
         
     	return $conference;
+        
     }
     
     

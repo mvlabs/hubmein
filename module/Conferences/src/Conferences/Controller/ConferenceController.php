@@ -77,6 +77,32 @@ class ConferenceController extends AbstractActionController
     }
     
     /**
+     * Pass to view a conference from a given id
+     * 
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function detailAction(){
+        
+        $requestSlug = $this->params('slug'); 
+             
+        if( isset($requestSlug) ) {
+            
+            $conference = $this->conferenceService->getConference( $requestSlug );
+            
+            $view = new ViewModel(array(
+               'conference'=>$conference 
+            ));
+           
+            return $view;
+            
+        }
+        
+        $this->getResponse()->setStatusCode(404);
+        return;
+        
+    }
+    
+    /**
      * Display conferences with a call for paper still active
      */
     public function showcallForPaperAction(){
