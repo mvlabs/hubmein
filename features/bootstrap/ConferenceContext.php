@@ -321,7 +321,7 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
         $conference->setContactemail($conferenceData['contactemail']);
         $conference->setTwitteraccount($conferenceData['twitteraccount']);
         $conference->setIsinternational($conferenceData['isinternational']);
-        $conference->setSlug($conferenceData['slug']);
+        $conference->setSlug();
         $conference->setDiscountForGroups($conferenceData['discountForGroups']);
         $conference->setDiscountForStudents($conferenceData['discountForStudents']);
         $conference->setIsVisible($conferenceData['isvisible']);
@@ -366,56 +366,53 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
         return array(
                   
              array(
-                "title"=>"ZendCon 2013",
-                "abstract"=>"Worlwide zend conference",
-                "datefrom"=>"04/10/2013",
-                "dateto"=>"06/10/2013",
-                "earlybirduntil"=>"05/10/2013",
-                "address"=>"Mocking bird avenue",
-                "city"=>"Los Angeles",
-                "averagedayfee"=>"300",
-                "website"=>"www.zendcon.com",
-                "cfpclosingdate"=>$currentDate->format("d/m/Y"),
-                "hashtag" => "",
-                "venue"=>"Hilton hotel",
-                "contactemail"=>"zendcon@conf.com",
-                "twitteraccount"=>"https://twitter.com/zendcon",
-                "isinternational"=>true,
-                "slug"=>"zendCon2013",
-                "discountForStudents"=>false,
-                "discountForGroups"=>true,
-                "publicationdate"=>"15/04/2013",
-                "isvisible"=>true,
-                "isfeatured" =>true,
-                "country" => 1,
-                "tags" =>array(1,2)
+                    "title"=>"ZendCon 2013",
+                    "abstract"=>"Worlwide zend conference",
+                    "datefrom"=>"04/10/2013",
+                    "dateto"=>"06/10/2013",
+                    "earlybirduntil"=>"05/10/2013",
+                    "address"=>"Mocking bird avenue",
+                    "city"=>"Los Angeles",
+                    "averagedayfee"=>"300",
+                    "website"=>"www.zendcon.com",
+                    "cfpclosingdate"=>$currentDate->format("d/m/Y"),
+                    "hashtag" => "",
+                    "venue"=>"Hilton hotel",
+                    "contactemail"=>"zendcon@conf.com",
+                    "twitteraccount"=>"https://twitter.com/zendcon",
+                    "isinternational"=>true,
+                    "discountForStudents"=>false,
+                    "discountForGroups"=>true,
+                    "publicationdate"=>"15/04/2013",
+                    "isvisible"=>true,
+                    "isfeatured" =>true,
+                    "country" => 1,
+                    "tags" =>array(1,2)
+                    ),
 
-                ),
-                     
-            array(
-                "title"=>"Agile Day 2013",
-                "abstract"=>"Conference organized for Fabio Armani",
-                "datefrom"=>"11/09/2013",
-                "dateto"=>"13/09/2013",
-                "earlybirduntil"=>"04/10/2013",
-                "address"=>"Mocking bird avenue",
-                "city"=>"Los Angeles",
-                "averagedayfee"=>"300",
-                "website"=>"www.agileday.com",
-                "cfpclosingdate"=>"14/05/2013",
-                "hashtag" => "",
-                "venue"=>"Hilton hotel",
-                "contactemail"=>"zendcon@conf.com",
-                "twitteraccount"=>"https://twitter.com/agileday",
-                "isinternational"=>true,
-                "slug"=>"zendCon2013",
-                "discountForStudents"=>false,
-                "discountForGroups"=>true,
-                "publicationdate"=>"15/04/2013",
-                "isvisible"=>true,
-                "isfeatured" =>true,
-                "country" => 3,
-                "tags" =>array(3,4)
+                array(
+                    "title"=>"Agile Day 2013",
+                    "abstract"=>"Conference organized for Fabio Armani",
+                    "datefrom"=>"11/09/2013",
+                    "dateto"=>"13/09/2013",
+                    "earlybirduntil"=>"04/10/2013",
+                    "address"=>"Mocking bird avenue",
+                    "city"=>"Los Angeles",
+                    "averagedayfee"=>"300",
+                    "website"=>"www.agileday.com",
+                    "cfpclosingdate"=>"14/05/2013",
+                    "hashtag" => "",
+                    "venue"=>"Hilton hotel",
+                    "contactemail"=>"zendcon@conf.com",
+                    "twitteraccount"=>"https://twitter.com/agileday",
+                    "isinternational"=>true,
+                    "discountForStudents"=>false,
+                    "discountForGroups"=>true,
+                    "publicationdate"=>"15/04/2013",
+                    "isvisible"=>true,
+                    "isfeatured" =>true,
+                    "country" => 3,
+                    "tags" =>array(3,4)
 
                 ),
                 array(
@@ -435,7 +432,6 @@ class ConferenceContext extends BehatContext implements Zf2AwareContextInterface
                     "contactemail"=>"phpday@test.it",
                     "twitteraccount"=>"https://twitter.com/phpday",
                     "isinternational"=>true,
-                    "slug"=>"phpday2014",
                     "discountForStudents"=>false,
                     "discountForGroups"=>true,
                     "publicationdate"=>"20/10/2013",
