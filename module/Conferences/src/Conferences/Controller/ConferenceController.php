@@ -53,6 +53,7 @@ class ConferenceController extends AbstractActionController
         $this->conferenceService = $conferenceService;
         $this->promoteForm = $promoteForm;
         $this->tagService = $tagService;
+        
     }
     
     /**

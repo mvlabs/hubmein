@@ -22,11 +22,9 @@ class ConferenceControllerFactory implements FactoryInterface {
 	    $conferenceService = $serviceLocator->getServiceLocator()->get( 'Conferences\Service\ConferenceService' );
 	    $regionService = $serviceLocator->getServiceLocator()->get( 'Conferences\Service\RegionService' );
             $tagService = $serviceLocator->getServiceLocator()->get( 'Conferences\Service\TagService' );
-            
-	    //@TODO why $regionService is not injected in the form constructor?
+            	    
 	    $countries = $regionService->getListAsArray();
 	    $promoteForm = new Promote( $countries );
-	    
 	    $formFilter = new PromoteFilter();
 	    $promoteForm->setInputFilter( $formFilter );
 	    

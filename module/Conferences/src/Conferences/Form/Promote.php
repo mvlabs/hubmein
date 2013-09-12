@@ -9,6 +9,8 @@ use Zend\Form\Form,
     Zend\Form\Element\Textarea,
     Zend\Form\Element\Text,
     Zend\Form\Element\Csrf,
+    Zend\Form\Element\File,
+    Zend\Form\Element\Date,
     Zend\Validator;
 
 class Promote extends Form {
@@ -22,12 +24,14 @@ class Promote extends Form {
         $defaultFont = 'arial.ttf';
         
         $email = new Email('email');
-        $email->setName('email')
-              ->setLabel('Your Email*')
+        $email->setLabel('Your Email*')
               ->setAttributes(array(
+                  'multiple'=>true,
                  'id'=>'email',
-                 'type'=>'text'
-              ));
+                 'type'=>'text',
+              ))->setValidator(new Validator\EmailAddress(array("message"=>"wrong mail format")));
+        
+        
         
         $title = new Text('title');
         $title->setLabel("Conference name*")
@@ -36,7 +40,7 @@ class Promote extends Form {
                     'id'    => 'title',
                ));
         
-        $dateFrom = new Text('datefrom');
+        $dateFrom = new Date('datefrom');
         $dateFrom->setLabel("From*")
                  ->setName('dateFrom')
                  ->setAttributes( array(
@@ -45,7 +49,7 @@ class Promote extends Form {
                     'class'=>'datepicker'
                  ));
         
-        $dateTo = new Text('dateto');
+        $dateTo = new Date('dateto');
         $dateTo->setLabel("To*")
                  ->setName('dateTo')
                  ->setAttributes( array(
@@ -77,6 +81,64 @@ class Promote extends Form {
                     'id' => 'tag',
                     'maxLength'=>'200'
                  ));
+         
+        $address = new Text('address');
+        $address->setLabel('Address')
+                ->setName('address')
+                ->setAttributes( array(
+                   'id' => 'address',
+                   'maxLength' => '200'
+                ));
+        
+        $country = new Text('country');
+        $country->setLabel('country')
+                ->setName('address')
+                ->setAttributes( array(
+                   'id' => 'address',
+                   'maxLength' => '200'
+                ));
+        
+        $city = new Text('city');
+        $city->setLabel('City')
+                ->setName('city')
+                ->setAttributes( array(
+                   'id' => 'city',
+                   'maxLength' => '200'
+                ));
+        
+        $venue = new Text('venue');
+        $venue->setLabel('Venue')
+              ->setName('venue')
+              ->setAttributes( array(
+                 'id' => 'venue',
+                  'maxLength' => '200'
+                  
+              ));
+        
+        $twitterAccount = new Text('twitteraccount');
+        $twitterAccount->setLabel('Twitter Account')
+              ->setName('twitteraccount')
+              ->setAttributes( array(
+                 'id' => 'twitter-account',
+                  'maxLength' => '200'
+                  
+              ));
+                
+       $twitterHashTag = new Text('twitterhashtag');
+       $twitterHashTag->setLabel('Twitter Hashtag')
+              ->setName('twitterhashtag')
+              ->setAttributes( array(
+                 'id' => 'twitter-hashtag',
+                 'maxLength' => '200'
+              ));
+       
+       $logo = new File('image-file');
+       $logo->setLabel('Upload Logo')
+              ->setName('logo')
+              ->setAttributes( array(
+                 'id' => 'conferencelogo',
+              ));
+       
         
         $captchaImg = new CaptchaImage( array(
             'font'=>$dataFolder.DIRECTORY_SEPARATOR.$defaultFont,
@@ -88,6 +150,7 @@ class Promote extends Form {
         
         $captcha = new Captcha('captcha');
         $captcha->setCaptcha($captchaImg);
+                
                                                 
         $csrf = new Csrf('security');
         $csrf->setOptions(array(
@@ -95,7 +158,7 @@ class Promote extends Form {
                'timeout'=>600
            ) 
         ));
-        
+               
         $submit = new Text('submit');
         $submit->setValue('Submit Conference')
                ->setAttributes(array(
@@ -111,57 +174,17 @@ class Promote extends Form {
         $this->add($webSite);
         $this->add($description);
         $this->add($tags);
+        $this->add($country);
+        $this->add($city);
+        $this->add($venue);
+        $this->add($address);
+        $this->add($twitterAccount);
+        $this->add($twitterHashTag);
+        $this->add($logo);
         $this->add($captcha);
         $this->add($csrf);
+        $this->add($logo);    
         $this->add($submit);
-        
-        /*
-        $this->add(array(
-        		'name' => 'venue',
-        		'attributes' => array(
-        				'id'    => 'venue',
-        				
-        		),
-        		'options' => array(
-        				'label' => 'Venue*',
-        		),
-        ));
-        
-        $this->add(array(
-        		'name' => 'city',
-        		'attributes' => array(
-        				'id'    => 'city',
-        				
-        		),
-        		'options' => array(
-        				'label' => 'City*',
-        		),
-        ));
-        
-        $this->add(array(
-        		'name' => 'country',
-        		'attributes' => array(
-        				'id'    => 'city',
-        				'type'  => 'select',
-        		),
-        		'type' => 'Zend\Form\Element\Select',
-        		'options' => array(
-        				'label' => 'Country*',
-        				'empty_option' => 'Please choose...',
-        				'value_options' => $countryList
-        				),
-        		)
-        );
-       
-        $this->add(array(
-        		'name' => 'averagedayfee',
-        		'attributes' => array(
-        				'id'    => 'averagedayfee',
-        				
-        		),
-        		'options' => array(
-        				'label' => 'Avg Daily Fee',
-        		),
-        ));*/
+               
     }	  
 }
