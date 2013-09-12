@@ -168,7 +168,23 @@ return array(
                                     ),
                                 ),
                             ),
+                            
+                            // Conference image
+                            'image' => array(
+                                'type' => 'Zend\Mvc\Router\Http\Segment',
+                                'options' => array(
+                                    'route'    => '/image/:id',
+                                    'constraints' => array(
+                                        'id'         => '[0-9]*',
+                                    ),
+                                    'defaults' => array(
+                                        'action'     => 'image',
+                                    ),
+                                ),
+                            ),
+                            
                         ),
+                        
                     ),
                     
                     'tags' => array(

@@ -10,6 +10,7 @@ use Zend\Mail\Message as Message;
 use Conferences\Service\ConferenceService;
 
 use Conferences\Form\Conference as ConferenceForm;
+use Conferences\Form\ConferenceImage as ConferenceImageForm;
 
 use Conferences\Entity\Conference;
 
@@ -22,6 +23,13 @@ class AdminConferenceController extends AbstractActionController
      * @var \Zend\Form\Form
      */
     private $form;
+    
+    /**
+     * Conference image handling Form 
+     *  
+     * @var \Zend\Form\Form
+     */
+    private $imageForm;
     
     /**
      * Main service for handling conferences (IE conferences)
@@ -37,9 +45,10 @@ class AdminConferenceController extends AbstractActionController
      * @param \Conferences\Service\ConferenceService $conferenceService
      * @param \Zend\Form\Form $promoteForm
      */
-    public function __construct(ConferenceService $conferenceService, ConferenceForm $form) {
+    public function __construct(ConferenceService $conferenceService, ConferenceForm $form, ConferenceImageForm $imageForm) {
         $this->conferenceService = $conferenceService;
         $this->form = $form;
+        $this->imageForm = $imageForm;
     }
     
     /**
@@ -103,6 +112,60 @@ class AdminConferenceController extends AbstractActionController
         
         return $this->redirect()->toRoute('zfcadmin/conferences');
     }
+    
+    public function imageAction() {
+        $conference = $this->getConferenceFromQuery();
+        
+        $form = $this->imageForm;
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            
+            // Merge data received from form
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+
+            $form->setData($post);
+            if ($form->isValid()) {
+                
+                // Configure adapter to save image
+                $adapter = new \Zend\File\Transfer\Adapter\Http(); 
+                $adapter->setDestination('./public/confimages/');
+
+                // retrieve uploaded file info
+                $receivedFiles = $adapter->getFileInfo();
+                $receivedFile = $receivedFiles[0];  
+
+                // add filter to rename uploaded file
+                $adapter->addFilter('File\Rename',
+                                    array('target' => $adapter->getDestination() . '/' . $conference->getId() . '.jpg',
+                                          'overwrite' => true));
+
+                // receive and store file
+                if ($adapter->receive($receivedFile['name'])) {
+                    $adapter->getFilter('File\Rename')->getFile();
+                    
+                    // redirect to confernce list
+                    return $this->redirect()->toRoute('zfcadmin/conferences');
+                
+                } else {
+                    // an error has occurred
+                    $form->setMessages(array('image' => array('An error has occurred during file upload')));
+                }
+                
+            }
+        }
+
+        
+        $view = new ViewModel(array('form' => $this->imageForm,
+                                    'conference' => $conference));
+        
+        return $view;
+    }
+    
+    
     
     
     /*
