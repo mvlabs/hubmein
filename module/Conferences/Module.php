@@ -117,7 +117,9 @@ class Module implements ViewHelperProviderInterface
 			'invokables' => array( 
                             
 			    'cost' => 'Conferences\View\Helper\DisplayCost',
-                            'plurify'=>'Conferences\View\Helper\Plurify'
+                            'plurify'=>'Conferences\View\Helper\Plurify',
+                            'renderFormRow'=>'Conferences\View\Helper\RenderFormRow',
+                            'formelementerrors' => 'Conferences\Form\View\Helper\PromoteFormElementError'
 			),
                         'factories' => array(
                             
