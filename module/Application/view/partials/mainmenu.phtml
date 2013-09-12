@@ -2,12 +2,13 @@
     <?php
     
     $currentDate = strtolower(date('F-Y'));
+    
     foreach($this->container as $page){
-        
-        $params = $page->getParams();
-        $dateGetFilter = ($params['hasDate'])?"?period=".$currentDate:"";
-        
-        echo "<li><a href='".$page->getRoute().$dateGetFilter."'>".$page->getLabel()."</a></li>";
+           
+        $periodFilter = ($page->hasDate) ? "?period=" . $currentDate : "";
+        $active = ($page->isActive()) ? "class='current'" : "";
+                
+        echo "<li " . $active . "><a href='" . $page->getHref() . $periodFilter . "'>" . $page->getLabel() . "</a></li>";
         
      } ?>
 </ul>

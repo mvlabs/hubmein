@@ -39,7 +39,7 @@ echo $this->headLink()->prependStylesheet('/css/open-sans/stylesheet.css')
     <div class="wrap">
       <h1 id="logo"><a href="<?php echo $this->url('home'); ?>"></a></h1>
       <nav>
-      <?php $this->partial('partials/mainmenu.phtml'); ?>
+      <?php //@TOFIX $this->partial('partials/mainmenu.phtml'); ?>
       <?php
         $this->navigation('navigation')->menu()->setPartial(array('partials/mainmenu.phtml','default'));
           echo $this->navigation('navigation')->menu()->render();  
