@@ -22,22 +22,49 @@
                 'class'=>'promote-form'  )
              );
             $this->form->prepare();
-             
+
             echo $this->form()->openTag($this->form); 
-            ?>
-       
+            //@TOFIX writing <?php echo instead <?= we wrote 112 more character
+        ?>
+        
+        <div><?php echo $this->renderFormRow('email',$this->form); ?></div>
+        <div><?php echo $this->renderFormRow('title',$this->form); ?></div>
+        <div><?php echo $this->renderFormRow('dateFrom',$this->form); ?></div>
+        <div><?php echo $this->renderFormRow('dateTo',$this->form); ?></div>
+        <div><?php echo $this->renderFormRow('mainsite',$this->form); ?></div>
+        <div><?php echo $this->renderFormRow('abstract',$this->form); ?></div>
+        <div><?php echo $this->renderFormRow('tags',$this->form); ?></div>
+        <div class="extra">
+            <div><?php echo $this->renderFormRow('address',$this->form); ?></div>
+            <div><?php echo $this->renderFormRow('city',$this->form) ?></div>
+            <div><?php echo $this->renderFormRow('venue',$this->form) ?></div>
+            <div><?php echo $this->renderFormRow('twitteraccount',$this->form) ?></div>
+            <div><?php echo $this->renderFormRow('twitterhashtag',$this->form) ?></div>
+            <div><?php echo $this->renderFormRow('logo',$this->form) ?></div>
+        </div>
+        <div class="centered"><?php echo $this->renderFormRow('captcha',$this->form) ?></div>
+        <div class="centered refreshcaptcha">
+            <span>Unreadable Code? Click here to generate a new one</span>
+        </div>
+        <div class="centered"><?php echo $this->renderFormRow('submit',$this->form) ?></div>
+        <?php echo $this->form()->closeTag($this->form); ?>
+    </section>
         <?php
+            /*TOFIX this way to handle a form is only overhead  and it's too much logic to handle in a view
            foreach($this->form->getElements() as $element) {
                
                $elementName = $element->getName();
+               $classAttrib = "";
                
                switch($elementName){
                    
                    case "dateFrom":
-                       echo "<div class='date from'>". $this->formRow($element) ."</div>" ;
-                       break;
                    case "dateTo":
-                       echo "<div class='date'>". $this->formRow($element) ."</div>" ;
+                       $classAttrib = "class='date";
+                       break;
+                   case "address":
+                       echo "<div id='extra'>".
+                            "<div>". $this->formRow($element) ."</div>" ;
                        break;
                    case "captcha":
                    case "submit":
@@ -46,24 +73,27 @@
                    default:
                        echo "<div>". $this->formRow($element) ."</div>" ;
                        break;
+                   
+                   echo "<div>". $this->formRow($element) ."</div>" ;
+                   
                 }
-               
-               
-               
+                         
            } 
-           /*
-            $elements = $this->form->getElements();
-            foreach($elements as $element) { 
-                echo '<div>' . $this->formRow($element) . '</div>' . "\n";
-            } 
-           */
-           echo $this->form()->closeTag($this->form); 
+           */        
         ?>
-    	</form>
-    </section>
     <!-- END: content -->
     <aside id="sidebar" class="fr">
-        
+        <div class="rounded-box-title box">
+            <div class="title">
+                <h3>Does it seem complex?</h3>
+            </div>
+            <div class="box-inner">
+                <p> Only fields marked with an * are mandatory (there are just 5 of them). You still don't like this form? We'll be happy to fix it. Just... </p>
+                <p class="more-wrap">
+                    <a class="more" href="/feedback">Let us know</a>
+                </p>
+            </div>
+        </div>
     </aside>
   </div>
 </div>
