@@ -6,7 +6,9 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Conferences\Form\Conference as ConferenceForm,
+    Conferences\Form\ConferenceImage as ConferenceImageForm,
     Conferences\Form\ConferenceFilter,
+    Conferences\Form\ConferenceImageFilter,
     Conferences\Controller\AdminConferenceController;
 
 class AdminConferenceControllerFactory implements FactoryInterface {
@@ -30,9 +32,15 @@ class AdminConferenceControllerFactory implements FactoryInterface {
 	    
 	    $formFilter = new ConferenceFilter();
 	    $form->setInputFilter($formFilter);
+        
+        // Create form for image upload
+        $imageForm = new ConferenceImageForm();
+        
+        $imageFormFilter = new ConferenceImageFilter();
+	    $imageForm->setInputFilter($imageFormFilter);
 	    
 	    // Controller is constructed, dependencies are injected (IoC in action)
-	    $controller = new AdminConferenceController($eventService, $form); 
+	    $controller = new AdminConferenceController($eventService, $form, $imageForm); 
 	    
 	    return $controller; 
 		
