@@ -151,6 +151,9 @@
 
         regionInput.parent('div').hide();
         periodInput.parent('div').hide();
+        $(topicsElement).parent('div').hide();
+        resetSearchButton.hide();
+        
         form.find(":submit").hide();
         
         submitLoaderImg.show();
