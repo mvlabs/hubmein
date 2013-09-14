@@ -26,7 +26,7 @@ class CaptchaService {
         
         $captchaData = array();
         $captchaData['id'] = $this->captcha->generate();
-        $captchaData['src'] = $this->captcha->getImgUrl().
+        $captchaData['href'] = $this->captcha->getImgUrl().
                               $this->captcha->getId().
                               $this->captcha->getSuffix();
                            
