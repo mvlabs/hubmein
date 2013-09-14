@@ -44,43 +44,11 @@
         </div>
         <div class="centered"><?php echo $this->renderFormRow('captcha',$this->form) ?></div>
         <div class="centered refreshcaptcha">
-            <span>Unreadable Code? Click here to generate a new one</span>
+            <span><a class="refresh-captcha" href="<?php echo $this->url("form-operations")?>">Unreadable Code? Click here to generate a new one</a></span>
         </div>
         <div class="centered"><?php echo $this->renderFormRow('submit',$this->form) ?></div>
         <?php echo $this->form()->closeTag($this->form); ?>
     </section>
-        <?php
-            /*TOFIX this way to handle a form is only overhead  and it's too much logic to handle in a view
-           foreach($this->form->getElements() as $element) {
-               
-               $elementName = $element->getName();
-               $classAttrib = "";
-               
-               switch($elementName){
-                   
-                   case "dateFrom":
-                   case "dateTo":
-                       $classAttrib = "class='date";
-                       break;
-                   case "address":
-                       echo "<div id='extra'>".
-                            "<div>". $this->formRow($element) ."</div>" ;
-                       break;
-                   case "captcha":
-                   case "submit":
-                       echo "<div class='centered'>". $this->formRow($element) ."</div>" ;
-                       break;
-                   default:
-                       echo "<div>". $this->formRow($element) ."</div>" ;
-                       break;
-                   
-                   echo "<div>". $this->formRow($element) ."</div>" ;
-                   
-                }
-                         
-           } 
-           */        
-        ?>
     <!-- END: content -->
     <aside id="sidebar" class="fr">
         <div class="rounded-box-title box">

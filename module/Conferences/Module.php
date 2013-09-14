@@ -91,7 +91,7 @@ class Module implements ViewHelperProviderInterface
         return array(
             'factories' => array(
                 'Conferences\Controller\Conference' => 'Conferences\Controller\ConferenceControllerFactory',
-                
+                'Conferences\Controller\FormOperations'=>'Conferences\Controller\FormOperationsControllerFactory',
                 // Admin controllers
                 'Conferences\Controller\AdminConference' => 'Conferences\Controller\AdminConferenceControllerFactory',
                 'Conferences\Controller\AdminTags' => 'Conferences\Controller\AdminTagsControllerFactory',

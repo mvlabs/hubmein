@@ -129,6 +129,18 @@ return array(
                     ),
                 ),
              ),
+            
+            'form-operations'=>array(
+                'type'=>'Literal',
+                'options'=> array(
+                    'route'=>'/conferences/generateCaptcha',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Conferences\Controller',
+                        'controller'    => 'FormOperations',
+                        'action'        => 'generateCaptcha'
+                    )
+                 )
+            ),
              
             'zfcadmin' => array(
                 'child_routes' => array(
@@ -217,7 +229,7 @@ return array(
          
       ),
     ),
-    
+     
     // Admin panel navigation
     'navigation' => array(
         'admin' => array(
