@@ -10,6 +10,7 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.4",
+        "zendframework/zendservice-recaptcha": "2.*",
         "doctrine/doctrine-orm-module": "0.*",
         "zendframework/zend-developer-tools": "dev-master",
         "zf-commons/zfc-admin": "0.1.1",
@@ -29,7 +30,7 @@
         "mockery/mockery": "dev-master@dev",
         "phpunit/phpunit": "3.7.*",
         "mockery/mockery": "dev-master@dev",
-        "mvlabs/zf2behat-extension" : "0.5"
+        "mvlabs/zf2behat-extension" : "dev-master"
     },
             
     "config":{
