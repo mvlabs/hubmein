@@ -28,3 +28,7 @@ vendor
 /public/images/captcha/e4f32da603c178bfe97ebe8ed1421cfe.png
 /public/images/captcha/9918551206d857a4091420891add702a.png
 /public/images/captcha/8d1eb8994ac0459a92ba10d0201e2bde.png
+/bin/
+/build.xml
+/data/sql/
+/behat.yml
