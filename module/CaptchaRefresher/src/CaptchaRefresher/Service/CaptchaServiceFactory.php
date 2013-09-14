@@ -17,7 +17,7 @@ class CaptchaServiceFactory implements FactoryInterface{
     
     public function createService(ServiceLocatorInterface $service) {
         
-        $captcha = $service->get('captcha');
+        $captcha = $service->get('captcha.factory');
         return new CaptchaService($captcha);
         
     }    
