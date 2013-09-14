@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<phpunit bootstrap="Bootstrap.php" colors="true" backupGlobals="false" backupStaticAttributes="false" syntaxCheck="false">
+    <testsuites>
+        <testsuite name="sites">
+            <directory suffix="Test.php">./</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>    
+           <directory suffix=".php">module/CaptchaRefresher/src/CaptchaRefresher/Controller</directory>
+            <directory suffix=".php">module/CaptchaRefresher/src/CaptchaRefresher/Service</directory>
+           
+        </whitelist>
+        
+    </filter>
+   <listeners>  
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"  
+            file="../../../vendor/mockery/mockery/library/Mockery/Adapter/Phpunit/TestListener.php"></listener>  
+    </listeners> 
+</phpunit>

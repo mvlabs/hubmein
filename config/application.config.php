@@ -15,6 +15,7 @@ return array(
          // our app modules
         'Conferences',
         'Application',
+        'CaptchaRefresher'
         
     ),
 
