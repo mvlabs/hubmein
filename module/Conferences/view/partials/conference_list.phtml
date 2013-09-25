@@ -23,7 +23,9 @@ foreach ($this->conferences as $conference) { ?>
             </figure>
             <div class="event-info">
                     <h3>
-                        <a href="/controller?id=<?php echo $conference->getId(); ?>"><?php echo $conference->getTitle(); ?></a>
+                        <a href="<?php echo $this->url("conferences/detail",array("controller"=>"conference","action"=>"detail","region"=>$conference->getRegionSlug(),"city"=>$conference->getCountrySlug(),"slug"=>$conference->getSlug()))?>">
+                            <?php echo $conference->getTitle(); ?>
+                       </a>
                     </h3>
                     <div class="meta"><?php echo $conference->getDatefrom()->format("d/m/Y"); ?> - <?php echo $conference->getDateto()->format("d/m/Y"); ?> 
                         <strong>(<?php echo $conference->getCity(); ?>, <?php echo $conference->getCountryName(); ?>, <?php echo $conference->getRegionName(); ?>)</strong>
