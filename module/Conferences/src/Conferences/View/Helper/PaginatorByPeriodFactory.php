@@ -18,7 +18,7 @@ class PaginatorByPeriodFactory implements FactoryInterface{
         
         $eventService = $serviceLocator->getServiceLocator()->get("conference.service");
         
-       return new PaginatorByPeriod( $eventService );
+       return new PaginatorByPeriod($eventService);
         
     }   
     

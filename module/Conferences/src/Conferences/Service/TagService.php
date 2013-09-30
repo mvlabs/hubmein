@@ -2,16 +2,8 @@
 
 namespace Conferences\Service;
 
-
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\EventManager;
-use Zend\EventManager\EventManagerAwareInterface;
-
 use Conferences\Entity\Tag,
     Conferences\Mapper\TagMapperInterface;
-
 
 /**
  * Handles interaction with tags
@@ -22,15 +14,17 @@ use Conferences\Entity\Tag,
 class TagService {
          
     private $tagMapper;
+    
     /**
      * @param \Conferences\Mapper\TagMapper Event Mapper
      */
-    public function __construct( TagMapperInterface $tagMapper ) {
+    public function __construct(TagMapperInterface $tagMapper) {
 
        $this->tagMapper = $tagMapper;
 
     }
 
+    
     /**
      * Gets a specific Tag
      *
@@ -42,7 +36,8 @@ class TagService {
        return $this->tagMapper->getTag($id);
 
      }  
-	
+
+     
     /**
      * Get Tag List
      *
@@ -54,6 +49,7 @@ class TagService {
         
     }
     
+    
     /**
      * Gets the list of tags in the form of array
      */
@@ -62,14 +58,15 @@ class TagService {
         return $this->tagMapper->getTagListAsArray();
         
     }
-        
+    
+    
     /**
      * Inserts or updates a tag from array data
      *
      * @param array $formData
      * @return \Conferences\Entity\Tag
      */
-    public function upsertTag( Tag $tag ) {
+    public function upsertTag(Tag $tag) {
                             
         $this->tagMapper->saveTag($tag);
         
@@ -77,22 +74,23 @@ class TagService {
         
     }
     
+    
     /**
      * Removes a tag from db
      * 
      * @param \Conferences\Entity\Tag $tag
      */
-    public function removeTag( Tag $tag ) {
+    public function removeTag(Tag $tag) {
         
         $this->tagMapper->removeTag($tag);
         
     }
     
-    public function fetchAllPopularTag( $activeCfps ){
+    
+    public function fetchAllPopularTag($activeCfps) {
         
-        return $this->tagMapper->fetchAllPopularTag( $activeCfps );
+        return $this->tagMapper->fetchAllPopularTag($activeCfps);
         
     }
     
-
 }

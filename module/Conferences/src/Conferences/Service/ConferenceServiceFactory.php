@@ -8,8 +8,11 @@ use Zend\ServiceManager\FactoryInterface,
 use Conferences\Service\ConferenceService;
 
 class ConferenceServiceFactory implements FactoryInterface {
-
     
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @return \Conferences\Service\ConferenceService
+     */
 	public function createService(ServiceLocatorInterface $serviceLocator) {
             
            $mapper = $serviceLocator->get('Conferences\Mapper\ConferenceMapper');
@@ -17,6 +20,5 @@ class ConferenceServiceFactory implements FactoryInterface {
            return new ConferenceService($mapper);
 		
 	}
-        
-
+  
 }

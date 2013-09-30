@@ -11,8 +11,7 @@ use Conferences\Form\Tag as TagForm,
     Conferences\Entity\Tag,
     Conferences\Service\TagService;
 
-class AdminTagsController extends AbstractActionController
-{
+class AdminTagsController extends AbstractActionController{
     
     /**
      * Tag creation and edit Form 
@@ -33,7 +32,7 @@ class AdminTagsController extends AbstractActionController
      * @param \Conferences\Service\TagService $tagService
      * @param \Zend\Form\Tag $form
      */
-    public function __construct( TagService $tagService,TagForm $form ) {
+    public function __construct(TagService $tagService,TagForm $form) {
        
         $this->tagService = $tagService;
         $this->form = $form;
@@ -123,7 +122,12 @@ class AdminTagsController extends AbstractActionController
      * Private methods
      */
     
-    private function processForm( Tag $tag ) {
+    /**
+     * 
+     * @param \Conferences\Entity\Tag $tag
+     * @return \Zend\View\Model\ViewModel
+     */
+     private function processForm(Tag $tag) {
         
         if ($this->request->isPost()) {
             
@@ -158,6 +162,11 @@ class AdminTagsController extends AbstractActionController
                 
     }
     
+    /**
+     * 
+     * @return Tag
+     * @throws \Exception
+     */
     private function getTagFromQuerystring() {
     
         $id = (int)$this->params('id');

@@ -3,21 +3,18 @@
 namespace Conferences\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController,
-    Zend\View\Model\ViewModel,
-    Zend\Form\Form;
+    Zend\View\Model\ViewModel;
+    
 
-use Conferences\Service\ConferenceService,
-    Conferences\Service\RegionService,
-    Conferences\Service\TagService;
+use Conferences\Service\ConferenceService;
     
 use Conferences\DataFilter\RequestBuilder,
     Zend\View\Model\JsonModel;
 
-use Zend\Mail\Transport;
-use Zend\Mail\Message as Message;
+use Conferences\Form\Promote as PromoteForm;
 
-class ConferenceController extends AbstractActionController
-{
+
+class ConferenceController extends AbstractActionController {
     
     /**
      * Conference creation Form 
@@ -32,28 +29,18 @@ class ConferenceController extends AbstractActionController
      * @var \Conferences\Service\ConferenceService
      */
     private $conferenceService;
-    
+      
     /**
-     *
-     * @var \Conferences\Service\RegionService 
-     */
-    private $regionService;
-    
-    /**
-     * Class constructor
-     * 
      * @param \Conferences\Service\ConferenceService $conferenceService
      * @param \Zend\Form\Form $promoteForm
      * @param \Conferences\Service\RegionService
      * @param \Conferences\Service\TagService
      */
-    public function __construct( ConferenceService $conferenceService,RegionService $regionService, TagService $tagService, Form $promoteForm ) {
-       
-        $this->regionService = $regionService;
+    public function __construct(ConferenceService $conferenceService, PromoteForm $promoteForm) {
+             
         $this->conferenceService = $conferenceService;
         $this->promoteForm = $promoteForm;
-        $this->tagService = $tagService;
-        
+             
     }
     
     /**
@@ -61,10 +48,9 @@ class ConferenceController extends AbstractActionController
      * 
      * @return \Zend\View\Model\ViewModel
      */
-    public function indexAction()
-    {
+    public function indexAction() {
             
-        $conferences = $this->conferenceService->fetchAllByFilter( $this->buildRequest() );
+        $conferences = $this->conferenceService->fetchAllByFilter($this->buildRequest());
         $periodParam = $this->params()->fromQuery("period");
         $conferencesCount = $this->countByFilter();
               
@@ -88,7 +74,7 @@ class ConferenceController extends AbstractActionController
              
         if( isset($requestSlug) ) {
             
-            $conference = $this->conferenceService->getConference( $requestSlug );
+            $conference = $this->conferenceService->getConference($requestSlug);
             
             $view = new ViewModel(array(
                'conference'=>$conference 
@@ -184,7 +170,7 @@ class ConferenceController extends AbstractActionController
     }
     
     /**
-     * Thank you action
+     * Thank you 
      * 
      * After form has been submitted, user is sent here, so that 
      * a refresh user action won't harm model
@@ -199,7 +185,7 @@ class ConferenceController extends AbstractActionController
     
     
     /**
-     * Search conferences action
+     * Search conferences 
      * 
      * Retrieves conferences list according to the filters the user have defined 
      * 
@@ -218,7 +204,7 @@ class ConferenceController extends AbstractActionController
     }
     
     /**
-     * Search conferences action
+     * Search conferences 
      * 
      * Retrieves conferences list according to the filters the user have defined 
      * 
@@ -249,7 +235,7 @@ class ConferenceController extends AbstractActionController
      */
     private function countByFilter() {
        
-       return $this->conferenceService->countByFilter( $this->buildRequest() );
+       return $this->conferenceService->countByFilter($this->buildRequest());
         
     }
 
@@ -259,7 +245,7 @@ class ConferenceController extends AbstractActionController
      */
     private function buildRequest() {
                   
-        return  RequestBuilder::createObjFromArray( $this->mergeRequest() );
+       return  RequestBuilder::createObjFromArray($this->mergeRequest());
         
     }
     

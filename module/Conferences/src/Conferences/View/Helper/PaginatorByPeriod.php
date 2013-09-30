@@ -16,40 +16,40 @@ use Conferences\Service\ConferenceService;
  * @link http://www.mvassociates.it
  */
 class PaginatorByPeriod extends AbstractHelper implements DispatchRouteViewInterface {
-    
-    const CFPS = "cfps";
+        
     const DEFAULT_PERIOD_KEY = "month_year";
+   
     /**
-     *
-     * @var \Conferences\Service\ConferencesService
+     * @var \Conferences\Service\ConferenceService
      */
-    private $eventService;
+    private $conferenceService;
+    
     /**
-     *
      * @var string
      */
     protected $routeName; 
     
+    
     /**
-     * 
      * @param \Conferences\Service\ConferenceService $eventService
      */
-    public function __construct( ConferenceService $eventService ) {
+    public function __construct(ConferenceService $conferenceService) {
         
-        $this->eventService = $eventService;
+        $this->conferenceService = $conferenceService;
                 
     }
+    
     
     /**
      * 
      * @param string $periodParam
      * @return string
      */
-    public function __invoke( $periodParam ) {
+    public function __invoke($periodParam) {
              
         if($periodParam) {
             
-            $periods = $this->eventService->fetchAllPeriodByRoute( $this->routeName );
+            $periods = $this->eventService->fetchAllPeriodByRoute($this->routeName);
             $dateTimeFromParam = new \DateTime($periodParam);
             $html = "<div class='pagination'>";
 
@@ -80,15 +80,17 @@ class PaginatorByPeriod extends AbstractHelper implements DispatchRouteViewInter
         }
     }
     
+    
     public function setRouteName($routeName) {
         
         $this->routeName = $routeName;
         
     }
       
-    private function findPeriodParamPosition( $dateToSearch, array $periods ){
+    
+    private function findPeriodParamPosition($dateToSearch, array $periods){
         
-        foreach($periods as $position => $values ) {
+        foreach($periods as $position => $values) {
                          
             if($values[self::DEFAULT_PERIOD_KEY]->format("F-Y") == $dateToSearch->format("F-Y")) {
                 
@@ -99,9 +101,7 @@ class PaginatorByPeriod extends AbstractHelper implements DispatchRouteViewInter
         }
         
     }
-
-    
-        
+           
 }
 
-?>
+

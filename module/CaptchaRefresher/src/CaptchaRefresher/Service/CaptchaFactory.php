@@ -37,4 +37,4 @@ class CaptchaFactory implements FactoryInterface{
     
 }
 
-?>
+

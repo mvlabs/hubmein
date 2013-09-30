@@ -2,10 +2,6 @@
 
 namespace Conferences\Mapper;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
 use Conferences\Entity\Tag;
 
 class DoctrineTagMapper implements TagMapperInterface {
@@ -13,10 +9,11 @@ class DoctrineTagMapper implements TagMapperInterface {
     private $entityManager;
     private $tagRepository;
  
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager) 
-    {
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager) {
+        
         $this->entityManager = $entityManager;
         $this->tagRepository = $this->entityManager->getRepository('Conferences\Entity\Tag');
+        
     }
     
     /**
@@ -25,8 +22,7 @@ class DoctrineTagMapper implements TagMapperInterface {
      * @param int Tag Id
      * @return \Conferences\Entity\Tag
      */
-    public function getTag($id)
-    {
+    public function getTag($id) {
          
         $tag = $this->tagRepository->find($id);
     
@@ -42,8 +38,7 @@ class DoctrineTagMapper implements TagMapperInterface {
      *
      * @return list of Tags
      */
-    public function getTagList()
-    {
+    public function getTagList() {
         
         return $this->tagRepository->findAll();
         
@@ -67,7 +62,7 @@ class DoctrineTagMapper implements TagMapperInterface {
      *
      * @param \Conferences\Entity\Tag Tag to save
      */
-    public function saveTag( Tag $tag ) {
+    public function saveTag(Tag $tag) {
     
         $this->entityManager->persist($tag);
         $this->entityManager->flush();
@@ -79,7 +74,7 @@ class DoctrineTagMapper implements TagMapperInterface {
      *
      * @param \Events\Entity\Tag Tag to remove
      */
-    public function removeTag( Tag $tag ) {
+    public function removeTag(Tag $tag) {
     
         $this->entityManager->remove($tag);
         $this->entityManager->flush();
@@ -87,7 +82,7 @@ class DoctrineTagMapper implements TagMapperInterface {
     }
     
     
-    public function fetchAllPopularTag( $activeCfps ) {
+    public function fetchAllPopularTag($activeCfps) {
         
         return $this->tagRepository->fetchAllPopularTag( $activeCfps );
         

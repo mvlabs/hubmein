@@ -22,8 +22,7 @@ class DoctrineRegionMapper implements RegionMapperInterface{
      */
     private $regionRepository;
  
-    public function __construct( EntityManager $entityManager ) 
-    {
+    public function __construct( EntityManager $entityManager ) {
         
         $this->entityManager = $entityManager;
         $this->regionRepository = $this->entityManager->getRepository('Conferences\Entity\Region');
@@ -35,8 +34,7 @@ class DoctrineRegionMapper implements RegionMapperInterface{
      * 
      * @return array
      */
-    public function getListAsArray() 
-    {
+    public function getListAsArray() {
     	
         $regions = $this->regionRepository->getList();
        
@@ -51,11 +49,7 @@ class DoctrineRegionMapper implements RegionMapperInterface{
         return $result;
         
     }
-
-    public function getRegion( $id ) {
-        
-    }
-    
+   
 }
 
-?>
+

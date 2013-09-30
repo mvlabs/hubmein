@@ -16,19 +16,17 @@ use Conferences\Service\ConferenceService;
 
 use Conferences\DataFilter\RequestBuilder;
 
-class IndexController extends AbstractActionController
-{
+class IndexController extends AbstractActionController {
     
     private $conferenceService;
     
-    public function __construct( ConferenceService $conferenceService ) {
+    public function __construct(ConferenceService $conferenceService) {
         
         $this->conferenceService = $conferenceService;
          
     }
     
-    public function indexAction()
-    {
+    public function indexAction() {
              
         $requestBuilder = RequestBuilder::createObjFromArray(array());
         
@@ -42,8 +40,10 @@ class IndexController extends AbstractActionController
         
     }
     
-    public function aboutAction()
-    {
-    	  return new ViewModel();
+    public function aboutAction() {
+        
+        return new ViewModel();
+        
     }
+    
 }

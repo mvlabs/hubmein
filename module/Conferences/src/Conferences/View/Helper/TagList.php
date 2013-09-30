@@ -29,7 +29,7 @@ class TagList extends AbstractHelper implements DispatchRouteViewInterface{
      */
     private $routeName;
     
-    public function __construct( TagService $tagService){
+    public function __construct(TagService $tagService){
         
         $this->tagService = $tagService;
         
@@ -52,4 +52,4 @@ class TagList extends AbstractHelper implements DispatchRouteViewInterface{
         
 }
 
-?>
+

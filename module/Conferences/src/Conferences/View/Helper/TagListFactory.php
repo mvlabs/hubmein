@@ -20,10 +20,10 @@ class TagListFactory implements FactoryInterface{
         
         $tagService = $serviceLocator->getServiceLocator()->get("tag.service");
               
-        return new TagList( $tagService );
+        return new TagList($tagService);
         
     }    
     
 }
 
-?>
+

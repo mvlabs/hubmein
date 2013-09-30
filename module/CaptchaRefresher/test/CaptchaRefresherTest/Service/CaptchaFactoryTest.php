@@ -59,4 +59,4 @@ class CaptchaFactoryTest extends PHPUnit_Framework_TestCase {
 }
 
 
-?>
+

@@ -27,7 +27,7 @@ class SearchForm extends AbstractHelper implements DispatchRouteViewInterface{
     
     public function __invoke() {
                
-        return  $this->view->render('partials/search_form', $this->setDataForPartial($this->conferenceService , $this->tagService, $this->currentRequestParams));
+        return  $this->view->render('partials/search_form', $this->setDataForPartial($this->conferenceService, $this->tagService, $this->currentRequestParams));
              
     }
     
@@ -37,7 +37,7 @@ class SearchForm extends AbstractHelper implements DispatchRouteViewInterface{
         
     }
     
-    private function setDataForPartial( ConferenceService $conferenceService, TagService $tagService, array $currentRequestParams ) {
+    private function setDataForPartial(ConferenceService $conferenceService, TagService $tagService, array $currentRequestParams) {
         
         $filters = array();
                     

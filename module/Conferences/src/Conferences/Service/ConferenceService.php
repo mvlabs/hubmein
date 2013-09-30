@@ -6,9 +6,7 @@ use Conferences\Entity\Conference,
     Conferences\DataFilter\RequestBuilder,
     Conferences\Mapper\ConferenceMapperInterface;
 
-use Zend\ServiceManager\FactoryInterface,
-    Zend\ServiceManager\ServiceLocatorInterface,
-    Zend\EventManager\EventManagerInterface,
+use Zend\EventManager\EventManagerInterface,
     Zend\EventManager\EventManager,
     Zend\EventManager\EventManagerAwareInterface;
 
@@ -40,7 +38,7 @@ class ConferenceService implements EventManagerAwareInterface {
      * 
      * @param \Conferences\Mapper\ConferenceMapper Conference Mapper
      */
-    public function __construct( ConferenceMapperInterface $conferenceMapper ) {
+    public function __construct(ConferenceMapperInterface $conferenceMapper) {
 
         $this->conferenceMapper = $conferenceMapper;
 
@@ -52,9 +50,9 @@ class ConferenceService implements EventManagerAwareInterface {
      * @param string $slug
      * @return \Conferences\Entity\Conference 
      */
-    public function getConference( $slug ) {
+    public function getConference($slug) {
        
-        return $this->conferenceMapper->getConference( $slug );
+        return $this->conferenceMapper->getConference($slug);
         
     }
     
@@ -69,18 +67,18 @@ class ConferenceService implements EventManagerAwareInterface {
      *
      * @return array list of Conference Entity
      */
-    public function fetchAllByFilter( RequestBuilder $requestBuilder ) {
+    public function fetchAllByFilter(RequestBuilder $requestBuilder) {
                
-        return $this->conferenceMapper->fetchAllByFilter( $requestBuilder );
+        return $this->conferenceMapper->fetchAllByFilter($requestBuilder);
         
     }
     
     /**
      * Count Conference list given an array of criterias
      */
-    public function countByFilter( RequestBuilder $requestBuilder ){
+    public function countByFilter(RequestBuilder $requestBuilder){
         
-        return $this->conferenceMapper->countByFilter( $requestBuilder );
+        return $this->conferenceMapper->countByFilter($requestBuilder);
         
     }
     
@@ -118,7 +116,7 @@ class ConferenceService implements EventManagerAwareInterface {
      * @param array $formData
      * @return \Conferences\Entity\Conference
      */
-    public function upsertConference( Conference $conference ) {
+    public function upsertConference(Conference $conference) {
         
         $conference->setPublicationdate(new \DateTime());
         
@@ -139,7 +137,7 @@ class ConferenceService implements EventManagerAwareInterface {
      * 
      * @param \Conferences\Entity\Conference $conference
      */
-    public function removeConference( Conference $conference ) {
+    public function removeConference(Conference $conference) {
         
         $this->conferenceMapper->removeConference($conference);
         
@@ -150,13 +148,15 @@ class ConferenceService implements EventManagerAwareInterface {
      *
      * @see \Zend\EventManager\EventManagerAwareInterface::EventManager()
      */
-    public function setConferenceManager(EventManagerInterface $conferences)
+    public function setEventManager(EventManagerInterface $eventConference)
     {
-        $conferences->setIdentifiers(array(
+        $eventConference->setIdentifiers(array(
             __CLASS__,
             get_called_class(),
         ));
-        $this->eventManager = $conferences;
+        
+        $this->eventManager = $eventConference;
+        
         return $this;
     }
 
@@ -165,22 +165,17 @@ class ConferenceService implements EventManagerAwareInterface {
      *
      * @see \Zend\ConferenceManager\ConferencesCapableInterface::getConferenceManager()
      */
-    public function getConferenceManager()
+    public function getEventManager()
     {
         if (null === $this->eventManager) {
-            $this->setConferenceManager(new EventManager());
+        
+            $this->setEventManager(new EventManager());
+            
         }
+        
         return $this->eventManager;
     }
-
-    public function getEventManager() {
-        
-    }
-
-    public function setEventManager(EventManagerInterface $eventManager) {
-        
-    }
-    
+   
     private function hasCfps($routeName){
         
         if($routeName == self::CFPS_ROUTENAME){

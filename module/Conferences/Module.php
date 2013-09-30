@@ -20,24 +20,24 @@ class Module implements ViewHelperProviderInterface
         $matchedRoute = $event->getRouteMatch()->getMatchedRouteName();
         $matchedRoutePart = explode("/",$matchedRoute);
         
-        if($routeName = $matchedRoutePart[0]) {
-            
-            $serviceManager = $event->getApplication()->getServiceManager();
-            
-            $paginatorHelper = $serviceManager->get('viewhelpermanager')->get('paginatorbyperiod');
-            $seachFormHelper = $serviceManager->get('viewhelpermanager')->get('searchform');
-            $tagListHelper = $serviceManager->get('viewhelpermanager')->get('taglist');
-            
-            $paginatorHelper->setRouteName( $routeName );
-            $seachFormHelper->setRouteName( $routeName );
-            $tagListHelper->setRouteName( $routeName );
-            
-            return ;      
-            
+        if(!isset($matchedRoutePart[0])){
+            throw new \UnexpectedValueException('cannot retrieve a valid route');
         }
         
-        throw new \UnexpectedValueException('cannot retrieve a valid route');
-        
+        $routeName = $matchedRoutePart[0];
+                   
+        $serviceManager = $event->getApplication()->getServiceManager();
+
+        $paginatorHelper = $serviceManager->get('viewhelpermanager')->get('paginatorbyperiod');
+        $seachFormHelper = $serviceManager->get('viewhelpermanager')->get('searchform');
+        $tagListHelper = $serviceManager->get('viewhelpermanager')->get('taglist');
+
+        $paginatorHelper->setRouteName( $routeName );
+        $seachFormHelper->setRouteName( $routeName );
+        $tagListHelper->setRouteName( $routeName );
+
+        return ;      
+              
     }
     
     public function getConfig()

@@ -18,8 +18,7 @@ class Promote extends Form {
     public function __construct(array $countryList = null, $name = 'contact') {
         
         parent::__construct($name);
-        
-                
+                    
         $dataFolder = './data/fonts';
         $defaultFont = 'arial.ttf';
         

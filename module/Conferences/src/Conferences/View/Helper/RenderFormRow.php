@@ -16,11 +16,11 @@ use Zend\Form\Form;
  */
 class RenderFormRow extends AbstractHelper {
 
-    public function __invoke($elementName,Form $form) {
+    public function __invoke($elementName, Form $form) {
        
         echo $this->getView()->formRow($form->get($elementName));
         
     }
     
 }
-?>
+

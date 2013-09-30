@@ -13,8 +13,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
     private $conferenceRepository;
     
  
-    public function __construct( EntityManager $entityManager ) 
-    {
+    public function __construct(EntityManager $entityManager) {
         
         $this->entityManager = $entityManager;
         $this->conferenceRepository = $this->entityManager->getRepository('Conferences\Entity\Conference');
@@ -22,15 +21,35 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
 	
     }
 	
+    
    /**
     * Gets an Conference
     *
     * @param string $slug
     * @return \Conferences\Entity\Conference 
     */
-    public function getConference( $slug ) {
+    public function getConferenceBySlug($slug) {
     	
-        $conference = $this->conferenceRepository->findOneBy( array("slug"=>$slug) );
+        $conference = $this->conferenceRepository->findOneBy(array("slug"=>$slug));
+        
+        if (null == $conference) {
+        	throw new \DomainException('No event with such ID here.');
+        }
+        
+    	return $conference;
+        
+    }
+    
+    
+    /**
+    * Gets an Conference
+    *
+    * @param int $id
+    * @return \Conferences\Entity\Conference 
+    */
+    public function getConference($id) {
+    	
+        $conference = $this->conferenceRepository->findOneBy(array("id"=>$$id));
         
         if (null == $conference) {
         	throw new \DomainException('No event with such ID here.');
@@ -57,22 +76,23 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
      *
      * @param \Conferences\Entity\Conference Conference to save
      */
-    public function saveConference( Conference $conference ) {
+    public function saveConference(Conference $conference) {
 
         $this->entityManager->persist($conference);
         $this->entityManager->flush();
 
     }
-        
+    
+    
    /**
     * 
     * Get a list of Conferences Entity by a given $criterias array
     * @param array $criterias
     * @return array mixed 
     */
-    public function fetchAllByFilter( RequestBuilder $requestBuilder ){
+    public function fetchAllByFilter(RequestBuilder $requestBuilder){
         
-        return $this->conferenceRepository->fetchAllByFilter( $requestBuilder );
+        return $this->conferenceRepository->fetchAllByFilter($requestBuilder);
                 
     }
      
@@ -82,12 +102,16 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
      * @param array $criterias
      * return int 
      */
-    public function countByFilter( RequestBuilder $requestBuilder ){
+    public function countByFilter(RequestBuilder $requestBuilder){
       
-        return $this->conferenceRepository->countByFilter( $requestBuilder );
+        return $this->conferenceRepository->countByFilter($requestBuilder);
         
     }
     
+    /**
+     * 
+     * @return array
+     */
     public function getCountryListAsArray() {
         
         $countries = $this->countryRepository->findAll();
@@ -106,31 +130,32 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
     
     /**
      * @param boolean $activeCfps
-    * @return array contains a list of Conferences\Entity\Conference 
-    */
-    public function fetchAllRegions( $activeCfps ){
+     * @return array contains a list of Conferences\Entity\Conference 
+     */
+    public function fetchAllRegions($activeCfps){
         
         return $this->conferenceRepository->fetchAllRegions( $activeCfps );
         
     }
     
+    
     /**
      * @param boolean $activeCpfs
      * @return array contains a list of DateTime
      */
-    public function fetchAllPeriods( $activeCfps )  {
+    public function fetchAllPeriods($activeCfps)  {
         
         return $this->conferenceRepository->fetchAllPeriods( $activeCfps ) ;
         
     }
+    
     
     /**
      * Removes an event
      *
      * @param \Conferences\Entity\Conference Conference to remove
      */
-    public function removeConference( Conference $conference )
-    {
+    public function removeConference(Conference $conference) {
     
         $this->entityManager->remove($conference);
         $this->entityManager->flush();

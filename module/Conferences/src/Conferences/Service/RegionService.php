@@ -10,23 +10,24 @@ use Conferences\Mapper\RegionMapperInterface;
 
 class RegionService {
     
-    /*
+    /**
      * @var \Conferences\Mapper\RegionMapper Event Mapper
      */
     private $regionMapper = null;
 
 
-    /*
+    /**
      * Constructs service 
      * 
      * @param \Conferences\Mapper\RegionMapper Event Mapper
      */
-    public function __construct( RegionMapperInterface $regionMapper ) {
+    public function __construct(RegionMapperInterface $regionMapper) {
 
         $this->regionMapper = $regionMapper;
 
     }
-        
+       
+    
     /**
      * Fetches list of countries within the system
      */
@@ -38,4 +39,4 @@ class RegionService {
     
 }
 
-?>
+

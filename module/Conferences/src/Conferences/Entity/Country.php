@@ -1,5 +1,4 @@
 <?php
-
 namespace Conferences\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

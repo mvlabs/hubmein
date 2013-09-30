@@ -1,5 +1,4 @@
 <?php
-
 namespace Conferences\DataFilter;
 
 /**
@@ -85,13 +84,13 @@ class RequestBuilder implements BuilderInterface {
         
     }
     
-    public function setPageNumber( $pageNumber ){
+    public function setPageNumber($pageNumber){
         
-        $this->pageNumber = intval( $pageNumber );
+        $this->pageNumber = intval($pageNumber);
         
     }
     
-    public function setTotalCount( $totalCount ) {
+    public function setTotalCount($totalCount) {
         
         $this->totalCount = $totalCount;
         
@@ -103,33 +102,33 @@ class RequestBuilder implements BuilderInterface {
         
     }
      
-    public static function createObjFromArray( $request ) {
+    public static function createObjFromArray($request) {
         
       
         //init the Event filter object
         $requestBuilder = new RequestBuilder();
         //Default page number
-        $pageNumber = isset($request[ 'page' ]) ? $request[ 'page' ] : 1;
+        $pageNumber = isset($request['page']) ? $request['page'] : 1;
         $regionParam = isset($request['region']) ? $request['region'] : null;     
         $tcParam = isset( $request['tc']) ? $request['tc'] : self::TOTALCOUNTDEFAULT;
                
         //Set Period
-        if( isset( $request[ 'period' ] ) && $request[ 'period' ] !== "" ) {
+        if( isset( $request['period'] ) && $request['period'] !== "" ) {
             
-            $dateFrom =  '1-'.ucfirst($request[ 'period' ]);
-            $dateFromObj = \DateTime::createFromFormat( 'd-F-Y',$dateFrom );
-            $requestBuilder->setDateFrom( $dateFromObj );
+            $dateFrom =  '1-'.ucfirst($request['period']);
+            $dateFromObj = \DateTime::createFromFormat('d-F-Y',$dateFrom );
+            $requestBuilder->setDateFrom($dateFromObj);
             
-            $dateTo = date( "t-m-Y",  strtotime($dateFrom) );
-            $dateToObj = \DateTime::createFromFormat( 'd-m-Y',$dateTo );
-            $requestBuilder->setDateTo( $dateToObj );
+            $dateTo = date("t-m-Y",  strtotime($dateFrom));
+            $dateToObj = \DateTime::createFromFormat('d-m-Y',$dateTo);
+            $requestBuilder->setDateTo($dateToObj);
             
         }
        
         //Set tags 
-        if( isset( $request['tags'] ) && !empty( $request['tags'] ) ) {
+        if(isset($request['tags']) && !empty($request['tags'])) {
                        
-            $tags = explode( self::TAGLIST_SEPARATOR,$request['tags'] );
+            $tags = explode(self::TAGLIST_SEPARATOR, $request['tags']);
             $requestBuilder->setTagList($tags);
             
         }
@@ -140,8 +139,8 @@ class RequestBuilder implements BuilderInterface {
             
         }
                        
-        $requestBuilder->setTotalCount( $tcParam );
-        $requestBuilder->setRegion( $regionParam );
+        $requestBuilder->setTotalCount($tcParam);
+        $requestBuilder->setRegion($regionParam);
         $requestBuilder->setPageNumber($pageNumber);
               
         return $requestBuilder; 
@@ -160,26 +159,26 @@ class RequestBuilder implements BuilderInterface {
           
       }
       
-      if( $this->dateFrom instanceof \DateTime ) {
+      if($this->dateFrom instanceof \DateTime) {
           
           $filterDatas['dateFrom'] = $this->dateFrom->format('Y-m-d')." 00:00:00";
           
       }
       
       
-      if ( $this->dateTo instanceof \DateTime ) {
+      if ($this->dateTo instanceof \DateTime) {
           
           $filterDatas['dateTo'] = $this->dateTo->format('Y-m-d')." 00:00:00";
           
       }
           
-      if ( is_array($this->tagList) && sizeof($this->tagList) > 0 ) {
+      if (is_array($this->tagList) && sizeof($this->tagList) > 0) {
                    
           $filterDatas['tags'] = $this->tagList;
                    
       }
       
-      if ( $this->activeCfp === true ) {
+      if ($this->activeCfp === true) {
                    
           $filterDatas['activeCfp'] = $this->activeCfp;
                    

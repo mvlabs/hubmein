@@ -16,7 +16,7 @@ use Zend\View\Helper\AbstractHelper;
  */
 class Plurify extends AbstractHelper{
     
-    public function __invoke( $count,$name ) {
+    public function __invoke($count, $name) {
         
         if($count > 1){
             $name = $name."s";
@@ -28,4 +28,3 @@ class Plurify extends AbstractHelper{
     
 }
 
-?>

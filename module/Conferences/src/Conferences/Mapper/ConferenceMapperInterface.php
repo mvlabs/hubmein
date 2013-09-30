@@ -17,12 +17,14 @@ use Conferences\DataFilter\RequestBuilder,
 
 interface ConferenceMapperInterface {
     
-    public function getConference( $id );
+    public function getConference($id);
     
-    public function fetchAllByFilter( RequestBuilder $requestBuilder );
+    public function getConferenceBySlug($slug);
     
-    public function countByFilter( RequestBuilder $requestBuilder );
+    public function fetchAllByFilter(RequestBuilder $requestBuilder);
+    
+    public function countByFilter(RequestBuilder $requestBuilder);
        
-    public function saveConference( Conference $conference );
+    public function saveConference(Conference $conference);
     
 } 

@@ -6,8 +6,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 
 class RegionServiceFactory implements FactoryInterface {
-
-    
+   
     public function createService(ServiceLocatorInterface $serviceLocator) {
 
         $mapper = $serviceLocator->get('Conferences\Mapper\RegionMapper');
@@ -15,6 +14,5 @@ class RegionServiceFactory implements FactoryInterface {
         return new RegionService($mapper);
 
     }
-        
-
+   
 }
