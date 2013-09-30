@@ -49,7 +49,7 @@ class PaginatorByPeriod extends AbstractHelper implements DispatchRouteViewInter
              
         if($periodParam) {
             
-            $periods = $this->eventService->fetchAllPeriodByRoute($this->routeName);
+            $periods = $this->conferenceService->fetchAllPeriodByRoute($this->routeName);
             $dateTimeFromParam = new \DateTime($periodParam);
             $html = "<div class='pagination'>";
 

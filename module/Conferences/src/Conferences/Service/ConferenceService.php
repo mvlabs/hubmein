@@ -44,15 +44,27 @@ class ConferenceService implements EventManagerAwareInterface {
 
     }
 	
-     /**
+    /**
      * Gets a specific Conference
+     *
+     * @param int $id
+     * @return \Conferences\Entity\Conference 
+     */
+    public function getConference($id) {
+       
+        return $this->conferenceMapper->getConference($id);
+        
+    }
+    
+    /**
+     * Gets a specific Conference using its slug
      *
      * @param string $slug
      * @return \Conferences\Entity\Conference 
      */
-    public function getConference($slug) {
+    public function getConferenceBySlug($slug) {
        
-        return $this->conferenceMapper->getConference($slug);
+        return $this->conferenceMapper->getConferenceBySlug($slug);
         
     }
     
@@ -127,7 +139,7 @@ class ConferenceService implements EventManagerAwareInterface {
         $this->conferenceMapper->saveConference($conference);
         
         //trigger 'event_saved' event
-        $this->getConferenceManager()->trigger('event_saved', $this, array(
+        $this->getEventManager()->trigger('event_saved', $this, array(
             'title' => $conference->getTitle()
                 
         ));

@@ -82,8 +82,9 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
         // set country object
         $conference->setCountryObject($this->entityManager->getReference('\Conferences\Entity\Country', $conference->getCountry()));
         
-        $tags = $conference->getTags();
+        $conference->getTagsObjects()->clear();
         
+        $tags = $conference->getTags();
         foreach($tags as $tag) {
             $conference->addTag($this->entityManager->getReference('\Conferences\Entity\Tag', $tag));
         }

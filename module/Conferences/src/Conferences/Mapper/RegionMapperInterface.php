@@ -7,8 +7,6 @@ namespace Conferences\Mapper;
  */
 interface RegionMapperInterface {
     
-    public function getRegion($id);
-    
     public function getListAsArray();
     
 }

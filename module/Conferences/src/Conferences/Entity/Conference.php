@@ -802,6 +802,10 @@ class Conference {
     }
     
     public function getCountry() {
+        if (null == $this->countryId) {
+            return $this->country->getId();
+        }
+        
         return $this->countryId;
     }
 
@@ -936,10 +940,12 @@ class Conference {
     public function getTags()
     {
         $tags = array();
-        if (null != $this->tagsObjects) {
+        if (null != $this->tagsObjects && count($this->tagsObjects) > 0) {
             foreach($this->tagsObjects as $tag) {
                 $tags[] = $tag->getId();
             }
+        } else {
+            $tags = $this->tags;
         }
         
         return $tags;

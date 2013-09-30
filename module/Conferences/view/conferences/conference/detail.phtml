@@ -34,8 +34,8 @@ $this->headTitle($this->conference->getTitle());
                   </div>
                   <div class="tag">
                         <?php
-                            if(sizeof($this->conference->getTags())):
-                                foreach($this->conference->getTags() as $tag):?>
+                            if(sizeof($this->conference->getTagsObjects())):
+                                foreach($this->conference->getTagsObjects() as $tag):?>
                               <a class="tagbutton" href="<?php echo $this->url("conferences")."?tags=".$tag->getName()?>"><?php echo $tag->getName()?></a>
                          
                        <?php  

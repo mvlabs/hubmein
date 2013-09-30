@@ -74,7 +74,7 @@ class ConferenceController extends AbstractActionController {
              
         if( isset($requestSlug) ) {
             
-            $conference = $this->conferenceService->getConference($requestSlug);
+            $conference = $this->conferenceService->getConferenceBySlug($requestSlug);
             
             $view = new ViewModel(array(
                'conference'=>$conference 
