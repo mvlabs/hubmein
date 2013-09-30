@@ -118,7 +118,11 @@ class ConferenceService implements EventManagerAwareInterface {
      */
     public function upsertConference(Conference $conference) {
         
-        $conference->setPublicationdate(new \DateTime());
+        // add a new conference?
+        if (null == $conference->getId()) {
+            $conference->setPublicationdateObject(new \DateTime());
+            $conference->setSlug($this->generateConferenceSlug($conference));
+        }
         
         $this->conferenceMapper->saveConference($conference);
         
@@ -187,5 +191,20 @@ class ConferenceService implements EventManagerAwareInterface {
         return false;
         
     }
+    
+    public function generateConferenceSlug(\Conferences\Entity\Conference $conference) {
+        
+        // set source text
+        $sourceText = $conference->getTitle() . ' ' . $conference->getDatefrom()->format('Y') . ' ' . $conference->getCity();
+        
+        // keep only numeric and alphabetic chars
+        $filter = new \Zend\I18n\Filter\Alnum(true);
+        $result = $filter->filter($sourceText);
+
+        // replate spaces with dash
+        return strtolower(str_replace(' ', '-', $result));
+
+    }
+
 
 }

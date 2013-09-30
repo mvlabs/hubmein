@@ -23,10 +23,9 @@ class AdminConferenceControllerFactory implements FactoryInterface {
 	    $tagService = $serviceLocator->getServiceLocator()->get('Conferences\Service\TagService');
 	    
 	    // Object graph is constructed
-        $objectManager = $serviceLocator->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 	    $tags = $tagService->getTagListAsArray();
 	    $countries = $eventService->getCountryListAsArray();
-	    $form = new ConferenceForm($objectManager, $tags, $countries);
+	    $form = new ConferenceForm($tags, $countries);
 	    
 	    $formFilter = new ConferenceFilter();
 	    $form->setInputFilter($formFilter);

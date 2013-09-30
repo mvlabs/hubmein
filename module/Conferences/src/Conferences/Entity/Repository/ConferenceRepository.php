@@ -29,7 +29,7 @@ class ConferenceRepository extends EntityRepository {
         
        $dql = "SELECT conference ".
               "FROM Conferences\Entity\Conference conference ".
-              "LEFT JOIN conference.tags tag ".
+              "LEFT JOIN conference.tagsObjects tag ".
               "LEFT JOIN conference.country country ".
               "LEFT JOIN country.region region ".
                $queryFilter.
@@ -50,7 +50,7 @@ class ConferenceRepository extends EntityRepository {
         $dql .= "SELECT conference.id  ";
         $dql .= "FROM Conferences\Entity\Conference conference ";
                 if(sizeof($RequestBuilder->getTagList()) > 0) {
-        $dql .= "LEFT JOIN conference.tags tag ";
+        $dql .= "LEFT JOIN conference.tagsObjects tag ";
                 }
         $dql .="LEFT JOIN conference.country country ";
         $dql .="LEFT JOIN country.region region ";

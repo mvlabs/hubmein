@@ -179,6 +179,11 @@ class Conference {
     private $isFeatured = false;
     
     /**
+     * @var int $countryId
+     */
+    private $countryId;
+    
+    /**
      * @var Conferences\Entity\Country
      *
      * @ORM\ManyToOne(targetEntity="Conferences\Entity\Country", inversedBy="conferences")
@@ -190,6 +195,11 @@ class Conference {
      *
      * @ORM\ManyToMany(targetEntity="Conferences\Entity\Tag", inversedBy="conferences")
      * @ORM\JoinTable(name="tag_conference")
+     */
+    private $tagsObjects;
+    
+    /**
+     * @var array $tags
      */
     private $tags;
     
@@ -314,14 +324,27 @@ class Conference {
     {
         return $this->abstract;
     }
-
+    
+    /**
+     * Set datefrom
+     * 
+     * @param string $datefrom
+     * @return Event
+     */
+    public function setDateFrom($datefrom) 
+    {
+        $this->datefrom = new \DateTime($datefrom);
+        
+        return $this;
+    }
+    
     /**
      * Set datefrom
      *
      * @param \DateTime $datefrom
      * @return Event
      */
-    public function setDatefrom($datefrom)
+    public function setDatefromObject(\DateTime $datefrom)
     {
         $this->datefrom = $datefrom;
     
@@ -340,11 +363,24 @@ class Conference {
 
     /**
      * Set dateto
+     * 
+     * @param string $dateto
+     * @return Event
+     */
+    public function setDateto($dateto) 
+    {
+        $this->dateto = new \DateTime($dateto);
+        
+        return $this;
+    }
+    
+    /**
+     * Set dateto
      *
      * @param \DateTime $dateto
      * @return Event
      */
-    public function setDateto($dateto)
+    public function setDatetoObject(\DateTime $dateto)
     {
         $this->dateto = $dateto;
     
@@ -363,11 +399,24 @@ class Conference {
 
     /**
      * Set earlyBirdUntil
+     * 
+     * @param string $earlyBirdUntil
+     * @return Event
+     */
+    public function setEarlybirduntil($earlyBirdUntil) 
+    {
+        $this->earlybirduntil = new \DateTime($earlyBirdUntil);
+        
+        return $this;
+    }
+    
+    /**
+     * Set earlyBirdUntil
      *
      * @param \DateTime $earlyBirdUntil
      * @return Event
      */
-    public function setEarlybirduntil($earlyBirdUntil)
+    public function setEarlybirduntilObject(\DateTime $earlyBirdUntil)
     {
         $this->earlybirduntil = $earlyBirdUntil;
     
@@ -478,11 +527,24 @@ class Conference {
 
     /**
      * Set cfpclosingdate
+     * 
+     * @param string $cfpclosingdate
+     * @return Event
+     */
+    public function setCfpclosingdate($cfpclosingdate) 
+    {
+        $this->cfpclosingdate = new \DateTime($cfpclosingdate);
+        
+        return $this;
+    }
+    
+    /**
+     * Set cfpclosingdate
      *
      * @param \DateTime $cfpclosingdate
      * @return Event
      */
-    public function setCfpclosingdate($cfpclosingdate)
+    public function setCfpclosingdateObject(\DateTime $cfpclosingdate)
     {
         $this->cfpclosingdate = $cfpclosingdate;
     
@@ -570,11 +632,24 @@ class Conference {
 
     /**
      * Set publicationdate
+     * 
+     * @param string $publicationdate
+     * @return Event
+     */
+    public function setPublicationdate($publicationdate) 
+    {
+        $this->publicationdate = new \DateTime($publicationdate);
+        
+        return $this;
+    }
+    
+    /**
+     * Set publicationdate
      *
      * @param \DateTime $publicationdate
      * @return Event
      */
-    public function setPublicationdate($publicationdate)
+    public function setPublicationdateObject(\DateTime $publicationdate)
     {
         $this->publicationdate = $publicationdate;
     
@@ -614,9 +689,9 @@ class Conference {
     }
 
     
-    public function setSlug()
+    public function setSlug($slug)
     {
-        $this->slug = strtolower(str_replace(" ","-",$this->title));
+        $this->slug = $slug;
             
     }
 
@@ -721,6 +796,14 @@ class Conference {
     {
         return $this->isFeatured;
     }
+    
+    public function setCountry($countryId) {
+        $this->countryId = $countryId;
+    }
+    
+    public function getCountry() {
+        return $this->countryId;
+    }
 
     /**
      * Set country
@@ -728,7 +811,7 @@ class Conference {
      * @param \Conferences\Entity\Country $country
      * @return Event
      */
-    public function setCountry(\Conferences\Entity\Country $country = null)
+    public function setCountryObject(\Conferences\Entity\Country $country = null)
     {
         $this->country = $country;
     
@@ -740,7 +823,7 @@ class Conference {
      *
      * @return \Conferences\Entity\Country 
      */
-    public function getCountry()
+    public function getCountryObject()
     {
         return $this->country;
     }
@@ -800,7 +883,7 @@ class Conference {
     {
         foreach ($tags as $tag) {
             $tag->addConference($this);
-            $this->tags->add($tag);
+            $this->tagsObjects->add($tag);
         }
     }
     
@@ -812,7 +895,7 @@ class Conference {
      */
     public function addTag(Tag $tag)
     {
-        $this->tags[] = $tag;
+        $this->tagsObjects[] = $tag;
         
     }
 
@@ -825,7 +908,7 @@ class Conference {
     {
         foreach ($tags as $tag) {
             $tag->removeEvent($this);
-            $this->tags->removeElement($tag);
+            $this->tagsObjects->removeElement($tag);
         }
     }
 
@@ -834,10 +917,33 @@ class Conference {
      *
      * @return array List of tag values
      */
-    public function getTags()
+    public function getTagsObjects()
     {
         
-        return $this->tags;
+        return $this->tagsObjects;
         
     }
+    
+    public function setTags($tags) {
+        $this->tags = $tags;
+    }
+    
+    /**
+     * Get tags
+     *
+     * @return array of tag keys / values
+     */
+    public function getTags()
+    {
+        $tags = array();
+        if (null != $this->tagsObjects) {
+            foreach($this->tagsObjects as $tag) {
+                $tags[] = $tag->getId();
+            }
+        }
+        
+        return $tags;
+        
+    }
+    
 }

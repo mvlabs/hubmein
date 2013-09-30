@@ -33,7 +33,7 @@ class Tag
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Conferences\Entity\Conference", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="Conferences\Entity\Conference", mappedBy="tagsObjects")
      */
     private $conferences;
 

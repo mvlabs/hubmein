@@ -13,6 +13,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
     private $conferenceRepository;
     
  
+
     public function __construct(EntityManager $entityManager) {
         
         $this->entityManager = $entityManager;
@@ -33,7 +34,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
         $conference = $this->conferenceRepository->findOneBy(array("slug"=>$slug));
         
         if (null == $conference) {
-        	throw new \DomainException('No event with such ID here.');
+        	throw new \DomainException('No event with such slug here.');
         }
         
     	return $conference;
@@ -49,7 +50,7 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
     */
     public function getConference($id) {
     	
-        $conference = $this->conferenceRepository->findOneBy(array("id"=>$$id));
+        $conference = $this->conferenceRepository->find($id);
         
         if (null == $conference) {
         	throw new \DomainException('No event with such ID here.');
@@ -77,7 +78,17 @@ class DoctrineConferenceMapper implements ConferenceMapperInterface {
      * @param \Conferences\Entity\Conference Conference to save
      */
     public function saveConference(Conference $conference) {
-
+        
+        // set country object
+        $conference->setCountryObject($this->entityManager->getReference('\Conferences\Entity\Country', $conference->getCountry()));
+        
+        $tags = $conference->getTags();
+        
+        foreach($tags as $tag) {
+            $conference->addTag($this->entityManager->getReference('\Conferences\Entity\Tag', $tag));
+        }
+        
+        // store conference
         $this->entityManager->persist($conference);
         $this->entityManager->flush();
 

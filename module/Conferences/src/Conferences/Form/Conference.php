@@ -10,12 +10,12 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
 class Conference extends Form {
     	
-    public function __construct(ObjectManager $objectManager, array $tagList, array $countryList = null) {
+    public function __construct(array $tagList, array $countryList = null) {
         
         parent::__construct();
         
         // set for hydrator
-        $this->setHydrator(new DoctrineHydrator($objectManager, '\Conferences\Entity\Conference'));
+        $this->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods());
         
         // set form appearance
         $this->setAttribute('class', 'form-horizontal');
@@ -216,11 +216,9 @@ class Conference extends Form {
         
         // tags
         
-        $tags = new \DoctrineModule\Form\Element\ObjectMultiCheckbox('tags');
+        $tags = new Element\MultiCheckbox('tags');
         $tags->setLabel('Tags')
-             ->setValueOptions($tagList)
-             ->setOptions(array('object_manager' => $objectManager,
-                                'target_class'   => 'Conferences\Entity\Tag'));
+             ->setValueOptions($tagList);
         $this->add($tags);
         
         $submit = new Element\Button('submit');
